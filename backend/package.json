@@ -1,0 +1,10 @@
+{
+  "name": "@hithlum/backend",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
