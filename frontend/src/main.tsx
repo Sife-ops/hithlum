@@ -5,7 +5,7 @@ import App from "./App";
 import "./index.css";
 
 const urql = createClient({
-  url: "todo: api url",
+  url: import.meta.env.VITE_API_URL + "/graphql",
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
