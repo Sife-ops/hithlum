@@ -1,23 +1,29 @@
 import { ApolloServer, gql } from "apollo-server-lambda";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 
-// Construct a schema, using GraphQL schema language
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+import {
+  graphql,
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLString,
+} from "graphql";
 
-// Provide resolver functions for your schema fields
-const resolvers = {
-  Query: {
-    hello: () => "Hello world!",
-  },
-};
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: "RootQueryType",
+    fields: {
+      hello: {
+        type: GraphQLString,
+        resolve: () => {
+          return "world";
+        },
+      },
+    },
+  }),
+});
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   csrfPrevention: true,
   cache: "bounded",
   plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
