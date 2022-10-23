@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {},
-  "dependencies": {
-  },
   "devDependencies": {
+    "esbuild": "^0.15.12",
+    "serverless-esbuild": "^1.33.0"
   }
 }
