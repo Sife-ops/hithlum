@@ -2,7 +2,7 @@
   "name": "@hithlum/backend",
   "version": "0.0.0",
   "scripts": {
-    "start": "nodemon -e ts --exec node ../node_modules/.bin/sls offline"
+    "start": "nodemon -e ts --exec node ../node_modules/.bin/sls offline --stage local"
   },
   "dependencies": {
     "apollo-server-lambda": "^3.10.3",

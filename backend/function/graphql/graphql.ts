@@ -3,6 +3,7 @@ import type { Handler } from "aws-lambda";
 import { ApolloServer, gql } from "apollo-server-lambda";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 import { decode } from "jsonwebtoken";
+import { env } from "../common";
 
 import {
   graphql,
@@ -35,9 +36,9 @@ export const main: Handler<any, any> = async (event, context, callback) => {
   try {
     const accessToken = event.headers.authorization;
 
-    // todo: stage variable
-    const url = "https://registrar-preprod-api.goettsch.xyz/verify";
-    const res = await axios.post(url, { accessToken });
+    const res = await axios.post(env("MANDOS_URL") + "/verify", {
+      accessToken,
+    });
 
     if (res.data.success) {
       const { email, userId } = decode(accessToken) as {
