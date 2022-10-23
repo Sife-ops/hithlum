@@ -1,5 +1,5 @@
 service: hithlum-backend
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -12,6 +12,17 @@ functions:
       - httpApi:
           path: /hello
           method: get
+  graphql:
+    handler: function/graphql/graphql.main
+    events:
+      - http:
+          path: /graphql
+          method: post
+          cors: true
+      - http:
+          path: /graphql
+          method: get
+          cors: true
 
 plugins:
   - serverless-esbuild
