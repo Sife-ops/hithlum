@@ -2,7 +2,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "https://wy71j6hxx1.execute-api.us-east-1.amazonaws.com/dev/graphql",
+  schema: "http://localhost:3000/dev/graphql",
   documents: "../frontend/src/**/*.tsx",
   ignoreNoDocuments: true,
   generates: {

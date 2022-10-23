@@ -27,6 +27,7 @@ functions:
 plugins:
   - serverless-esbuild
   - serverless-s3-sync
+  - serverless-offline
 
 custom:
   siteBucketName: hithlum-frontend
