@@ -1,9 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import "./App.css";
+import reactLogo from "./assets/react.svg";
+import { graphql } from "@hithlum/graphql/gql";
+import { useHelloQuery } from "@hithlum/graphql/urql";
+import { useState, useEffect } from "react";
+
+const hello = graphql(`
+  query hello {
+    hello
+  }
+`);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const [helloQueryState] = useHelloQuery();
+
+  useEffect(() => {
+    console.log(helloQueryState);
+  }, [helloQueryState.data]);
 
   return (
     <div className="App">
@@ -28,7 +42,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
