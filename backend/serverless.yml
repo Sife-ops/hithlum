@@ -4,6 +4,8 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs14.x
+  httpApi:
+    cors: true
 
 functions:
   hello:
@@ -15,14 +17,12 @@ functions:
   graphql:
     handler: function/graphql/graphql.main
     events:
-      - http:
+      - httpApi:
           path: /graphql
           method: post
-          cors: true
-      - http:
+      - httpApi:
           path: /graphql
           method: get
-          cors: true
 
 plugins:
   - serverless-esbuild

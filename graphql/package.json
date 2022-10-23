@@ -10,6 +10,6 @@
   },
   "scripts": {
     "codegen": "graphql-codegen --config codegen.ts",
-    "watch": "graphql-codegen --config codegen.ts --watch"
+    "start": "graphql-codegen --config codegen.ts --watch"
   }
 }

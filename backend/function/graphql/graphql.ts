@@ -18,6 +18,12 @@ const schema = new GraphQLSchema({
           return "world";
         },
       },
+      world: {
+        type: GraphQLString,
+        resolve: () => {
+          return "hello";
+        },
+      },
     },
   }),
 });

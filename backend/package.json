@@ -1,13 +1,16 @@
 {
   "name": "@hithlum/backend",
   "version": "0.0.0",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon -e ts --exec node ../node_modules/.bin/sls offline"
+  },
   "dependencies": {
     "apollo-server-lambda": "^3.10.3",
     "graphql": "^16.6.0"
   },
   "devDependencies": {
     "esbuild": "^0.15.12",
+    "nodemon": "^2.0.20",
     "serverless": "^3.23.0",
     "serverless-esbuild": "^1.33.0",
     "serverless-offline": "^11.1.3",

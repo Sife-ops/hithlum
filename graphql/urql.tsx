@@ -18,12 +18,18 @@ export type Scalars = {
 export type RootQueryType = {
   __typename?: 'RootQueryType';
   hello?: Maybe<Scalars['String']>;
+  world?: Maybe<Scalars['String']>;
 };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HelloQuery = { __typename?: 'RootQueryType', hello?: string | null };
+
+export type WorldQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WorldQuery = { __typename?: 'RootQueryType', world?: string | null };
 
 
 export const HelloDocument = gql`
@@ -34,4 +40,13 @@ export const HelloDocument = gql`
 
 export function useHelloQuery(options?: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'>) {
   return Urql.useQuery<HelloQuery, HelloQueryVariables>({ query: HelloDocument, ...options });
+};
+export const WorldDocument = gql`
+    query world {
+  world
+}
+    `;
+
+export function useWorldQuery(options?: Omit<Urql.UseQueryArgs<WorldQueryVariables>, 'query'>) {
+  return Urql.useQuery<WorldQuery, WorldQueryVariables>({ query: WorldDocument, ...options });
 };

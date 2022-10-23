@@ -1,7 +1,7 @@
 import "./App.css";
 import reactLogo from "./assets/react.svg";
 import { graphql } from "@hithlum/graphql/gql";
-import { useHelloQuery } from "@hithlum/graphql/urql";
+import { useHelloQuery, useWorldQuery } from "@hithlum/graphql/urql";
 import { useState, useEffect } from "react";
 
 const hello = graphql(`
@@ -10,14 +10,31 @@ const hello = graphql(`
   }
 `);
 
+const world = graphql(`
+  query world {
+    world
+  }
+`);
+
 function App() {
   const [count, setCount] = useState(0);
 
   const [helloQueryState] = useHelloQuery();
+  const [worldQueryState] = useWorldQuery();
 
   useEffect(() => {
-    console.log(helloQueryState);
+    const { fetching, data } = helloQueryState;
+    if (!fetching) {
+      console.log(data);
+    }
   }, [helloQueryState.data]);
+
+  useEffect(() => {
+    const { fetching, data } = worldQueryState;
+    if (!fetching) {
+      console.log(data);
+    }
+  }, [worldQueryState.data]);
 
   return (
     <div className="App">

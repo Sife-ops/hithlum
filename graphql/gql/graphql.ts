@@ -17,6 +17,7 @@ export type Scalars = {
 export type RootQueryType = {
   __typename?: 'RootQueryType';
   hello?: Maybe<Scalars['String']>;
+  world?: Maybe<Scalars['String']>;
 };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
@@ -24,5 +25,11 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HelloQuery = { __typename?: 'RootQueryType', hello?: string | null };
 
+export type WorldQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WorldQuery = { __typename?: 'RootQueryType', world?: string | null };
+
 
 export const HelloDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"hello"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hello"}}]}}]} as unknown as DocumentNode<HelloQuery, HelloQueryVariables>;
+export const WorldDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"world"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"world"}}]}}]} as unknown as DocumentNode<WorldQuery, WorldQueryVariables>;
