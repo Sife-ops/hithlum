@@ -10,5 +10,8 @@
   "license": "ISC",
   "workspaces": [
     "backend"
-  ]
+  ],
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3"
+  }
 }
