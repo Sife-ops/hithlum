@@ -1,23 +1,44 @@
-service: hithlum-service
+service: hithlum
 frameworkVersion: "3"
 
 provider:
   name: aws
+  region: us-east-1
   runtime: nodejs14.x
   stage: ${opt:stage}
+  environment:
+    TABLE: ${self:service}-${opt:stage}-table
   httpApi:
     cors: true
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TABLE}"
+
+plugins:
+  - serverless-esbuild
+  - serverless-s3-sync
+  - serverless-plugin-conditional-functions
+  - serverless-offline
 
 custom:
   global: ${file(./global.yml):global}
-  siteBucketName: hithlum-${opt:stage}-site
+  siteBucketName: ${self:service}-${opt:stage}-site
   s3Sync:
     - bucketName: ${self:custom.siteBucketName}
       localDir: ../frontend/dist
 
 functions:
   hello:
-    name: hithlum-${opt:stage}-hello
+    name: ${self:service}-${opt:stage}-hello
     handler: function/hello.main
     events:
       - httpApi:
@@ -25,7 +46,7 @@ functions:
           method: get
 
   graphql:
-    name: hithlum-${opt:stage}-graphql
+    name: ${self:service}-${opt:stage}-graphql
     handler: function/graphql/graphql.main
     environment:
       STAGE: ${self:provider.stage}
@@ -36,7 +57,7 @@ functions:
           method: post
 
   codegen:
-    name: hithlum-${opt:stage}-codegen
+    name: ${self:service}-${opt:stage}-codegen
     handler: function/graphql/codegen.main
     enabled: '"${self:provider.stage}" == "local"'
     environment:
@@ -47,14 +68,27 @@ functions:
           path: /codegen
           method: post
 
-plugins:
-  - serverless-esbuild
-  - serverless-s3-sync
-  - serverless-plugin-conditional-functions
-  - serverless-offline
-
 resources:
   Resources:
+    dynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.TABLE}
+
     siteBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -63,6 +97,7 @@ resources:
         WebsiteConfiguration:
           IndexDocument: index.html
           ErrorDocument: index.html
+
     siteS3AccessPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -76,6 +111,7 @@ resources:
               Action:
                 - s3:GetObject
               Resource: arn:aws:s3:::${self:custom.siteBucketName}/*
+
     siteCloudFrontDistribution:
       Type: AWS::CloudFront::Distribution
       Properties:
