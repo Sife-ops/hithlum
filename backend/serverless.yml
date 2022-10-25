@@ -1,4 +1,4 @@
-service: hithlum-backend
+service: hithlum-service
 frameworkVersion: "3"
 
 provider:
@@ -9,35 +9,48 @@ provider:
     cors: true
 
 custom:
-  siteBucketName: hithlum-frontend
+  global: ${file(./global.yml):global}
+  siteBucketName: hithlum-${opt:stage}-site
   s3Sync:
     - bucketName: ${self:custom.siteBucketName}
       localDir: ../frontend/dist
-  mandosUrl: ${file(./mandos-url.yml):mandosUrl}
 
 functions:
   hello:
+    name: hithlum-${opt:stage}-hello
     handler: function/hello.main
     events:
       - httpApi:
           path: /hello
           method: get
+
   graphql:
+    name: hithlum-${opt:stage}-graphql
     handler: function/graphql/graphql.main
     environment:
       STAGE: ${self:provider.stage}
-      MANDOS_URL: ${self:custom.mandosUrl.${self:provider.stage}}
+      MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
     events:
       - httpApi:
           path: /graphql
           method: post
+
+  codegen:
+    name: hithlum-${opt:stage}-codegen
+    handler: function/graphql/codegen.main
+    enabled: '"${self:provider.stage}" == "local"'
+    environment:
+      STAGE: ${self:provider.stage}
+      MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
+    events:
       - httpApi:
-          path: /graphql
-          method: get
+          path: /codegen
+          method: post
 
 plugins:
   - serverless-esbuild
   - serverless-s3-sync
+  - serverless-plugin-conditional-functions
   - serverless-offline
 
 resources:

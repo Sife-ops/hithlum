@@ -4,35 +4,17 @@ import { ApolloServer, gql } from "apollo-server-lambda";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 import { decode } from "jsonwebtoken";
 import { env } from "../common";
-
-import {
-  graphql,
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
-} from "graphql";
-
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: "RootQueryType",
-    fields: {
-      hello: {
-        type: GraphQLString,
-        resolve: () => {
-          return "world";
-        },
-      },
-      world: {
-        type: GraphQLString,
-        resolve: () => {
-          return "hello";
-        },
-      },
-    },
-  }),
-});
+import { schema } from "./schema";
 
 export const main: Handler<any, any> = async (event, context, callback) => {
+  const server = new ApolloServer({
+    schema,
+    csrfPrevention: true,
+    cache: "bounded",
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
+  });
+
+  return server.createHandler()(event, context, callback);
   try {
     const accessToken = event.headers.authorization;
 
