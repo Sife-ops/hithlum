@@ -2,46 +2,46 @@ import { Dynamo } from "./dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const ArticleEntity = new Entity(
+export const CommentEntity = new Entity(
   {
     indexes: {
-      article: {
+      rating: {
         pk: {
           field: "pk",
-          composite: ["articleId"],
+          composite: ["ratingId"],
         },
         sk: {
           field: "sk",
           composite: [],
         },
       },
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      feed_: {
-        collection: "feed",
-        index: "gsi2",
+
+      user_: {
+        collection: "user",
+        index: "gsi1",
         pk: {
-          field: "gsi2pk",
-          composite: ["feedId"],
+          field: "gsi1pk",
+          composite: ["userId"],
         },
         sk: {
-          field: "gsi2sk",
+          field: "gsi1sk",
           composite: [],
         },
       },
-
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
       article_: {
         collection: "article",
         index: "gsi3",
@@ -58,24 +58,29 @@ export const ArticleEntity = new Entity(
 
     model: {
       version: "1",
-      entity: "Article",
+      entity: "Comment",
       service: "hithlum",
     },
 
     attributes: {
-      articleId: {
+      ratingId: {
         type: "string",
         required: true,
         default: () => ulid(),
       },
 
-      feedId: {
+      userId: {
         type: "string",
         required: true,
       },
 
-      data: {
+      articleId: {
         type: "string",
+        required: true,
+      },
+
+      rating: {
+        type: "number",
         required: true,
       },
     },
@@ -83,4 +88,4 @@ export const ArticleEntity = new Entity(
   Dynamo.Configuration
 );
 
-export type ArticleEntityType = EntityItem<typeof ArticleEntity>;
+export type CommentEntityType = EntityItem<typeof CommentEntity>;

@@ -43,7 +43,7 @@ export const CommentEntity = new Entity(
       //
       //
       article_: {
-        collection: "user",
+        collection: "article",
         index: "gsi3",
         pk: {
           field: "gsi3pk",
@@ -63,18 +63,23 @@ export const CommentEntity = new Entity(
     },
 
     attributes: {
-      feedId: {
-        type: "string",
-        required: true,
-      },
-
       commentId: {
         type: "string",
         required: true,
         default: () => ulid(),
       },
 
-      data: {
+      userId: {
+        type: "string",
+        required: true,
+      },
+
+      articleId: {
+        type: "string",
+        required: true,
+      },
+
+      comment: {
         type: "string",
         required: true,
       },
