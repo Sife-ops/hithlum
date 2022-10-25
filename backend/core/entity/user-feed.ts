@@ -1,14 +1,14 @@
-import { Dynamo } from "./dynamo";
+import { Dynamo } from "../dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const CommentEntity = new Entity(
+export const UserFeedEntity = new Entity(
   {
     indexes: {
-      comment: {
+      userFeed: {
         pk: {
           field: "pk",
-          composite: ["commentId"],
+          composite: ["userFeedId"],
         },
         sk: {
           field: "sk",
@@ -28,42 +28,42 @@ export const CommentEntity = new Entity(
           composite: [],
         },
       },
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      article_: {
-        collection: "article",
-        index: "gsi3",
+
+      feed_: {
+        collection: "feed",
+        index: "gsi2",
         pk: {
-          field: "gsi3pk",
-          composite: ["articleId"],
+          field: "gsi2pk",
+          composite: ["feedId"],
         },
         sk: {
-          field: "gsi3sk",
+          field: "gsi2sk",
           composite: [],
         },
       },
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
     },
 
     model: {
       version: "1",
-      entity: "Comment",
+      entity: "UserFeed",
       service: "hithlum",
     },
 
     attributes: {
-      commentId: {
+      userFeedId: {
         type: "string",
         required: true,
         default: () => ulid(),
@@ -74,12 +74,7 @@ export const CommentEntity = new Entity(
         required: true,
       },
 
-      articleId: {
-        type: "string",
-        required: true,
-      },
-
-      comment: {
+      feedId: {
         type: "string",
         required: true,
       },
@@ -88,4 +83,4 @@ export const CommentEntity = new Entity(
   Dynamo.Configuration
 );
 
-export type CommentEntityType = EntityItem<typeof CommentEntity>;
+export type UserFeedEntityType = EntityItem<typeof UserFeedEntity>;

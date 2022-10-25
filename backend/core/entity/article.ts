@@ -1,4 +1,4 @@
-import { Dynamo } from "./dynamo";
+import { Dynamo } from "../dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
@@ -76,6 +76,11 @@ export const ArticleEntity = new Entity(
 
       data: {
         type: "string",
+        required: true,
+      },
+
+      rating: {
+        type: "number",
         required: true,
       },
     },

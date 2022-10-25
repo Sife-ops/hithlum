@@ -1,14 +1,14 @@
-import { Dynamo } from "./dynamo";
+import { Dynamo } from "../dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const UserEntity = new Entity(
+export const CommentEntity = new Entity(
   {
     indexes: {
-      user: {
+      comment: {
         pk: {
           field: "pk",
-          composite: ["userId"],
+          composite: ["commentId"],
         },
         sk: {
           field: "sk",
@@ -42,35 +42,50 @@ export const UserEntity = new Entity(
       //
       //
       //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
+      article_: {
+        collection: "article",
+        index: "gsi3",
+        pk: {
+          field: "gsi3pk",
+          composite: ["articleId"],
+        },
+        sk: {
+          field: "gsi3sk",
+          composite: [],
+        },
+      },
     },
 
     model: {
       version: "1",
-      entity: "User",
+      entity: "Comment",
       service: "hithlum",
     },
 
     attributes: {
-      userId: {
+      commentId: {
         type: "string",
         required: true,
         default: () => ulid(),
+      },
+
+      userId: {
+        type: "string",
+        required: true,
+      },
+
+      articleId: {
+        type: "string",
+        required: true,
+      },
+
+      comment: {
+        type: "string",
+        required: true,
       },
     },
   },
   Dynamo.Configuration
 );
 
-export type UserEntityType = EntityItem<typeof UserEntity>;
+export type CommentEntityType = EntityItem<typeof CommentEntity>;

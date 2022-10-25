@@ -1,4 +1,4 @@
-import { Dynamo } from "./dynamo";
+import { Dynamo } from "../dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 

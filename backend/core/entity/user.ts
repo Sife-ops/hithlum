@@ -1,14 +1,14 @@
-import { Dynamo } from "./dynamo";
+import { Dynamo } from "../dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const UserFeedEntity = new Entity(
+export const UserEntity = new Entity(
   {
     indexes: {
-      userFeed: {
+      user: {
         pk: {
           field: "pk",
-          composite: ["userFeedId"],
+          composite: ["userId"],
         },
         sk: {
           field: "sk",
@@ -28,19 +28,19 @@ export const UserFeedEntity = new Entity(
           composite: [],
         },
       },
-
-      feed_: {
-        collection: "feed",
-        index: "gsi2",
-        pk: {
-          field: "gsi2pk",
-          composite: ["feedId"],
-        },
-        sk: {
-          field: "gsi2sk",
-          composite: [],
-        },
-      },
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
       //
       //
       //
@@ -58,29 +58,19 @@ export const UserFeedEntity = new Entity(
 
     model: {
       version: "1",
-      entity: "UserFeed",
+      entity: "User",
       service: "hithlum",
     },
 
     attributes: {
-      userFeedId: {
-        type: "string",
-        required: true,
-        default: () => ulid(),
-      },
-
       userId: {
         type: "string",
         required: true,
-      },
-
-      feedId: {
-        type: "string",
-        required: true,
+        default: () => ulid(),
       },
     },
   },
   Dynamo.Configuration
 );
 
-export type UserFeedEntityType = EntityItem<typeof UserFeedEntity>;
+export type UserEntityType = EntityItem<typeof UserEntity>;
