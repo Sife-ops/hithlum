@@ -1,10 +1,13 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
-  "include": ["function"],
+  "include": ["function", "core"],
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@hithlum/core/*": ["./core/*"]
+    }
   }
 }
