@@ -4,18 +4,6 @@ import { ulid } from "ulid";
 
 export const UserEntity = new Entity(
   {
-    model: {
-      version: "1",
-      entity: "User",
-      service: "hithlum",
-    },
-    attributes: {
-      userId: {
-        type: "string",
-        required: true,
-        default: () => ulid(),
-      },
-    },
     indexes: {
       user: {
         pk: {
@@ -26,6 +14,59 @@ export const UserEntity = new Entity(
           field: "sk",
           composite: [],
         },
+      },
+
+      user_: {
+        collection: "user",
+        index: "gsi1",
+        pk: {
+          field: "gsi1pk",
+          composite: ["userId"],
+        },
+        sk: {
+          field: "gsi1sk",
+          composite: [],
+        },
+      },
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+    },
+
+    model: {
+      version: "1",
+      entity: "User",
+      service: "hithlum",
+    },
+
+    attributes: {
+      userId: {
+        type: "string",
+        required: true,
+        default: () => ulid(),
       },
     },
   },

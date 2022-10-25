@@ -4,11 +4,64 @@ import { ulid } from "ulid";
 
 export const UserFeedEntity = new Entity(
   {
+    indexes: {
+      userFeed: {
+        pk: {
+          field: "pk",
+          composite: ["userFeedId"],
+        },
+        sk: {
+          field: "sk",
+          composite: [],
+        },
+      },
+
+      user_: {
+        collection: "user",
+        index: "gsi1",
+        pk: {
+          field: "gsi1pk",
+          composite: ["userId"],
+        },
+        sk: {
+          field: "gsi1sk",
+          composite: [],
+        },
+      },
+
+      feed_: {
+        collection: "feed",
+        index: "gsi2",
+        pk: {
+          field: "gsi2pk",
+          composite: ["feedId"],
+        },
+        sk: {
+          field: "gsi2sk",
+          composite: [],
+        },
+      },
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+    },
+
     model: {
       version: "1",
       entity: "UserFeed",
       service: "hithlum",
     },
+
     attributes: {
       userFeedId: {
         type: "string",
@@ -24,18 +77,6 @@ export const UserFeedEntity = new Entity(
       feedId: {
         type: "string",
         required: true,
-      },
-    },
-    indexes: {
-      userFeed: {
-        pk: {
-          field: "pk",
-          composite: ["userId"],
-        },
-        sk: {
-          field: "sk",
-          composite: [],
-        },
       },
     },
   },

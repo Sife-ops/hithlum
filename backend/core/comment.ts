@@ -2,48 +2,48 @@ import { Dynamo } from "./dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const ArticleEntity = new Entity(
+export const CommentEntity = new Entity(
   {
     indexes: {
-      article: {
+      comment: {
         pk: {
           field: "pk",
-          composite: ["articleId"],
+          composite: ["commentId"],
         },
         sk: {
           field: "sk",
           composite: [],
         },
       },
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      feed_: {
-        collection: "feed",
-        index: "gsi2",
+
+      user_: {
+        collection: "user",
+        index: "gsi1",
         pk: {
-          field: "gsi2pk",
-          composite: ["feedId"],
+          field: "gsi1pk",
+          composite: ["userId"],
         },
         sk: {
-          field: "gsi2sk",
+          field: "gsi1sk",
           composite: [],
         },
       },
-
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
       article_: {
-        collection: "article",
+        collection: "user",
         index: "gsi3",
         pk: {
           field: "gsi3pk",
@@ -58,7 +58,7 @@ export const ArticleEntity = new Entity(
 
     model: {
       version: "1",
-      entity: "Article",
+      entity: "Comment",
       service: "hithlum",
     },
 
@@ -68,7 +68,7 @@ export const ArticleEntity = new Entity(
         required: true,
       },
 
-      articleId: {
+      commentId: {
         type: "string",
         required: true,
         default: () => ulid(),
@@ -83,4 +83,4 @@ export const ArticleEntity = new Entity(
   Dynamo.Configuration
 );
 
-export type ArticleEntityType = EntityItem<typeof ArticleEntity>;
+export type CommentEntityType = EntityItem<typeof CommentEntity>;
