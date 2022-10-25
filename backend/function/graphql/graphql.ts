@@ -7,14 +7,6 @@ import { env } from "../common";
 import { schema } from "./schema";
 
 export const main: Handler<any, any> = async (event, context, callback) => {
-  const server = new ApolloServer({
-    schema,
-    csrfPrevention: true,
-    cache: "bounded",
-    plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
-  });
-
-  return server.createHandler()(event, context, callback);
   try {
     const accessToken = event.headers.authorization;
 
