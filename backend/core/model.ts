@@ -1,13 +1,21 @@
 import { Service } from "electrodb";
 
-import { FeedEntity } from "./entity/feed";
 import { ArticleEntity } from "./entity/article";
+import { CommentEntity } from "./entity/comment";
+import { FeedEntity } from "./entity/feed";
+import { FriendshipEntity } from "./entity/friendship";
+import { MessageEntity } from "./entity/message";
+import { RatingEntity } from "./entity/rating";
 import { UserEntity } from "./entity/user";
 import { UserFeedEntity } from "./entity/user-feed";
 
 export const hithlumModel = new Service({
-  FeedEntity,
   ArticleEntity,
+  CommentEntity,
+  FeedEntity,
+  FriendshipEntity,
+  MessageEntity,
+  RatingEntity,
   UserEntity,
   UserFeedEntity,
 });

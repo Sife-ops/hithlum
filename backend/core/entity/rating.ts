@@ -2,7 +2,7 @@ import { Dynamo } from "../dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const CommentEntity = new Entity(
+export const RatingEntity = new Entity(
   {
     indexes: {
       rating: {
@@ -58,7 +58,7 @@ export const CommentEntity = new Entity(
 
     model: {
       version: "1",
-      entity: "Comment",
+      entity: "Rating",
       service: "hithlum",
     },
 
@@ -88,4 +88,4 @@ export const CommentEntity = new Entity(
   Dynamo.Configuration
 );
 
-export type CommentEntityType = EntityItem<typeof CommentEntity>;
+export type RatingEntityType = EntityItem<typeof RatingEntity>;

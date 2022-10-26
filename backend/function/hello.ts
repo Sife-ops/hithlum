@@ -5,7 +5,7 @@ export const main = async (event: any) => {
 
   const a = await hithlumModel.entities.FeedEntity.create({
     data: "a",
-  });
+  }).go();
 
   // console.log(feed);
 
