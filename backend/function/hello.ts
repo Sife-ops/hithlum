@@ -1,10 +1,11 @@
 import { hithlumModel } from "@hithlum/core/model";
 
 export const main = async (event: any) => {
+  // hithlumModel.entities.FeedEntity.
 
-  // const feed = await hithlumModel.entities.FeedEntity.create({
-  //   title: "test",
-  // }).go();
+  const a = await hithlumModel.entities.FeedEntity.create({
+    data: "a",
+  });
 
   // console.log(feed);
 

@@ -1,9 +1,9 @@
 import { Service } from "electrodb";
 
-import { FeedEntity } from "./feed";
+import { FeedEntity } from "./entity/feed";
 import { ArticleEntity } from "./entity/article";
-import { UserEntity } from "./user";
-import { UserFeedEntity } from "./user-feed";
+import { UserEntity } from "./entity/user";
+import { UserFeedEntity } from "./entity/user-feed";
 
 export const hithlumModel = new Service({
   FeedEntity,
