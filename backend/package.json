@@ -5,6 +5,8 @@
     "start": "nodemon -e ts --exec node ../node_modules/.bin/sls offline --stage local"
   },
   "dependencies": {
+    "@pothos/core": "^3.22.8",
+    "@serverless-stack/node": "^1.15.16",
     "apollo-server-lambda": "^3.10.3",
     "axios": "^1.1.3",
     "electrodb": "^2.1.2",
