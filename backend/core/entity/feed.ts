@@ -73,6 +73,12 @@ export const FeedEntity = new Entity(
         type: "string",
         required: true,
       },
+
+      title: {
+        type: "string",
+        required: true,
+      },
+
     },
   },
   Dynamo.Configuration

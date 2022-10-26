@@ -7,6 +7,7 @@ FeedType.implement({
   fields: (t) => ({
     feedId: t.exposeID("feedId"),
     data: t.exposeString("data"),
+    title: t.exposeString("title"),
   }),
 });
 
@@ -17,7 +18,7 @@ builder.queryFields((t) => ({
 
   feeds: t.field({
     type: [FeedType],
-    resolve: async (_, __, { user: { userId } }: any) => {
+    resolve: async (_, __, { user: { userId } }) => {
       const { data: userFeeds } =
         await hithlumModel.entities.UserFeedEntity.query.user_({ userId }).go();
 
