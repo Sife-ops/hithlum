@@ -1,15 +1,6 @@
 import { builder } from "./builder";
 
-builder.queryFields((t) => ({
-  hello: t.string({
-    resolve: () => "hello",
-  }),
-}));
-
-builder.mutationFields((t) => ({
-  mello: t.string({
-    resolve: () => "mello",
-  }),
-}));
+import "./types/mutation";
+import "./types/query";
 
 export const schema = builder.toSchema({});
