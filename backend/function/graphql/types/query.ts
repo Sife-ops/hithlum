@@ -1,15 +1,7 @@
 import { FeedEntityType } from "@hithlum/core/entity/feed";
+import { FeedType } from "./feed";
 import { builder } from "../builder";
 import { hithlumModel } from "@hithlum/core/model";
-
-export const FeedType = builder.objectRef<FeedEntityType>("Feed");
-FeedType.implement({
-  fields: (t) => ({
-    feedId: t.exposeID("feedId"),
-    data: t.exposeString("data"),
-    title: t.exposeString("title"),
-  }),
-});
 
 builder.queryFields((t) => ({
   hello: t.string({

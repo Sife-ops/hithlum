@@ -2,45 +2,45 @@ import { Dynamo } from "../dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const FeedEntity = new Entity(
+export const ViewedEntity = new Entity(
   {
     indexes: {
-      feed: {
+      Viewed: {
         pk: {
           field: "pk",
-          composite: ["feedId"],
+          composite: ["viewedId"],
         },
         sk: {
           field: "sk",
           composite: [],
         },
       },
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      feed_: {
-        collection: "feed",
-        index: "gsi2",
+
+      user_: {
+        collection: "user",
+        index: "gsi1",
         pk: {
-          field: "gsi2pk",
-          composite: ["feedId"],
+          field: "gsi1pk",
+          composite: ["userId"],
         },
         sk: {
-          field: "gsi2sk",
-          composite: [],
+          field: "gsi1sk",
+          composite: ["entityId"],
         },
       },
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
       //
       //
       //
@@ -58,23 +58,35 @@ export const FeedEntity = new Entity(
 
     model: {
       version: "1",
-      entity: "Feed",
+      entity: "Viewed",
       service: "hithlum",
     },
 
     attributes: {
-      feedId: {
+      viewedId: {
         type: "string",
         required: true,
         default: () => ulid(),
       },
 
-      title: { type: "string" },
-      feedUrl: { type: "string" },
-      inputUrl: { type: "string", required: true },
+      userId: {
+        type: "string",
+        required: true,
+      },
+
+      entityId: {
+        type: "string",
+        required: true,
+      },
+
+      viewed: {
+        type: "boolean",
+        required: true,
+        default: () => true,
+      },
     },
   },
   Dynamo.Configuration
 );
 
-export type FeedEntityType = EntityItem<typeof FeedEntity>;
+export type ViewedEntityType = EntityItem<typeof ViewedEntity>;

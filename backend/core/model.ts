@@ -8,6 +8,7 @@ import { MessageEntity } from "./entity/message";
 import { RatingEntity } from "./entity/rating";
 import { UserEntity } from "./entity/user";
 import { UserFeedEntity } from "./entity/user-feed";
+import { ViewedEntity } from "./entity/viewed";
 
 export const hithlumModel = new Service({
   ArticleEntity,
@@ -18,4 +19,5 @@ export const hithlumModel = new Service({
   RatingEntity,
   UserEntity,
   UserFeedEntity,
+  ViewedEntity,
 });

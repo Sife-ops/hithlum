@@ -78,6 +78,14 @@ export const UserFeedEntity = new Entity(
         type: "string",
         required: true,
       },
+
+      //////////////////////////////////////////////////////////////////////////
+
+      // todo: unread
+      // unread: {
+      //   type: "string",
+      //   required: true,
+      // },
     },
   },
   Dynamo.Configuration
