@@ -5,7 +5,7 @@ import { FeedType } from "./feed";
 
 const parser = new rss();
 
-const { FeedEntity, UserFeedEntity } = hithlumModel.entities;
+const { FeedEntity, UserFeedEntity, ArticleEntity } = hithlumModel.entities;
 
 builder.mutationFields((t) => ({
   updateFeed: t.string({
@@ -45,14 +45,25 @@ builder.mutationFields((t) => ({
 
         if (foundUserFeed) throw new Error("already subscribed");
       } else {
+        const { feedUrl, title, items } = parsed;
+
         // create feed
-        const { feedUrl, title } = parsed;
         const { data } = await FeedEntity.create({
           feedUrl,
           title,
           inputUrl: url,
         }).go();
+
         feed = data;
+
+        // create articles
+        // todo: move to SQS
+        for (const item of items) {
+          await ArticleEntity.create({
+            feedId: feed.feedId,
+            title: item.title,
+          }).go();
+        }
       }
 
       await UserFeedEntity.create({

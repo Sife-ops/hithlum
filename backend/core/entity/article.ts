@@ -74,15 +74,7 @@ export const ArticleEntity = new Entity(
         required: true,
       },
 
-      data: {
-        type: "string",
-        required: true,
-      },
-
-      rating: {
-        type: "number",
-        required: true,
-      },
+      title: { type: "string" },
     },
   },
   Dynamo.Configuration

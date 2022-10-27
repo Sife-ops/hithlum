@@ -24,13 +24,6 @@ provider:
           Resource:
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TABLE}
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TABLE}/index/*
-          # Resource:
-          #   - { "Fn::GetAtt": ["${self:provider.environment.TABLE}", "Arn" ] }
-          #   - Fn::Join:
-          #     - "/"
-          #     -
-          #       - { "Fn::GetAtt": ["${self:provider.environment.TABLE}", "Arn" ] }
-          #       - "index/*"
 
 plugins:
   - serverless-esbuild
