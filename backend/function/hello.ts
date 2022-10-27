@@ -1,17 +1,4 @@
-import { hithlumModel } from "@hithlum/core/model";
-
 export const main = async (event: any) => {
-  // hithlumModel.entities.FeedEntity.
-
-  const a = await hithlumModel.entities.FeedEntity.create({
-    data: "a",
-  }).go();
-
-  // console.log(feed);
-
-  // const a = hithlumModel.entities.ArticleEntity.query.article({
-  // })
-
   return {
     statusCode: 200,
     body: JSON.stringify(

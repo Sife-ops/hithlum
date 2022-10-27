@@ -8,11 +8,19 @@ provider:
   stage: ${opt:stage}
   environment:
     TABLE: ${self:service}-${opt:stage}-table
+    ARTICLE_QUEUE:
+      Ref: articleQueue
   httpApi:
     cors: true
   iam:
     role:
       statements:
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource:
+            Fn::GetAtt: [articleQueue, Arn]
+
         - Effect: Allow
           Action:
             - dynamodb:Query
@@ -39,6 +47,14 @@ custom:
       localDir: ../frontend/dist
 
 functions:
+  articleConsumer:
+    name: ${self:service}-${opt:stage}-article-consumer
+    handler: function/article-consumer.main
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt: [articleQueue, Arn]
+
   hello:
     name: ${self:service}-${opt:stage}-hello
     handler: function/hello.main
@@ -72,6 +88,11 @@ functions:
 
 resources:
   Resources:
+    articleQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:service}-${opt:stage}-articleQueue
+
     dynamoDbTable:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
@@ -99,9 +120,7 @@ resources:
             KeyType: HASH
           - AttributeName: sk
             KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+        BillingMode: PAY_PER_REQUEST
         GlobalSecondaryIndexes:
           - IndexName: gsi1
             KeySchema:
@@ -111,9 +130,6 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: "ALL"
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
           - IndexName: gsi2
             KeySchema:
               - AttributeName: gsi2pk
@@ -122,9 +138,6 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: "ALL"
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
           - IndexName: gsi3
             KeySchema:
               - AttributeName: gsi3pk
@@ -133,9 +146,6 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: "ALL"
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
 
     siteBucket:
       Type: AWS::S3::Bucket
