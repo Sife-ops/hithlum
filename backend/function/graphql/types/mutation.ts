@@ -1,5 +1,5 @@
-import lodash from "lodash";
 import AWS from "aws-sdk";
+import lodash from "lodash";
 import rss from "rss-parser";
 import { FeedType } from "./feed";
 import { builder } from "../builder";

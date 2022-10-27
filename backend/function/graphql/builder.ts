@@ -1,3 +1,4 @@
+import DataloaderPlugin from "@pothos/plugin-dataloader";
 import SchemaBuilder from "@pothos/core";
 
 export const builder = new SchemaBuilder<{
@@ -7,7 +8,9 @@ export const builder = new SchemaBuilder<{
       email: string;
     };
   };
-}>({});
+}>({
+  plugins: [DataloaderPlugin],
+});
 
 builder.queryType({});
 builder.mutationType({});
