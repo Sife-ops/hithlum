@@ -38,7 +38,7 @@ export const UnreadEntity = new Entity(
         },
         sk: {
           field: "gsi2sk",
-          composite: ["articleId"],
+          composite: ["articleId", "userId"],
         },
       },
 
@@ -51,7 +51,7 @@ export const UnreadEntity = new Entity(
         },
         sk: {
           field: "gsi3sk",
-          composite: ["userId"],
+          composite: ["userId", "feedId"],
         },
       },
     },
