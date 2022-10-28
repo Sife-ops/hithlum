@@ -3,6 +3,7 @@
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
+        BillingMode: PAY_PER_REQUEST
         TableName: ${self:service}-${opt:stage}-table-v1
         AttributeDefinitions:
           - AttributeName: pk
@@ -26,7 +27,6 @@
             KeyType: HASH
           - AttributeName: sk
             KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST
         GlobalSecondaryIndexes:
           - IndexName: gsi1
             KeySchema:
