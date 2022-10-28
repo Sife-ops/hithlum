@@ -23,8 +23,8 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TABLE}
-            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TABLE}/index/*
+            - arn:aws:dynamodb:*:*:table/${self:provider.environment.TABLE}
+            - arn:aws:dynamodb:*:*:table/${self:provider.environment.TABLE}/index/*
 
 plugins:
   - serverless-esbuild
