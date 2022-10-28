@@ -54,6 +54,19 @@ export const ArticleEntity = new Entity(
           composite: [],
         },
       },
+
+      recent_: {
+        collection: "recent",
+        index: "gsi4",
+        pk: {
+          field: "gsi4pk",
+          composite: [],
+        },
+        sk: {
+          field: "gsi4sk",
+          composite: ["createdAt"],
+        },
+      },
     },
 
     model: {
@@ -73,6 +86,16 @@ export const ArticleEntity = new Entity(
         type: "string",
         required: true,
       },
+
+      createdAt: {
+        type: "number",
+        required: true,
+        default: () => Date.now(),
+      },
+
+      //////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
 
       title: { type: "string" },
     },

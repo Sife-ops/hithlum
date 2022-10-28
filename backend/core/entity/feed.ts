@@ -38,7 +38,7 @@ export const FeedEntity = new Entity(
         },
         sk: {
           field: "gsi2sk",
-          composite: ["createdAt"],
+          composite: [],
         },
       },
       //
@@ -54,6 +54,18 @@ export const FeedEntity = new Entity(
       //
       //
       //
+      recent_: {
+        collection: "recent",
+        index: "gsi4",
+        pk: {
+          field: "gsi4pk",
+          composite: [],
+        },
+        sk: {
+          field: "gsi4sk",
+          composite: ["createdAt"],
+        },
+      },
     },
 
     model: {

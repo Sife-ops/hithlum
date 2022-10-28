@@ -10,11 +10,17 @@ builder.queryFields((t) => ({
     resolve: () => "hello",
   }),
 
-  recentlyAddedFeeds: t.boolean({
+  recentlyAddedFeeds: t.string({
     resolve: async () => {
-      // FeedEntity.query.feed_({})
-      return true
-    }
+      const days = (n: number) => 1000 * 60 * 60 * 24 * n;
+      const since = Date.now() - days(7);
+
+      const result = await FeedEntity.query
+        .recent_({})
+        .gt({ createdAt: since })
+        .go()
+      return JSON.stringify(result);
+    },
   }),
 
   feed: t.field({
