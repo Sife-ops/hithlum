@@ -10,6 +10,13 @@ builder.queryFields((t) => ({
     resolve: () => "hello",
   }),
 
+  recentlyAddedFeeds: t.boolean({
+    resolve: async () => {
+      // FeedEntity.query.feed_({})
+      return true
+    }
+  }),
+
   feed: t.field({
     type: FeedType,
     args: {

@@ -7,11 +7,8 @@ import { hithlumModel } from "@hithlum/core/model";
 import { ulid } from "ulid";
 
 const sqs = new AWS.SQS();
-
 const parser = new rss();
-
 const { FeedEntity, UserFeedEntity } = hithlumModel.entities;
-
 const { ARTICLE_QUEUE } = process.env;
 
 builder.mutationFields((t) => ({
@@ -46,19 +43,17 @@ builder.mutationFields((t) => ({
 
         if (foundUserFeed) throw new Error("already subscribed");
       } else {
-        const { feedUrl, title, items } = parsed;
-
         // create feed
         const { data } = await FeedEntity.create({
-          feedUrl,
-          title,
           inputUrl: url,
+          ...parsed,
+          imageUrl: parsed.image?.url,
         }).go();
 
         feed = data;
 
         // create articles
-        for (const articleChunk of lodash.chunk(items, 10)) {
+        for (const articleChunk of lodash.chunk(parsed.items, 10)) {
           await sqs
             .sendMessageBatch({
               QueueUrl: ARTICLE_QUEUE!,

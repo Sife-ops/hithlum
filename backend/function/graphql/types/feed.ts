@@ -41,10 +41,14 @@ export const FeedType = builder.objectRef<FeedEntityType>("Feed");
 FeedType.implement({
   fields: (t) => ({
     feedId: t.exposeID("feedId"),
-
     inputUrl: t.exposeString("inputUrl"),
+    private: t.exposeString("inputUrl"),
+
     feedUrl: t.exposeString("title", { nullable: true }),
+    imageUrl: t.exposeString("imageUrl", { nullable: true }),
     title: t.exposeString("title", { nullable: true }),
+    description: t.exposeString("description", { nullable: true }),
+    link: t.exposeString("link", { nullable: true }),
 
     // can't use loader
     articles: t.field({
