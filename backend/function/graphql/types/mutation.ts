@@ -12,7 +12,7 @@ const parser = new rss();
 
 const { FeedEntity, UserFeedEntity } = hithlumModel.entities;
 
-const { ARTICLE_QUEUE } = process.env;
+const { ARTICLE_QUEUE, MANDOS_URL } = process.env;
 
 builder.mutationFields((t) => ({
   updateFeed: t.string({
@@ -27,6 +27,9 @@ builder.mutationFields((t) => ({
       url: t.arg.string({ required: true }),
     },
     resolve: async (_, { url }, { user: { userId } }) => {
+      console.log('mandos url',MANDOS_URL)
+      console.log('mandos url',MANDOS_URL)
+      console.log('mandos url',MANDOS_URL)
       const parsed = await parser.parseURL(url);
 
       // todo: don't use scan
