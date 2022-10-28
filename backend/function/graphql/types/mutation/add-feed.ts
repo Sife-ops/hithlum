@@ -1,63 +1,20 @@
 import AWS from "aws-sdk";
 import lodash from "lodash";
 import rss from "rss-parser";
-import { FeedType } from "./feed";
-import { builder } from "../builder";
+import { FeedType } from "../feed";
+import { builder } from "../../builder";
 import { hithlumModel } from "@hithlum/core/model";
-import { UnreadType } from "./feed";
 import { ulid } from "ulid";
 
 const sqs = new AWS.SQS();
 
 const parser = new rss();
 
-const { FeedEntity, UserFeedEntity, UnreadEntity } = hithlumModel.entities;
+const { FeedEntity, UserFeedEntity } = hithlumModel.entities;
 
 const { ARTICLE_QUEUE } = process.env;
 
 builder.mutationFields((t) => ({
-  updateFeed: t.string({
-    resolve: async (_, { feedUrl }, { user: { userId } }) => {
-      return "lol";
-    },
-  }),
-
-  setUnread: t.field({
-    type: UnreadType,
-    args: {
-      feedId: t.arg.string({ required: true }),
-      articleId: t.arg.string({ required: true }),
-      value: t.arg.boolean({ required: true }),
-    },
-    resolve: async (_, { articleId, value, feedId }, { user: { userId } }) => {
-      const {
-        data: [foundUnread],
-      } = await UnreadEntity.query.article_({ articleId, userId }).go();
-
-      if (foundUnread) {
-        await UnreadEntity.update({
-          unreadId: foundUnread.unreadId,
-        })
-          .set({ value })
-          .go();
-
-        const {
-          data: [updated],
-        } = await UnreadEntity.query.article_({ articleId, userId }).go();
-
-        return updated;
-      } else {
-        const { data } = await UnreadEntity.create({
-          articleId,
-          feedId,
-          userId,
-        }).go();
-
-        return data;
-      }
-    },
-  }),
-
   addFeed: t.field({
     type: FeedType,
     args: {
