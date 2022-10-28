@@ -6,11 +6,13 @@ provider:
   region: us-east-1
   runtime: nodejs14.x
   stage: ${opt:stage}
-  environment:
-    STAGE: ${self:provider.stage}
-    TABLE: ${self:service}-${opt:stage}-table
   httpApi:
     cors: true
+  environment:
+    ARTICLE_QUEUE: ${construct:articleQueue.queueUrl}
+    MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
+    STAGE: ${self:provider.stage}
+    TABLE: ${self:service}-${opt:stage}-table
   iam:
     role:
       statements:
@@ -47,9 +49,6 @@ functions:
   graphql:
     name: ${self:service}-${opt:stage}-graphql
     handler: function/graphql/graphql.main
-    environment:
-      MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
-      ARTICLE_QUEUE: ${construct:articleQueue.queueUrl}
     events:
       - httpApi:
           path: /graphql
