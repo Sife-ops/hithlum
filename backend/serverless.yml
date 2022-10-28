@@ -18,7 +18,7 @@ provider:
     ARTICLE_QUEUE: ${construct:articleQueue.queueUrl}
     MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
     STAGE: ${self:provider.stage}
-    TABLE: ${self:service}-${opt:stage}-table
+    TABLE: ${self:service}-${opt:stage}-table-v1
   iam:
     role:
       statements:

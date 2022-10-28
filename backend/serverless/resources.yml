@@ -1,9 +1,9 @@
   Resources:
-    dynamoDbTable:
+    hithlumTable:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
-        TableName: ${self:provider.environment.TABLE}
+        TableName: ${self:service}-${opt:stage}-table-v1
         AttributeDefinitions:
           - AttributeName: pk
             AttributeType: S
