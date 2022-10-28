@@ -10,6 +10,18 @@ builder.queryFields((t) => ({
     resolve: () => "hello",
   }),
 
+  feed: t.field({
+    type: FeedType,
+    args: {
+      feedId: t.arg.string({ required: true }),
+    },
+    resolve: (_, { feedId }) =>
+      FeedEntity.query
+        .feed({ feedId })
+        .go()
+        .then((res) => res.data[0]),
+  }),
+
   feeds: t.field({
     type: [FeedType],
     resolve: async (_, __, { user: { userId } }) => {
