@@ -7,20 +7,13 @@ provider:
   runtime: nodejs14.x
   stage: ${opt:stage}
   environment:
+    STAGE: ${self:provider.stage}
     TABLE: ${self:service}-${opt:stage}-table
-    ARTICLE_QUEUE:
-      Ref: articleQueue
   httpApi:
     cors: true
   iam:
     role:
       statements:
-        - Effect: Allow
-          Action:
-            - sqs:SendMessage
-          Resource:
-            Fn::GetAtt: [articleQueue, Arn]
-
         - Effect: Allow
           Action:
             - dynamodb:Query
@@ -35,26 +28,14 @@ provider:
 
 plugins:
   - serverless-esbuild
-  - serverless-s3-sync
+  - serverless-lift
   - serverless-plugin-conditional-functions
   - serverless-offline
 
 custom:
   global: ${file(./global.yml):global}
-  siteBucketName: ${self:service}-${opt:stage}-site
-  s3Sync:
-    - bucketName: ${self:custom.siteBucketName}
-      localDir: ../frontend/dist
 
 functions:
-  articleConsumer:
-    name: ${self:service}-${opt:stage}-article-consumer
-    handler: function/article-consumer.main
-    events:
-      - sqs:
-          arn:
-            Fn::GetAtt: [articleQueue, Arn]
-
   hello:
     name: ${self:service}-${opt:stage}-hello
     handler: function/hello.main
@@ -67,8 +48,8 @@ functions:
     name: ${self:service}-${opt:stage}-graphql
     handler: function/graphql/graphql.main
     environment:
-      STAGE: ${self:provider.stage}
       MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
+      ARTICLE_QUEUE: ${construct:articleQueue.queueUrl}
     events:
       - httpApi:
           path: /graphql
@@ -78,21 +59,19 @@ functions:
     name: ${self:service}-${opt:stage}-codegen
     handler: function/graphql/codegen.main
     enabled: '"${self:provider.stage}" == "local"'
-    environment:
-      STAGE: ${self:provider.stage}
-      MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
     events:
       - httpApi:
           path: /codegen
           method: post
 
+constructs:
+    articleQueue:
+        type: queue
+        worker:
+            handler: function/article-queue-worker.main
+
 resources:
   Resources:
-    articleQueue:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: ${self:service}-${opt:stage}-articleQueue
-
     dynamoDbTable:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
@@ -146,61 +125,3 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: "ALL"
-
-    siteBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:custom.siteBucketName}
-        AccessControl: PublicRead
-        WebsiteConfiguration:
-          IndexDocument: index.html
-          ErrorDocument: index.html
-
-    siteS3AccessPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket:
-          Ref: siteBucket
-        PolicyDocument:
-          Statement:
-            - Sid: PublicReadGetObject
-              Effect: Allow
-              Principal: "*"
-              Action:
-                - s3:GetObject
-              Resource: arn:aws:s3:::${self:custom.siteBucketName}/*
-
-    siteCloudFrontDistribution:
-      Type: AWS::CloudFront::Distribution
-      Properties:
-        DistributionConfig:
-          Origins:
-            - DomainName: ${self:custom.siteBucketName}.s3.amazonaws.com
-              Id: ReactApp
-              CustomOriginConfig:
-                HTTPPort: 80
-                HTTPSPort: 443
-                OriginProtocolPolicy: https-only
-          Enabled: "true"
-          DefaultRootObject: index.html
-          CustomErrorResponses:
-            - ErrorCode: 404
-              ResponseCode: 200
-              ResponsePagePath: /index.html
-          DefaultCacheBehavior:
-            AllowedMethods:
-              - DELETE
-              - GET
-              - HEAD
-              - OPTIONS
-              - PATCH
-              - POST
-              - PUT
-            TargetOriginId: ReactApp
-            ForwardedValues:
-              QueryString: "false"
-              Cookies:
-                Forward: none
-            ViewerProtocolPolicy: redirect-to-https
-          ViewerCertificate:
-            CloudFrontDefaultCertificate: true
