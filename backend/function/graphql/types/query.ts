@@ -10,16 +10,18 @@ builder.queryFields((t) => ({
     resolve: () => "hello",
   }),
 
-  recentlyAddedFeeds: t.string({
+  recentlyAddedFeeds: t.field({
+    type: [FeedType],
     resolve: async () => {
       const days = (n: number) => 1000 * 60 * 60 * 24 * n;
       const since = Date.now() - days(7);
 
-      const result = await FeedEntity.query
+      const { data } = await FeedEntity.query
         .recent_({})
         .gt({ createdAt: since })
-        .go()
-      return JSON.stringify(result);
+        .go({ limit: 50 });
+
+      return data;
     },
   }),
 
