@@ -1,0 +1,24 @@
+hello:
+  name: ${self:service}-${opt:stage}-hello
+  handler: function/hello.main
+  events:
+    - httpApi:
+        path: /hello
+        method: get
+
+graphql:
+  name: ${self:service}-${opt:stage}-graphql
+  handler: function/graphql/graphql.main
+  events:
+    - httpApi:
+        path: /graphql
+        method: post
+
+codegen:
+  name: ${self:service}-${opt:stage}-codegen
+  handler: function/graphql/codegen.main
+  enabled: '"${self:provider.stage}" == "local"'
+  events:
+    - httpApi:
+        path: /codegen
+        method: post

@@ -1,0 +1,5 @@
+mandosUrl:
+  local: "local"
+  dev: "dev"
+  prod: "prod"
+
