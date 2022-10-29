@@ -84,6 +84,13 @@ export type Unread = {
   value: Scalars['Boolean'];
 };
 
+export type FeedQueryVariables = Exact<{
+  feedId: Scalars['String'];
+}>;
+
+
+export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, enclosure?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
+
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -107,6 +114,43 @@ export type AddFeedMutationVariables = Exact<{
 export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string } };
 
 
+export const FeedDocument = gql`
+    query feed($feedId: String!) {
+  feed(feedId: $feedId) {
+    feedId
+    inputUrl
+    private
+    createdAt_isoDate
+    feedUrl
+    imageUrl
+    title
+    description
+    link
+    articles {
+      articleId
+      feedId
+      categories
+      content
+      contentSnippet
+      creator
+      enclosure
+      guid
+      isoDate
+      link
+      pubDate
+      summary
+      title
+      unread {
+        value
+      }
+    }
+  }
+}
+    `;
+
+export function useFeedQuery(options: Omit<Urql.UseQueryArgs<FeedQueryVariables>, 'query'>) {
+  return Urql.useQuery<FeedQuery, FeedQueryVariables>({ query: FeedDocument, ...options });
+};
 export const HelloDocument = gql`
     query hello {
   hello
