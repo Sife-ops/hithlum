@@ -81,11 +81,6 @@ export const FeedEntity = new Entity(
         default: () => ulid(),
       },
 
-      inputUrl: {
-        type: "string",
-        required: true,
-      },
-
       createdAt: {
         type: "number",
         required: true,
@@ -96,6 +91,11 @@ export const FeedEntity = new Entity(
         type: "boolean",
         required: true,
         default: () => false,
+      },
+
+      inputUrl: {
+        type: "string",
+        required: true,
       },
 
       //////////////////////////////////////////////////////////////////////////

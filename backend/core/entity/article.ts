@@ -64,7 +64,7 @@ export const ArticleEntity = new Entity(
         },
         sk: {
           field: "gsi4sk",
-          composite: ["createdAt"],
+          composite: ["createdAt", "isoDate_millis"],
         },
       },
     },
@@ -93,11 +93,18 @@ export const ArticleEntity = new Entity(
         default: () => Date.now(),
       },
 
+      isoDate_millis: {
+        type: "number",
+        required: true,
+        default: () => Date.now(),
+      },
+
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
 
       title: { type: "string" },
+      isoDate: { type: "string" },
     },
   },
   Dynamo.Configuration
