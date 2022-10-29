@@ -16,10 +16,10 @@ export const Dev = () => {
   const [addFeedState, addFeed] = useAddFeedMutation();
 
   const [recentFeedsQueryState] = useRecentFeedsQuery();
-  const [recentFeeds, setRecentFeeds] = useState<Feed[]>([]);
+  const [recentFeeds, setRecentFeeds] = useState<Feed[]>();
 
   const [recentArticlesQueryState] = useRecentArticlesQuery();
-  const [recentArticles, setRecentArticles] = useState<Article[]>([]);
+  const [recentArticles, setRecentArticles] = useState<Article[]>();
 
   useEffect(() => {
     const { fetching, data } = helloQueryState;
@@ -38,6 +38,7 @@ export const Dev = () => {
   useEffect(() => {
     const { fetching, data } = recentFeedsQueryState;
     if (!fetching && data) {
+      // todo: need to sort
       setRecentFeeds(data.recentFeeds as Feed[]);
     }
   }, [recentFeedsQueryState.data]);
@@ -53,7 +54,7 @@ export const Dev = () => {
       });
       setRecentArticles(desc as Article[]);
     }
-  }, [recentFeedsQueryState.data]);
+  }, [recentArticlesQueryState.data]);
 
   return (
     <div>
@@ -61,30 +62,26 @@ export const Dev = () => {
 
       <div>
         <h3>recent feeds</h3>
-        {recentFeeds?.length > 0 && (
-          <div>
-            {recentFeeds.map((feed) => (
-              <div key={feed.feedId}>
-                <div>title: {feed.title}</div>
-                <div>description: {feed.description}</div>
-              </div>
-            ))}
-          </div>
-        )}
+        <div>
+          {recentFeeds?.map((feed) => (
+            <div key={feed.feedId}>
+              <div>title: {feed.title}</div>
+              <div>description: {feed.description}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div>
         <h3>recent articles</h3>
-        {recentArticles?.length > 0 && (
-          <div>
-            {recentArticles.map((article) => (
-              <div key={article.articleId}>
-                <div>title: {article.title}</div>
-                <div>isoDate: {article.isoDate}</div>
-              </div>
-            ))}
-          </div>
-        )}
+        <div>
+          {recentArticles?.map((article) => (
+            <div key={article.articleId}>
+              <div>title: {article.title}</div>
+              <div>isoDate: {article.isoDate}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <form

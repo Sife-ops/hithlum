@@ -1,4 +1,4 @@
-import axios from "axios";
+import got from "got";
 import { GraphQLHandler } from "@serverless-stack/node/graphql";
 import { decode } from "jsonwebtoken";
 import { schema } from "./schema";
@@ -26,9 +26,9 @@ export const main = async (
     const accessToken = event.headers.authorization;
 
     const url = `${MANDOS_URL}/verify`;
-    const res = await axios.post(url, { accessToken });
+    const res = await got.post(url, { json: { accessToken } }).json<any>();
 
-    if (!res.data.success) throw new Error(`mandos: ${res.data.message}`);
+    if (!res.success) throw new Error(`mandos: ${res.message}`);
 
     const { email, userId } = decode(accessToken) as {
       email: string;
