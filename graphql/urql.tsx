@@ -77,6 +77,23 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HelloQuery = { __typename?: 'Query', hello: string };
 
+export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null }> };
+
+export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, unread: { __typename?: 'Unread', value: boolean } }> };
+
+export type AddFeedMutationVariables = Exact<{
+  url: Scalars['String'];
+}>;
+
+
+export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string } };
+
 
 export const HelloDocument = gql`
     query hello {
@@ -86,4 +103,47 @@ export const HelloDocument = gql`
 
 export function useHelloQuery(options?: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'>) {
   return Urql.useQuery<HelloQuery, HelloQueryVariables>({ query: HelloDocument, ...options });
+};
+export const RecentFeedsDocument = gql`
+    query recentFeeds {
+  recentFeeds {
+    feedId
+    inputUrl
+    feedUrl
+    imageUrl
+    title
+    description
+    link
+  }
+}
+    `;
+
+export function useRecentFeedsQuery(options?: Omit<Urql.UseQueryArgs<RecentFeedsQueryVariables>, 'query'>) {
+  return Urql.useQuery<RecentFeedsQuery, RecentFeedsQueryVariables>({ query: RecentFeedsDocument, ...options });
+};
+export const RecentArticlesDocument = gql`
+    query recentArticles {
+  recentArticles {
+    articleId
+    feedId
+    unread {
+      value
+    }
+  }
+}
+    `;
+
+export function useRecentArticlesQuery(options?: Omit<Urql.UseQueryArgs<RecentArticlesQueryVariables>, 'query'>) {
+  return Urql.useQuery<RecentArticlesQuery, RecentArticlesQueryVariables>({ query: RecentArticlesDocument, ...options });
+};
+export const AddFeedDocument = gql`
+    mutation addFeed($url: String!) {
+  addFeed(url: $url) {
+    feedId
+  }
+}
+    `;
+
+export function useAddFeedMutation() {
+  return Urql.useMutation<AddFeedMutation, AddFeedMutationVariables>(AddFeedDocument);
 };
