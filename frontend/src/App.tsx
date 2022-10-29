@@ -1,11 +1,12 @@
 // import "./App.css";
+// import { useAuthContext } from "./hook/auth-context";
+import { Article } from "./component/page/article";
 import { Auth } from "./component/page/auth";
 import { Dev } from "./component/page/dev";
 import { Feed } from "./component/page/feed";
 import { Home } from "./component/page/home";
 import { Link, BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { PrivateRoutes } from "./component/private-routes";
-// import { useAuthContext } from "./hook/auth-context";
 
 function App() {
   // const auth = useAuthContext();
@@ -41,6 +42,7 @@ function App() {
           <Route path="/my-feeds" element={<div>my-feeds</div>} />
           <Route path="/friends" element={<div>friends</div>} />
           <Route path="/feed/:feedId" element={<Feed />} />
+          <Route path="/article/:articleId" element={<Article />} />
         </Route>
         <Route path="/auth" element={<Auth to="/home" />} />
         <Route path="/error" element={<div>Error</div>} />

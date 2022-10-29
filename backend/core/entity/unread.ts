@@ -25,22 +25,23 @@ export const UnreadEntity = new Entity(
         },
         sk: {
           field: "gsi1sk",
-          composite: ["feedId", "articleId"],
+          // composite: ["feedId", "articleId"],
+          composite: ["articleId"],
         },
       },
 
-      feed_: {
-        collection: "feed",
-        index: "gsi2",
-        pk: {
-          field: "gsi2pk",
-          composite: ["feedId"],
-        },
-        sk: {
-          field: "gsi2sk",
-          composite: ["articleId", "userId"],
-        },
-      },
+      // feed_: {
+      //   collection: "feed",
+      //   index: "gsi2",
+      //   pk: {
+      //     field: "gsi2pk",
+      //     composite: ["feedId"],
+      //   },
+      //   sk: {
+      //     field: "gsi2sk",
+      //     composite: ["articleId", "userId"],
+      //   },
+      // },
 
       article_: {
         collection: "article",
@@ -51,7 +52,7 @@ export const UnreadEntity = new Entity(
         },
         sk: {
           field: "gsi3sk",
-          composite: ["userId", "feedId"],
+          composite: ["userId"],
         },
       },
     },
@@ -74,10 +75,10 @@ export const UnreadEntity = new Entity(
         required: true,
       },
 
-      feedId: {
-        type: "string",
-        required: true,
-      },
+      // feedId: {
+      //   type: "string",
+      //   required: true,
+      // },
 
       articleId: {
         type: "string",

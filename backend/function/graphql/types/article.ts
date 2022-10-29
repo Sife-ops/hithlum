@@ -32,6 +32,7 @@ ArticleType.implement({
       type: UnreadType,
       resolve: (p) => p.articleId,
       load: async (articleIds: string[], { user: { userId } }) => {
+        // todo: only pull 3 months of records?
         const { data: unreads } = await UnreadEntity.query
           .user_({ userId })
           .go();

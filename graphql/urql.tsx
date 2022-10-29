@@ -61,17 +61,22 @@ export type MutationAddFeedArgs = {
 
 export type MutationSetUnreadArgs = {
   articleId: Scalars['String'];
-  feedId: Scalars['String'];
   value: Scalars['Boolean'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  article: Article;
   feed: Feed;
   feeds: Array<Feed>;
   hello: Scalars['String'];
   recentArticles: Array<Article>;
   recentFeeds: Array<Feed>;
+};
+
+
+export type QueryArticleArgs = {
+  articleId: Scalars['String'];
 };
 
 
@@ -83,6 +88,21 @@ export type Unread = {
   __typename?: 'Unread';
   value: Scalars['Boolean'];
 };
+
+export type SetUnreadMutationVariables = Exact<{
+  articleId: Scalars['String'];
+  value: Scalars['Boolean'];
+}>;
+
+
+export type SetUnreadMutation = { __typename?: 'Mutation', setUnread: { __typename?: 'Unread', value: boolean } };
+
+export type ArticleQueryVariables = Exact<{
+  articleId: Scalars['String'];
+}>;
+
+
+export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, enclosure?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
 
 export type FeedQueryVariables = Exact<{
   feedId: Scalars['String'];
@@ -114,6 +134,43 @@ export type AddFeedMutationVariables = Exact<{
 export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string } };
 
 
+export const SetUnreadDocument = gql`
+    mutation setUnread($articleId: String!, $value: Boolean!) {
+  setUnread(articleId: $articleId, value: $value) {
+    value
+  }
+}
+    `;
+
+export function useSetUnreadMutation() {
+  return Urql.useMutation<SetUnreadMutation, SetUnreadMutationVariables>(SetUnreadDocument);
+};
+export const ArticleDocument = gql`
+    query article($articleId: String!) {
+  article(articleId: $articleId) {
+    articleId
+    feedId
+    categories
+    content
+    contentSnippet
+    creator
+    enclosure
+    guid
+    isoDate
+    link
+    pubDate
+    summary
+    title
+    unread {
+      value
+    }
+  }
+}
+    `;
+
+export function useArticleQuery(options: Omit<Urql.UseQueryArgs<ArticleQueryVariables>, 'query'>) {
+  return Urql.useQuery<ArticleQuery, ArticleQueryVariables>({ query: ArticleDocument, ...options });
+};
 export const FeedDocument = gql`
     query feed($feedId: String!) {
   feed(feedId: $feedId) {

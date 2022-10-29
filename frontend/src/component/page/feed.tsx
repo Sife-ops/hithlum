@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
 import { Feed as FeedType, useFeedQuery } from "@hithlum/graphql/urql";
 import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
 export const Feed = () => {
   const { feedId } = useParams();
@@ -31,9 +31,13 @@ export const Feed = () => {
             {feed.articles.map((article) => (
               <div key={article.articleId}>
                 <div>{article.title}</div>
+                <div>{article.unread.value ? "unread" : "read"}</div>
                 <div>{article.link}</div>
                 <div>{article.summary}</div>
                 <div>{article.isoDate}</div>
+                <div>
+                  <Link to={"/article/" + article.articleId}>read</Link>
+                </div>
               </div>
             ))}
           </div>

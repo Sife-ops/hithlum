@@ -1,5 +1,38 @@
 import { graphql } from "@hithlum/graphql/gql";
 
+const setUnread = graphql(`
+  mutation setUnread($articleId: String!, $value: Boolean!) {
+    setUnread(articleId: $articleId, value: $value) {
+      value
+    }
+  }
+`)
+
+const article = graphql(`
+  query article($articleId: String!) {
+    article(articleId: $articleId) {
+      articleId
+      feedId
+
+      categories
+      content
+      contentSnippet
+      creator
+      enclosure
+      guid
+      isoDate
+      link
+      pubDate
+      summary
+      title
+
+      unread {
+        value
+      }
+    }
+  }
+`);
+
 const feed = graphql(`
   query feed($feedId: String!) {
     feed(feedId: $feedId) {

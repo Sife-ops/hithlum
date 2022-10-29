@@ -8,11 +8,10 @@ builder.mutationFields((t) => ({
   setUnread: t.field({
     type: UnreadType,
     args: {
-      feedId: t.arg.string({ required: true }),
       articleId: t.arg.string({ required: true }),
       value: t.arg.boolean({ required: true }),
     },
-    resolve: async (_, { articleId, value, feedId }, { user: { userId } }) => {
+    resolve: async (_, { articleId, value }, { user: { userId } }) => {
       const {
         data: [foundUnread],
       } = await UnreadEntity.query.article_({ articleId, userId }).go();
@@ -32,7 +31,6 @@ builder.mutationFields((t) => ({
       } else {
         const { data } = await UnreadEntity.create({
           articleId,
-          feedId,
           userId,
         }).go();
 
