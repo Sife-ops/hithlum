@@ -12,7 +12,7 @@ FeedType.implement({
     inputUrl: t.exposeString("inputUrl"),
     private: t.exposeString("inputUrl"),
 
-    feedUrl: t.exposeString("title", { nullable: true }),
+    feedUrl: t.exposeString("feedUrl", { nullable: true }),
     imageUrl: t.exposeString("imageUrl", { nullable: true }),
     title: t.exposeString("title", { nullable: true }),
     description: t.exposeString("description", { nullable: true }),

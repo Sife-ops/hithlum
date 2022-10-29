@@ -16,6 +16,18 @@ ArticleType.implement({
     articleId: t.exposeID("articleId"),
     feedId: t.exposeString("feedId"),
 
+    categories: t.exposeString("categories", { nullable: true }),
+    content: t.exposeString("content", { nullable: true }),
+    contentSnippet: t.exposeString("contentSnippet", { nullable: true }),
+    creator: t.exposeString("creator", { nullable: true }),
+    enclosure: t.exposeString("enclosure", { nullable: true }),
+    guid: t.exposeString("guid", { nullable: true }),
+    isoDate: t.exposeString("isoDate", { nullable: true }),
+    link: t.exposeString("link", { nullable: true }),
+    pubDate: t.exposeString("pubDate", { nullable: true }),
+    summary: t.exposeString("summary", { nullable: true }),
+    title: t.exposeString("title", { nullable: true }),
+
     unread: t.loadable({
       type: UnreadType,
       resolve: (p) => p.articleId,

@@ -18,7 +18,18 @@ export type Scalars = {
 export type Article = {
   __typename?: 'Article';
   articleId: Scalars['ID'];
+  categories?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  contentSnippet?: Maybe<Scalars['String']>;
+  creator?: Maybe<Scalars['String']>;
+  enclosure?: Maybe<Scalars['String']>;
   feedId: Scalars['String'];
+  guid?: Maybe<Scalars['String']>;
+  isoDate?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  pubDate?: Maybe<Scalars['String']>;
+  summary?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
   unread: Unread;
 };
 
@@ -85,7 +96,7 @@ export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __ty
 export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, unread: { __typename?: 'Unread', value: boolean } }> };
+export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, enclosure?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null }> };
 
 export type AddFeedMutationVariables = Exact<{
   url: Scalars['String'];
@@ -126,9 +137,17 @@ export const RecentArticlesDocument = gql`
   recentArticles {
     articleId
     feedId
-    unread {
-      value
-    }
+    categories
+    content
+    contentSnippet
+    creator
+    enclosure
+    guid
+    isoDate
+    link
+    pubDate
+    summary
+    title
   }
 }
     `;

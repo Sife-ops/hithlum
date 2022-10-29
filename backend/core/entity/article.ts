@@ -103,8 +103,17 @@ export const ArticleEntity = new Entity(
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
 
-      title: { type: "string" },
+      categories: { type: "string" },
+      content: { type: "string" },
+      contentSnippet: { type: "string" },
+      creator: { type: "string" },
+      enclosure: { type: "string" },
+      guid: { type: "string" },
       isoDate: { type: "string" },
+      link: { type: "string" },
+      pubDate: { type: "string" },
+      summary: { type: "string" },
+      title: { type: "string" },
     },
   },
   Dynamo.Configuration

@@ -26,9 +26,17 @@ const recentArticles = graphql(`
     recentArticles {
       articleId
       feedId
-      unread {
-        value
-      }
+      categories
+      content
+      contentSnippet
+      creator
+      enclosure
+      guid
+      isoDate
+      link
+      pubDate
+      summary
+      title
     }
   }
 `);
@@ -40,4 +48,3 @@ const addFeed = graphql(`
     }
   }
 `);
-
