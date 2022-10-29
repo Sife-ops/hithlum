@@ -81,21 +81,27 @@ export const FeedEntity = new Entity(
         default: () => ulid(),
       },
 
+      inputUrl: {
+        type: "string",
+        required: true,
+      },
+
       createdAt: {
         type: "number",
         required: true,
         default: () => Date.now(),
       },
 
+      createdAt_isoDate: {
+        type: "string",
+        required: true,
+        default: () => new Date().toISOString(),
+      },
+
       private: {
         type: "boolean",
         required: true,
         default: () => false,
-      },
-
-      inputUrl: {
-        type: "string",
-        required: true,
       },
 
       //////////////////////////////////////////////////////////////////////////

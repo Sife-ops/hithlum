@@ -12,6 +12,7 @@ builder.queryFields((t) => ({
     resolve: () => "hello",
   }),
 
+  // todo: retarded and doesn't work
   recentFeeds: t.field({
     type: [FeedType],
     resolve: async () => {
@@ -20,7 +21,7 @@ builder.queryFields((t) => ({
       const { data } = await FeedEntity.query
         .recent_({})
         .gt({ createdAt: since })
-        .go({ limit: 10 });
+        .go({ limit: 10, order: "desc" });
 
       return data;
     },
@@ -34,7 +35,7 @@ builder.queryFields((t) => ({
       const { data } = await ArticleEntity.query
         .recent_({})
         .gt({ isoDate_millis: since })
-        .go({ limit: 10 });
+        .go({ limit: 10, order: "desc" });
 
       return data;
     },

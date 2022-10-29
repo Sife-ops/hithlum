@@ -64,7 +64,8 @@ export const ArticleEntity = new Entity(
         },
         sk: {
           field: "gsi4sk",
-          composite: ["createdAt", "isoDate_millis"],
+          // todo: can use createdAt?
+          composite: ["isoDate_millis"],
         },
       },
     },

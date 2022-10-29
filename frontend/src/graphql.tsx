@@ -11,6 +11,8 @@ const recentFeeds = graphql(`
     recentFeeds {
       feedId
       inputUrl
+      private
+      createdAt_isoDate
 
       feedUrl
       imageUrl
@@ -26,6 +28,7 @@ const recentArticles = graphql(`
     recentArticles {
       articleId
       feedId
+
       categories
       content
       contentSnippet

@@ -10,7 +10,8 @@ FeedType.implement({
   fields: (t) => ({
     feedId: t.exposeID("feedId"),
     inputUrl: t.exposeString("inputUrl"),
-    private: t.exposeString("inputUrl"),
+    private: t.exposeBoolean("private"),
+    createdAt_isoDate: t.exposeString("createdAt_isoDate"),
 
     feedUrl: t.exposeString("feedUrl", { nullable: true }),
     imageUrl: t.exposeString("imageUrl", { nullable: true }),

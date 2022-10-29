@@ -36,13 +36,14 @@ export type Article = {
 export type Feed = {
   __typename?: 'Feed';
   articles: Array<Article>;
+  createdAt_isoDate: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   feedId: Scalars['ID'];
   feedUrl?: Maybe<Scalars['String']>;
   imageUrl?: Maybe<Scalars['String']>;
   inputUrl: Scalars['String'];
   link?: Maybe<Scalars['String']>;
-  private: Scalars['String'];
+  private: Scalars['Boolean'];
   title?: Maybe<Scalars['String']>;
 };
 
@@ -91,7 +92,7 @@ export type HelloQuery = { __typename?: 'Query', hello: string };
 export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null }> };
+export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null }> };
 
 export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -120,6 +121,8 @@ export const RecentFeedsDocument = gql`
   recentFeeds {
     feedId
     inputUrl
+    private
+    createdAt_isoDate
     feedUrl
     imageUrl
     title
