@@ -1,6 +1,6 @@
 import { builder } from "../../builder";
 import { hithlumModel } from "@hithlum/core/model";
-import { UnreadType } from "../feed";
+import { UnreadType } from "../article";
 
 const { UnreadEntity } = hithlumModel.entities;
 
