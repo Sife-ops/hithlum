@@ -12,7 +12,6 @@ builder.queryFields((t) => ({
     resolve: () => "hello",
   }),
 
-  // todo: retarded and doesn't work
   recentFeeds: t.field({
     type: [FeedType],
     resolve: async () => {
