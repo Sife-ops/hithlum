@@ -1,6 +1,6 @@
 # todo
 
-- spa construct
+- spa construct :heavy_check_mark:
 - graphql
     - mutation
         - updateUnread
