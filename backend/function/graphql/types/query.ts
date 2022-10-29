@@ -1,5 +1,6 @@
+import { ArticleType } from "./article";
 import { FeedEntityType } from "@hithlum/core/entity/feed";
-import { FeedType, ArticleType } from "./feed";
+import { FeedType } from "./feed";
 import { builder } from "../builder";
 import { hithlumModel } from "@hithlum/core/model";
 
