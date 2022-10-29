@@ -1,12 +1,13 @@
-import "./App.css";
+// import "./App.css";
 import { Auth } from "./component/page/auth";
-import { Link, BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Dev } from "./component/page/dev";
+import { Home } from "./component/page/home";
+import { Link, BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { PrivateRoutes } from "./component/private-routes";
-import { useAuthContext } from "./hook/auth-context";
+// import { useAuthContext } from "./hook/auth-context";
 
 function App() {
-  const auth = useAuthContext();
+  // const auth = useAuthContext();
 
   return (
     <BrowserRouter>
@@ -35,11 +36,12 @@ function App() {
           }
         >
           <Route path="/dev" element={<Dev />} />
-          <Route path="/home" element={<div>home</div>} />
+          <Route path="/home" element={<Home />} />
           <Route path="/my-feeds" element={<div>my-feeds</div>} />
           <Route path="/friends" element={<div>friends</div>} />
+          <Route path="/feed/:feedId" element={<div>feed</div>} />
         </Route>
-        <Route path="/auth" element={<Auth to="/dev" />} />
+        <Route path="/auth" element={<Auth to="/home" />} />
         <Route path="/error" element={<div>Error</div>} />
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>

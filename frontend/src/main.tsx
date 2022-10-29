@@ -1,9 +1,9 @@
-import React from "react";
-import { Provider, createClient } from "urql";
+// import "./index.css";
+// import React from "react";
+import App from "./App";
 import ReactDOM from "react-dom/client";
 import { AuthContextProvider } from "./hook/auth-context";
-import App from "./App";
-import "./index.css";
+import { Provider, createClient } from "urql";
 
 const urql = createClient({
   url: import.meta.env.VITE_API_URL + "/graphql",
