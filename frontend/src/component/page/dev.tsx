@@ -45,7 +45,13 @@ export const Dev = () => {
   useEffect(() => {
     const { fetching, data } = recentArticlesQueryState;
     if (!fetching && data) {
-      setRecentArticles(data.recentArticles as Article[]);
+      let desc = data.recentArticles;
+      desc.sort((a, b) => {
+        const aa = Date.parse(a.isoDate!);
+        const bb = Date.parse(b.isoDate!);
+        return bb - aa;
+      });
+      setRecentArticles(desc as Article[]);
     }
   }, [recentFeedsQueryState.data]);
 
@@ -71,19 +77,12 @@ export const Dev = () => {
         <h3>recent articles</h3>
         {recentArticles?.length > 0 && (
           <div>
-            {(() => {
-              const desc = recentArticles.sort((a, b) => {
-                const aa = Date.parse(a.isoDate!);
-                const bb = Date.parse(b.isoDate!);
-                return bb - aa;
-              });
-              return desc.map((article) => (
-                <div key={article.articleId}>
-                  <div>title: {article.title}</div>
-                  <div>isoDate: {article.isoDate}</div>
-                </div>
-              ));
-            })()}
+            {recentArticles.map((article) => (
+              <div key={article.articleId}>
+                <div>title: {article.title}</div>
+                <div>isoDate: {article.isoDate}</div>
+              </div>
+            ))}
           </div>
         )}
       </div>

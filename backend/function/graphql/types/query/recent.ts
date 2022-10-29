@@ -20,7 +20,7 @@ builder.queryFields((t) => ({
       const { data } = await FeedEntity.query
         .recent_({})
         .gt({ createdAt: since })
-        .go({ limit: 20 });
+        .go({ limit: 10 });
 
       return data;
     },
@@ -34,7 +34,7 @@ builder.queryFields((t) => ({
       const { data } = await ArticleEntity.query
         .recent_({})
         .gt({ isoDate_millis: since })
-        .go({ limit: 20 });
+        .go({ limit: 10 });
 
       return data;
     },
