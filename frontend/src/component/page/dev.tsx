@@ -1,5 +1,5 @@
 import { graphql } from "@hithlum/graphql/gql";
-import { useHelloQuery, useWorldQuery } from "@hithlum/graphql/urql";
+import { useHelloQuery } from "@hithlum/graphql/urql";
 import { useEffect } from "react";
 
 const hello = graphql(`
@@ -8,15 +8,9 @@ const hello = graphql(`
   }
 `);
 
-const world = graphql(`
-  query world {
-    world
-  }
-`);
-
 export const Dev = () => {
   const [helloQueryState] = useHelloQuery();
-  const [worldQueryState] = useWorldQuery();
+  // const [worldQueryState] = useWorldQuery();
 
   useEffect(() => {
     const { fetching, data } = helloQueryState;
@@ -25,12 +19,12 @@ export const Dev = () => {
     }
   }, [helloQueryState.data]);
 
-  useEffect(() => {
-    const { fetching, data } = worldQueryState;
-    if (!fetching) {
-      console.log(data);
-    }
-  }, [worldQueryState.data]);
+  // useEffect(() => {
+  //   const { fetching, data } = worldQueryState;
+  //   if (!fetching) {
+  //     console.log(data);
+  //   }
+  // }, [worldQueryState.data]);
 
   return (
     <div>

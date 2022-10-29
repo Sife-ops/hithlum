@@ -46,3 +46,11 @@ constructs:
     type: queue
     worker:
       handler: function/article-queue-worker.main
+
+  frontend:
+    type: single-page-app
+    path: ../frontend/dist
+    domain:
+      - ${self:custom.global.domain.${self:provider.stage}}
+      - www.${self:custom.global.domain.${self:provider.stage}}
+    certificate: ${self:custom.global.certificate.${self:provider.stage}}
