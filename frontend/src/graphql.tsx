@@ -5,11 +5,3 @@ const hello = graphql(`
     hello
   }
 `);
-
-const addFeed = graphql(`
-  mutation addFeed($url: String!) {
-    addFeed(url: $url) {
-      feedId
-    }
-  }
-`);

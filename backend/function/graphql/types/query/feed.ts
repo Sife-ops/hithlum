@@ -18,7 +18,7 @@ builder.queryFields((t) => ({
         .then((res) => res.data[0]),
   }),
 
-  feeds: t.field({
+  myFeeds: t.field({
     type: [FeedType],
     resolve: async (_, __, { user: { userId } }) => {
       const { data: userFeeds } = await UserFeedEntity.query

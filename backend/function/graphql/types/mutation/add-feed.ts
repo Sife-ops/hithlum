@@ -35,9 +35,7 @@ builder.mutationFields((t) => ({
         const {
           data: [foundUserFeed],
         } = await UserFeedEntity.query
-          .user_({
-            userId,
-          })
+          .user_({ userId })
           .where(({ feedId }, { eq }) => eq(feedId, feed.feedId))
           .go();
 

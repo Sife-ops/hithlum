@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-type Context = {
+type AuthContextType = {
   signedIn: boolean;
   setSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
   signOut: () => void;
 };
 
-const useContext = (): Context => {
+const authContext = (): AuthContextType => {
   const [signedIn, setSignedIn] = useState(true);
 
   useEffect(() => {
@@ -32,10 +32,10 @@ const useContext = (): Context => {
   };
 };
 
-const AuthContext = React.createContext<Context | undefined>(undefined);
+const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 
 export const AuthContextProvider = (props: { children: React.ReactNode }) => {
-  const context = useContext();
+  const context = authContext();
 
   return (
     <AuthContext.Provider value={context}>

@@ -2,6 +2,7 @@
 // import { useAuthContext } from "./hook/auth-context";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { UserContextProvider } from "./hook/user-context";
 
 import { Article } from "./component/page/article";
 import { Auth } from "./component/page/auth";
@@ -22,8 +23,10 @@ function App() {
           path="/"
           element={
             <div>
-              <Navigation />
-              <PrivateRoutes errorTo="/error" />
+              <UserContextProvider>
+                <Navigation />
+                <PrivateRoutes errorTo="/error" />
+              </UserContextProvider>
             </div>
           }
         >

@@ -68,8 +68,8 @@ export type Query = {
   __typename?: 'Query';
   article: Article;
   feed: Feed;
-  feeds: Array<Feed>;
   hello: Scalars['String'];
+  myFeeds: Array<Feed>;
   recentArticles: Array<Article>;
   recentFeeds: Array<Feed>;
 };
@@ -121,17 +121,22 @@ export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null }, unread: { __typename?: 'Unread', value: boolean } }> };
 
-export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type HelloQuery = { __typename?: 'Query', hello: string };
-
 export type AddFeedMutationVariables = Exact<{
   url: Scalars['String'];
 }>;
 
 
 export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string } };
+
+export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HelloQuery = { __typename?: 'Query', hello: string };
+
+export type MyFeedsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyFeedsQuery = { __typename?: 'Query', myFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> }> };
 
 
 export const ArticleDocument = gql`
@@ -261,15 +266,6 @@ export const RecentArticlesDocument = gql`
 export function useRecentArticlesQuery(options?: Omit<Urql.UseQueryArgs<RecentArticlesQueryVariables>, 'query'>) {
   return Urql.useQuery<RecentArticlesQuery, RecentArticlesQueryVariables>({ query: RecentArticlesDocument, ...options });
 };
-export const HelloDocument = gql`
-    query hello {
-  hello
-}
-    `;
-
-export function useHelloQuery(options?: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'>) {
-  return Urql.useQuery<HelloQuery, HelloQueryVariables>({ query: HelloDocument, ...options });
-};
 export const AddFeedDocument = gql`
     mutation addFeed($url: String!) {
   addFeed(url: $url) {
@@ -280,4 +276,48 @@ export const AddFeedDocument = gql`
 
 export function useAddFeedMutation() {
   return Urql.useMutation<AddFeedMutation, AddFeedMutationVariables>(AddFeedDocument);
+};
+export const HelloDocument = gql`
+    query hello {
+  hello
+}
+    `;
+
+export function useHelloQuery(options?: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'>) {
+  return Urql.useQuery<HelloQuery, HelloQueryVariables>({ query: HelloDocument, ...options });
+};
+export const MyFeedsDocument = gql`
+    query myFeeds {
+  myFeeds {
+    feedId
+    inputUrl
+    createdAt_isoDate
+    feedUrl
+    imageUrl
+    title
+    description
+    link
+    articles {
+      articleId
+      feedId
+      categories
+      content
+      contentSnippet
+      creator
+      guid
+      isoDate
+      link
+      pubDate
+      summary
+      title
+      unread {
+        value
+      }
+    }
+  }
+}
+    `;
+
+export function useMyFeedsQuery(options?: Omit<Urql.UseQueryArgs<MyFeedsQueryVariables>, 'query'>) {
+  return Urql.useQuery<MyFeedsQuery, MyFeedsQueryVariables>({ query: MyFeedsDocument, ...options });
 };
