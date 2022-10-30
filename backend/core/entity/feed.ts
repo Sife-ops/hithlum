@@ -66,6 +66,18 @@ export const FeedEntity = new Entity(
           composite: ["createdAt"],
         },
       },
+
+      feedUrl_: {
+        index: "gsi5",
+        pk: {
+          field: "gsi5pk",
+          composite: ["feedUrl"],
+        },
+        sk: {
+          field: "gsi5sk",
+          composite: [],
+        },
+      },
     },
 
     model: {
@@ -108,7 +120,7 @@ export const FeedEntity = new Entity(
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
 
-      feedUrl: { type: "string" },
+      feedUrl: { type: "string", required: true },
 
       // todo: feed fields
       // image: {

@@ -20,12 +20,9 @@ builder.mutationFields((t) => ({
     resolve: async (_, { url }, { user: { userId } }) => {
       const parsed = await parser.parseURL(url);
 
-      // todo: don't use scan
       const {
         data: [foundFeed],
-      } = await FeedEntity.scan
-        .where(({ feedUrl }, { eq }) => eq(feedUrl, parsed.feedUrl))
-        .go();
+      } = await FeedEntity.query.feedUrl_({ feedUrl: url }).go();
 
       let feed: any;
       if (foundFeed) {
@@ -43,8 +40,9 @@ builder.mutationFields((t) => ({
       } else {
         // create feed
         const { data } = await FeedEntity.create({
-          inputUrl: url,
           ...parsed,
+          inputUrl: url,
+          feedUrl: parsed.feedUrl || url,
           imageUrl: parsed.image?.url,
         }).go();
 
