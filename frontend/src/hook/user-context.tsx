@@ -5,12 +5,16 @@ import {
   useMyFeedsMutation,
   Feed,
   useUpdateFeedMutation,
+  useAddFeedMutation,
 } from "@hithlum/graphql/urql";
 
 type UserContextType = {
   myFeeds: Feed[] | undefined;
   updateFeeds: () => void;
   updatingFeed: string | undefined;
+  setNewFeedUrl: React.Dispatch<React.SetStateAction<string>>;
+  addFeed: () => void;
+  newFeedUrl: string;
 };
 
 const userContext = (): UserContextType => {
@@ -31,6 +35,14 @@ const userContext = (): UserContextType => {
     }
   }, [myFeedsMutationState.data]);
 
+  const [___, addFeedMutation] = useAddFeedMutation();
+  const [newFeedUrl, setNewFeedUrl] = useState("");
+  const addFeed = async () => {
+    await addFeedMutation({ url: newFeedUrl });
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // todo: don't use this syntax
+    await myFeedsMutation({});
+  };
+
   const [__, updateFeedmutation] = useUpdateFeedMutation();
   const [updatingFeed, setUpdatingFeed] = useState<string>();
   const updateFeeds = async () => {
@@ -49,7 +61,10 @@ const userContext = (): UserContextType => {
   return {
     myFeeds,
     updateFeeds,
+    setNewFeedUrl,
+    newFeedUrl,
     updatingFeed,
+    addFeed,
   };
 };
 
@@ -72,6 +87,14 @@ export const useUserContext = () => {
   }
   return context;
 };
+
+const addFeed = graphql(`
+  mutation addFeed($url: String!) {
+    addFeed(url: $url) {
+      feedId
+    }
+  }
+`);
 
 const updateFeed = graphql(`
   mutation updateFeed($feedId: String!) {

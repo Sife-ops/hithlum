@@ -1,15 +1,10 @@
 import React from "react";
-import { Feed as FeedType, useAddFeedMutation } from "@hithlum/graphql/urql";
-import { graphql } from "@hithlum/graphql/gql";
-import { useState } from "react";
+import { Feed as FeedType } from "@hithlum/graphql/urql";
 import { useUserContext } from "../../hook/user-context";
 import { Link } from "react-router-dom";
 
 export const MyFeeds = () => {
-  const [feedUrl, setFeedUrl] = useState("");
-  const [_, addFeed] = useAddFeedMutation();
   const ctx = useUserContext();
-  const [feedId, setFeedId] = useState("");
 
   return (
     <div>
@@ -18,18 +13,17 @@ export const MyFeeds = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          addFeed({ url: feedUrl }).then((e) => {
-            console.log("error", e.error);
-          });
+          ctx.addFeed();
         }}
       >
-        <input value={feedUrl} onChange={(e) => setFeedUrl(e.target.value)} />
+        <input
+          value={ctx.newFeedUrl}
+          onChange={(e) => ctx.setNewFeedUrl(e.target.value)}
+        />
         <button type="submit">save</button>
       </form>
       <div>
-        <button onClick={async () => ctx.updateFeeds()}>
-          update feeds
-        </button>
+        <button onClick={async () => ctx.updateFeeds()}>update feeds</button>
         {ctx.updatingFeed && <div>{ctx.updatingFeed}</div>}
       </div>
       <h2>Feeds</h2>
@@ -62,11 +56,3 @@ export const Feed: React.FC<{ feed: FeedType }> = (p) => {
     </div>
   );
 };
-
-const addFeed = graphql(`
-  mutation addFeed($url: String!) {
-    addFeed(url: $url) {
-      feedId
-    }
-  }
-`);
