@@ -1,6 +1,7 @@
+import _ from "lodash";
+import React, { useState, useEffect } from "react";
 import { graphql } from "@hithlum/graphql/gql";
 import { useMyFeedsQuery, Feed } from "@hithlum/graphql/urql";
-import React, { useState, useEffect } from "react";
 
 type UserContextType = {
   myFeeds: Feed[] | undefined;
@@ -12,7 +13,10 @@ const userContext = (): UserContextType => {
   useEffect(() => {
     const { fetching, data } = myFeedsQueryState;
     if (!fetching && data) {
-      setMyFeeds(data.myFeeds as Feed[]);
+      const desc = _.reverse(
+        _.sortBy(data.myFeeds, [(feed) => feed.articles[0].isoDate])
+      );
+      setMyFeeds(desc as Feed[]);
     }
   }, [myFeedsQueryState.data]);
 

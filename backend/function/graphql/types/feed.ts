@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { ArticleType } from "./article";
 import { FeedEntityType } from "@hithlum/core/entity/feed";
 import { builder } from "../builder";
@@ -26,7 +27,9 @@ FeedType.implement({
         ArticleEntity.query
           .feed_({ feedId })
           .go()
-          .then((e) => e.data),
+          .then((e) => e.data)
+          // todo: sort with options
+          .then((e) => _.reverse(_.sortBy(e, [(o) => o.isoDate_millis]))),
     }),
   }),
 });

@@ -1,7 +1,9 @@
+import React from "react";
+import { Feed as FeedType, useAddFeedMutation } from "@hithlum/graphql/urql";
 import { graphql } from "@hithlum/graphql/gql";
-import { useUserContext } from "../../hook/user-context";
-import { useAddFeedMutation } from "@hithlum/graphql/urql";
 import { useState } from "react";
+import { useUserContext } from "../../hook/user-context";
+import { Link } from "react-router-dom";
 
 export const MyFeeds = () => {
   const [feedUrl, setFeedUrl] = useState("");
@@ -24,11 +26,32 @@ export const MyFeeds = () => {
         <button type="submit">save</button>
       </form>
       <h2>Feeds</h2>
-      {myFeeds?.map((feed) => (
-        <div key={feed.feedId}>
-          <div>{feed.title}</div>
-        </div>
+      <MyFeedsList feeds={myFeeds} />
+    </div>
+  );
+};
+
+export const MyFeedsList: React.FC<{ feeds: FeedType[] | undefined }> = (p) => {
+  return (
+    <div>
+      {p.feeds?.map((feed) => (
+        <Feed feed={feed} key={feed.feedId} />
       ))}
+    </div>
+  );
+};
+
+export const Feed: React.FC<{ feed: FeedType }> = (p) => {
+  const firstArticle = p.feed.articles[0];
+  return (
+    <div>
+      <div>{p.feed.title}</div>
+      {p.feed.description && <div>{p.feed.description}</div>}
+      <div>
+        <div>{firstArticle.title}</div>
+        <div>{firstArticle.isoDate}</div>
+      </div>
+      <Link to={"/feed/" + p.feed.feedId}>more...</Link>
     </div>
   );
 };
