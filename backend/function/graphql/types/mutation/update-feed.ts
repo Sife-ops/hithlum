@@ -1,12 +1,9 @@
 import _ from "lodash";
-import AWS from "aws-sdk";
 import rss from "rss-parser";
 import { builder } from "../../builder";
 import { hithlumModel } from "@hithlum/core/model";
-import { ulid } from "ulid";
+import { sendArticlesBatch } from "./common";
 
-const { ARTICLE_QUEUE } = process.env;
-const sqs = new AWS.SQS();
 const parser = new rss();
 
 builder.mutationFields((t) => ({
@@ -55,21 +52,7 @@ builder.mutationFields((t) => ({
         newArticles = orderedArticles_.slice(0, lastUpdatedIndex);
       }
 
-      // todo: duplicated from "add-feed.ts"
-      for (const articleChunk of _.chunk(newArticles, 10)) {
-        await sqs
-          .sendMessageBatch({
-            QueueUrl: ARTICLE_QUEUE!,
-            Entries: articleChunk.map((e) => ({
-              Id: ulid(),
-              MessageBody: JSON.stringify({
-                ...e,
-                feedId: feed.feedId,
-              }),
-            })),
-          })
-          .promise();
-      }
+      await sendArticlesBatch(newArticles, feed.feedId);
 
       return `${newArticles.length} new articles`;
     },

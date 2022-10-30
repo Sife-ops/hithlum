@@ -1,12 +1,11 @@
-import AWS from "aws-sdk";
 import lodash from "lodash";
 import rss from "rss-parser";
 import { FeedType } from "../feed";
 import { builder } from "../../builder";
 import { hithlumModel } from "@hithlum/core/model";
+import { sendArticlesBatch } from "./common";
 import { ulid } from "ulid";
 
-const sqs = new AWS.SQS();
 const parser = new rss();
 const { FeedEntity, UserFeedEntity } = hithlumModel.entities;
 const { ARTICLE_QUEUE } = process.env;
@@ -48,21 +47,7 @@ builder.mutationFields((t) => ({
 
         feed = data;
 
-        // create articles
-        for (const articleChunk of lodash.chunk(parsed.items, 10)) {
-          await sqs
-            .sendMessageBatch({
-              QueueUrl: ARTICLE_QUEUE!,
-              Entries: articleChunk.map((e) => ({
-                Id: ulid(),
-                MessageBody: JSON.stringify({
-                  ...e,
-                  feedId: feed.feedId,
-                }),
-              })),
-            })
-            .promise();
-        }
+        await sendArticlesBatch(parsed.items, data.feedId);
       }
 
       await UserFeedEntity.create({ userId, feedId: feed.feedId }).go();
