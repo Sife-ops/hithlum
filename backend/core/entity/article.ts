@@ -38,7 +38,7 @@ export const ArticleEntity = new Entity(
         },
         sk: {
           field: "gsi2sk",
-          composite: [],
+          composite: ["isoDate"],
         },
       },
 
@@ -65,7 +65,7 @@ export const ArticleEntity = new Entity(
         sk: {
           field: "gsi4sk",
           // todo: can use createdAt?
-          composite: ["isoDate_millis"],
+          composite: ["isoDate"],
         },
       },
     },
@@ -94,12 +94,6 @@ export const ArticleEntity = new Entity(
         default: () => Date.now(),
       },
 
-      isoDate_millis: {
-        type: "number",
-        required: true,
-        default: () => Date.now(),
-      },
-
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
@@ -110,7 +104,11 @@ export const ArticleEntity = new Entity(
       creator: { type: "string" },
       // enclosure: { type: "string" },
       guid: { type: "string" },
-      isoDate: { type: "string" },
+      isoDate: {
+        type: "string",
+        required: true,
+        default: () => new Date().toISOString(),
+      },
       link: { type: "string" },
       pubDate: { type: "string" },
       summary: { type: "string" },

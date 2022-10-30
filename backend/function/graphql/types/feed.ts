@@ -26,10 +26,8 @@ FeedType.implement({
       resolve: ({ feedId }) =>
         ArticleEntity.query
           .feed_({ feedId })
-          .go()
-          .then((e) => e.data)
-          // todo: sort with options
-          .then((e) => _.reverse(_.sortBy(e, [(o) => o.isoDate_millis]))),
+          .go({ order: "desc" })
+          .then((e) => e.data),
     }),
   }),
 });
