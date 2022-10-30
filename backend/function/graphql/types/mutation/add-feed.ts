@@ -1,14 +1,11 @@
-import lodash from "lodash";
 import rss from "rss-parser";
 import { FeedType } from "../feed";
 import { builder } from "../../builder";
 import { hithlumModel } from "@hithlum/core/model";
 import { sendArticlesBatch } from "./common";
-import { ulid } from "ulid";
 
 const parser = new rss();
 const { FeedEntity, UserFeedEntity } = hithlumModel.entities;
-const { ARTICLE_QUEUE } = process.env;
 
 builder.mutationFields((t) => ({
   addFeed: t.field({
@@ -17,7 +14,9 @@ builder.mutationFields((t) => ({
       url: t.arg.string({ required: true }),
     },
     resolve: async (_, { url }, { user: { userId } }) => {
-      const parsed = await parser.parseURL(url);
+      const parsed = await parser.parseURL(url).catch((e) => {
+        throw new Error(`RSS parser: ${e}`);
+      });
 
       const {
         data: [foundFeed],

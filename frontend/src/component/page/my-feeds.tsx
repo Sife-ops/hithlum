@@ -27,12 +27,12 @@ export const MyFeeds = () => {
         {ctx.updatingFeed && <div>{ctx.updatingFeed}</div>}
       </div>
       <h2>Feeds</h2>
-      <MyFeedsList feeds={ctx.myFeeds} />
+      <Feeds feeds={ctx.myFeeds} />
     </div>
   );
 };
 
-export const MyFeedsList: React.FC<{ feeds: FeedType[] | undefined }> = (p) => {
+export const Feeds: React.FC<{ feeds: FeedType[] | undefined }> = (p) => {
   return (
     <div>
       {p.feeds?.map((feed) => (
@@ -46,13 +46,17 @@ export const Feed: React.FC<{ feed: FeedType }> = (p) => {
   const firstArticle = p.feed.articles[0];
   return (
     <div>
-      <div>{p.feed.title}</div>
+      <div>
+        <Link to={"/feed/" + p.feed.feedId}>{p.feed.title}</Link>
+      </div>
       {p.feed.description && <div>{p.feed.description}</div>}
       <div>
-        <div>{firstArticle.title}</div>
+        <div>
+          {firstArticle.title}{" "}
+          <Link to={"/article/" + firstArticle.articleId}>Read...</Link>
+        </div>
         <div>{firstArticle.isoDate}</div>
       </div>
-      <Link to={"/feed/" + p.feed.feedId}>more...</Link>
     </div>
   );
 };
