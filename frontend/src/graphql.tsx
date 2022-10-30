@@ -18,7 +18,6 @@ const article = graphql(`
       content
       contentSnippet
       creator
-      enclosure
       guid
       isoDate
       link
@@ -55,7 +54,6 @@ const feed = graphql(`
         content
         contentSnippet
         creator
-        enclosure
         guid
         isoDate
         link
@@ -104,7 +102,6 @@ const recentArticles = graphql(`
       content
       contentSnippet
       creator
-      enclosure
       guid
       isoDate
       link

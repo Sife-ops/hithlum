@@ -22,7 +22,6 @@ export type Article = {
   content?: Maybe<Scalars['String']>;
   contentSnippet?: Maybe<Scalars['String']>;
   creator?: Maybe<Scalars['String']>;
-  enclosure?: Maybe<Scalars['String']>;
   feedId: Scalars['String'];
   guid?: Maybe<Scalars['String']>;
   isoDate?: Maybe<Scalars['String']>;
@@ -102,14 +101,14 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, enclosure?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
+export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
 
 export type FeedQueryVariables = Exact<{
   feedId: Scalars['String'];
 }>;
 
 
-export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, enclosure?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
+export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -124,7 +123,7 @@ export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __ty
 export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, enclosure?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null }> };
+export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null }> };
 
 export type AddFeedMutationVariables = Exact<{
   url: Scalars['String'];
@@ -154,7 +153,6 @@ export const ArticleDocument = gql`
     content
     contentSnippet
     creator
-    enclosure
     guid
     isoDate
     link
@@ -190,7 +188,6 @@ export const FeedDocument = gql`
       content
       contentSnippet
       creator
-      enclosure
       guid
       isoDate
       link
@@ -245,7 +242,6 @@ export const RecentArticlesDocument = gql`
     content
     contentSnippet
     creator
-    enclosure
     guid
     isoDate
     link

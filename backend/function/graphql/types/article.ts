@@ -20,7 +20,7 @@ ArticleType.implement({
     content: t.exposeString("content", { nullable: true }),
     contentSnippet: t.exposeString("contentSnippet", { nullable: true }),
     creator: t.exposeString("creator", { nullable: true }),
-    enclosure: t.exposeString("enclosure", { nullable: true }),
+    // enclosure: t.exposeString("enclosure", { nullable: true }),
     guid: t.exposeString("guid", { nullable: true }),
     isoDate: t.exposeString("isoDate", { nullable: true }),
     link: t.exposeString("link", { nullable: true }),
