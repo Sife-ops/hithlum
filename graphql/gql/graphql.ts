@@ -21,6 +21,7 @@ export type Article = {
   content?: Maybe<Scalars['String']>;
   contentSnippet?: Maybe<Scalars['String']>;
   creator?: Maybe<Scalars['String']>;
+  feed: Feed;
   feedId: Scalars['String'];
   guid?: Maybe<Scalars['String']>;
   isoDate?: Maybe<Scalars['String']>;

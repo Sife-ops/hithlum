@@ -1,6 +1,9 @@
 import { ArticleEntityType } from "@hithlum/core/entity/article";
-import { UnreadEntity } from "@hithlum/core/entity/unread";
+import { FeedType } from "./feed";
+import { hithlumModel } from "@hithlum/core/model";
 import { builder } from "../builder";
+
+const { UnreadEntity, FeedEntity } = hithlumModel.entities;
 
 // todo: missing fields
 export const UnreadType = builder.objectRef<{ value: boolean }>("Unread");
@@ -27,6 +30,15 @@ ArticleType.implement({
     pubDate: t.exposeString("pubDate", { nullable: true }),
     summary: t.exposeString("summary", { nullable: true }),
     title: t.exposeString("title", { nullable: true }),
+
+    feed: t.field({
+      type: FeedType,
+      resolve: ({ feedId }) =>
+        FeedEntity.query
+          .feed_({ feedId })
+          .go()
+          .then((e) => e.data[0]),
+    }),
 
     unread: t.loadable({
       type: UnreadType,

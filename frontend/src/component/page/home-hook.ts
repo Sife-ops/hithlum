@@ -5,6 +5,7 @@ import {
   useRecentFeedsQuery,
 } from "@hithlum/graphql/urql";
 
+import _ from "lodash";
 import { graphql } from "@hithlum/graphql/gql";
 import { useEffect, useState } from "react";
 
@@ -12,31 +13,25 @@ export const useHome = () => {
   const [recentFeedsQueryState] = useRecentFeedsQuery();
   const [recentFeeds, setRecentFeeds] = useState<Feed[]>();
 
-  const [recentArticlesQueryState] = useRecentArticlesQuery();
-  const [recentArticles, setRecentArticles] = useState<Article[]>();
-
   useEffect(() => {
     const { fetching, data } = recentFeedsQueryState;
     if (!fetching && data) {
-      let desc = data.recentFeeds;
-      desc.sort((a, b) => {
-        const aa = Date.parse(a.createdAt_isoDate);
-        const bb = Date.parse(b.createdAt_isoDate);
-        return bb - aa;
-      });
+      const desc = _.reverse(
+        _.sortBy(data.recentFeeds, [(e) => Date.parse(e.createdAt_isoDate)])
+      );
       setRecentFeeds(desc as Feed[]);
     }
   }, [recentFeedsQueryState.data]);
 
+  const [recentArticlesQueryState] = useRecentArticlesQuery();
+  const [recentArticles, setRecentArticles] = useState<Article[]>();
+
   useEffect(() => {
     const { fetching, data } = recentArticlesQueryState;
     if (!fetching && data) {
-      let desc = data.recentArticles;
-      desc.sort((a, b) => {
-        const aa = Date.parse(a.isoDate!);
-        const bb = Date.parse(b.isoDate!);
-        return bb - aa;
-      });
+      const desc = _.reverse(
+        _.sortBy(data.recentArticles, [(e) => Date.parse(e.isoDate!)])
+      );
       setRecentArticles(desc as Article[]);
     }
   }, [recentArticlesQueryState.data]);

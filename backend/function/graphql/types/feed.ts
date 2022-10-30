@@ -22,10 +22,11 @@ FeedType.implement({
     // can't use loader
     articles: t.field({
       type: [ArticleType],
-      resolve: async ({ feedId }) => {
-        const { data } = await ArticleEntity.query.feed_({ feedId }).go();
-        return data;
-      },
+      resolve: ({ feedId }) =>
+        ArticleEntity.query
+          .feed_({ feedId })
+          .go()
+          .then((e) => e.data),
     }),
   }),
 });
