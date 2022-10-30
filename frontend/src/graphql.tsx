@@ -75,47 +75,6 @@ const hello = graphql(`
   }
 `);
 
-const recentFeeds = graphql(`
-  query recentFeeds {
-    recentFeeds {
-      feedId
-      inputUrl
-      private
-      createdAt_isoDate
-
-      feedUrl
-      imageUrl
-      title
-      description
-      link
-    }
-  }
-`);
-
-const recentArticles = graphql(`
-  query recentArticles {
-    recentArticles {
-      articleId
-      feedId
-
-      categories
-      content
-      contentSnippet
-      creator
-      guid
-      isoDate
-      link
-      pubDate
-      summary
-      title
-
-      unread {
-        value
-      }
-    }
-  }
-`);
-
 const addFeed = graphql(`
   mutation addFeed($url: String!) {
     addFeed(url: $url) {

@@ -5,6 +5,7 @@ import {
   useRecentFeedsQuery,
 } from "@hithlum/graphql/urql";
 
+import { graphql } from "@hithlum/graphql/gql";
 import { useEffect, useState } from "react";
 
 export const useHome = () => {
@@ -45,3 +46,44 @@ export const useHome = () => {
     recentArticles,
   };
 };
+
+const recentFeeds = graphql(`
+  query recentFeeds {
+    recentFeeds {
+      feedId
+      inputUrl
+      private
+      createdAt_isoDate
+
+      feedUrl
+      imageUrl
+      title
+      description
+      link
+    }
+  }
+`);
+
+const recentArticles = graphql(`
+  query recentArticles {
+    recentArticles {
+      articleId
+      feedId
+
+      categories
+      content
+      contentSnippet
+      creator
+      guid
+      isoDate
+      link
+      pubDate
+      summary
+      title
+
+      unread {
+        value
+      }
+    }
+  }
+`);
