@@ -30,7 +30,7 @@ export const UserFeedEntity = new Entity(
       },
 
       feed_: {
-        collection: "feed",
+        collection: "feed", // todo: remove from collection
         index: "gsi2",
         pk: {
           field: "gsi2pk",

@@ -1,4 +1,3 @@
-import { FeedEntityType } from "@hithlum/core/entity/feed";
 import { FeedType } from "../feed";
 import { builder } from "../../builder";
 import { hithlumModel } from "@hithlum/core/model";
@@ -16,24 +15,5 @@ builder.queryFields((t) => ({
         .feed({ feedId })
         .go()
         .then((res) => res.data[0]),
-  }),
-
-  myFeeds: t.field({
-    type: [FeedType],
-    resolve: async (_, __, { user: { userId } }) => {
-      const { data: userFeeds } = await UserFeedEntity.query
-        .user_({ userId })
-        .go();
-
-      let feeds: FeedEntityType[] = [];
-      for (const { feedId } of userFeeds) {
-        const {
-          data: [feed],
-        } = await FeedEntity.query.feed({ feedId }).go();
-        feeds = [...feeds, feed];
-      }
-
-      return feeds;
-    },
   }),
 }));

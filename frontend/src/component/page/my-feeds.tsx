@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 export const MyFeeds = () => {
   const [feedUrl, setFeedUrl] = useState("");
   const [_, addFeed] = useAddFeedMutation();
-  const { myFeeds } = useUserContext();
+  const ctx = useUserContext();
+  const [feedId, setFeedId] = useState("");
 
   return (
     <div>
@@ -25,8 +26,14 @@ export const MyFeeds = () => {
         <input value={feedUrl} onChange={(e) => setFeedUrl(e.target.value)} />
         <button type="submit">save</button>
       </form>
+      <div>
+        <button onClick={async () => ctx.updateFeeds()}>
+          update feeds
+        </button>
+        {ctx.updatingFeed && <div>{ctx.updatingFeed}</div>}
+      </div>
       <h2>Feeds</h2>
-      <MyFeedsList feeds={myFeeds} />
+      <MyFeedsList feeds={ctx.myFeeds} />
     </div>
   );
 };

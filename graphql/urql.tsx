@@ -50,7 +50,9 @@ export type Feed = {
 export type Mutation = {
   __typename?: 'Mutation';
   addFeed: Feed;
+  myFeeds: Array<Feed>;
   setUnread: Unread;
+  updateFeed: Scalars['String'];
 };
 
 
@@ -64,12 +66,16 @@ export type MutationSetUnreadArgs = {
   value: Scalars['Boolean'];
 };
 
+
+export type MutationUpdateFeedArgs = {
+  feedId: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   article: Article;
   feed: Feed;
   hello: Scalars['String'];
-  myFeeds: Array<Feed>;
   recentArticles: Array<Article>;
   recentFeeds: Array<Feed>;
 };
@@ -133,10 +139,17 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HelloQuery = { __typename?: 'Query', hello: string };
 
-export type MyFeedsQueryVariables = Exact<{ [key: string]: never; }>;
+export type UpdateFeedMutationVariables = Exact<{
+  feedId: Scalars['String'];
+}>;
 
 
-export type MyFeedsQuery = { __typename?: 'Query', myFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> }> };
+export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: string };
+
+export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> }> };
 
 
 export const ArticleDocument = gql`
@@ -286,8 +299,17 @@ export const HelloDocument = gql`
 export function useHelloQuery(options?: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'>) {
   return Urql.useQuery<HelloQuery, HelloQueryVariables>({ query: HelloDocument, ...options });
 };
+export const UpdateFeedDocument = gql`
+    mutation updateFeed($feedId: String!) {
+  updateFeed(feedId: $feedId)
+}
+    `;
+
+export function useUpdateFeedMutation() {
+  return Urql.useMutation<UpdateFeedMutation, UpdateFeedMutationVariables>(UpdateFeedDocument);
+};
 export const MyFeedsDocument = gql`
-    query myFeeds {
+    mutation myFeeds {
   myFeeds {
     feedId
     inputUrl
@@ -318,6 +340,6 @@ export const MyFeedsDocument = gql`
 }
     `;
 
-export function useMyFeedsQuery(options?: Omit<Urql.UseQueryArgs<MyFeedsQueryVariables>, 'query'>) {
-  return Urql.useQuery<MyFeedsQuery, MyFeedsQueryVariables>({ query: MyFeedsDocument, ...options });
+export function useMyFeedsMutation() {
+  return Urql.useMutation<MyFeedsMutation, MyFeedsMutationVariables>(MyFeedsDocument);
 };

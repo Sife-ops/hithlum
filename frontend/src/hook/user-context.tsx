@@ -1,27 +1,56 @@
 import _ from "lodash";
 import React, { useState, useEffect } from "react";
 import { graphql } from "@hithlum/graphql/gql";
-import { useMyFeedsQuery, Feed } from "@hithlum/graphql/urql";
+import {
+  useMyFeedsMutation,
+  Feed,
+  useUpdateFeedMutation,
+} from "@hithlum/graphql/urql";
 
 type UserContextType = {
   myFeeds: Feed[] | undefined;
+  updateFeeds: () => void;
+  updatingFeed: string | undefined;
 };
 
 const userContext = (): UserContextType => {
-  const [myFeedsQueryState] = useMyFeedsQuery();
+  const [myFeedsMutationState, myFeedsMutation] = useMyFeedsMutation();
   const [myFeeds, setMyFeeds] = useState<Feed[]>();
   useEffect(() => {
-    const { fetching, data } = myFeedsQueryState;
+    myFeedsMutation({});
+  }, []);
+  useEffect(() => {
+    const { fetching, data } = myFeedsMutationState;
     if (!fetching && data) {
-      const desc = _.reverse(
-        _.sortBy(data.myFeeds, [(feed) => feed.articles[0].isoDate])
+      const desc = _.orderBy(
+        data.myFeeds,
+        [(feed) => feed.articles[0].isoDate],
+        "desc"
       );
       setMyFeeds(desc as Feed[]);
     }
-  }, [myFeedsQueryState.data]);
+  }, [myFeedsMutationState.data]);
+
+  const [__, updateFeedmutation] = useUpdateFeedMutation();
+  const [updatingFeed, setUpdatingFeed] = useState<string>();
+  const updateFeeds = async () => {
+    if (myFeeds) {
+      for (const { feedId, title } of myFeeds) {
+        setUpdatingFeed(title || "untitled feed");
+        const res = await updateFeedmutation({ feedId });
+        console.log("update feed res", res);
+      }
+      setUpdatingFeed("done!");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await myFeedsMutation({});
+      setUpdatingFeed(undefined);
+    }
+  };
 
   return {
     myFeeds,
+    updateFeeds,
+    updatingFeed,
   };
 };
 
@@ -45,8 +74,14 @@ export const useUserContext = () => {
   return context;
 };
 
+const updateFeed = graphql(`
+  mutation updateFeed($feedId: String!) {
+    updateFeed(feedId: $feedId)
+  }
+`);
+
 const myFeeds = graphql(`
-  query myFeeds {
+  mutation myFeeds {
     myFeeds {
       feedId
       inputUrl
