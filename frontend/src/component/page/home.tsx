@@ -7,6 +7,7 @@ import {
   useRecentFeedsQuery,
 } from "@hithlum/graphql/urql";
 
+import * as style from "./home.css";
 import { useEffect, useState } from "react";
 
 export const Home = () => {
@@ -49,12 +50,7 @@ export const Home = () => {
         <h3>Added Feeds</h3>
         <div>
           {recentFeeds?.map((feed) => (
-            <div
-              key={feed.feedId}
-              style={{
-                border: "1px solid yellow",
-              }}
-            >
+            <div key={feed.feedId} className={style.addedFeeds}>
               <div>{feed.title}</div>
               {feed.description && <div>{feed.description}</div>}
             </div>
