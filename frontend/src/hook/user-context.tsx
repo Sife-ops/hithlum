@@ -37,8 +37,7 @@ const userContext = (): UserContextType => {
     if (myFeeds) {
       for (const { feedId, title } of myFeeds) {
         setUpdatingFeed(title || "untitled feed");
-        const res = await updateFeedmutation({ feedId });
-        console.log("update feed res", res);
+        await updateFeedmutation({ feedId });
       }
       setUpdatingFeed("done!");
       await new Promise((resolve) => setTimeout(resolve, 1000));
