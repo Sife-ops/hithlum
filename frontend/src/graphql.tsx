@@ -108,6 +108,10 @@ const recentArticles = graphql(`
       pubDate
       summary
       title
+
+      unread {
+        value
+      }
     }
   }
 `);

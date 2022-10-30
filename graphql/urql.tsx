@@ -123,7 +123,7 @@ export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __ty
 export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null }> };
+export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> };
 
 export type AddFeedMutationVariables = Exact<{
   url: Scalars['String'];
@@ -248,6 +248,9 @@ export const RecentArticlesDocument = gql`
     pubDate
     summary
     title
+    unread {
+      value
+    }
   }
 }
     `;

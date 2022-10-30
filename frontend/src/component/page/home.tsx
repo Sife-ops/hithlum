@@ -1,4 +1,5 @@
 import * as style from "./home.css";
+import { Link } from "react-router-dom";
 import { useHome } from "./home-hook";
 
 export const Home = () => {
@@ -20,6 +21,7 @@ export const Home = () => {
               <div key={feed.feedId} className={style.addedFeeds}>
                 <div>{feed.title}</div>
                 {feed.description && <div>{feed.description}</div>}
+                <Link to={"/feed/" + feed.feedId}>more...</Link>
               </div>
             ))}
           </div>
@@ -37,6 +39,8 @@ export const Home = () => {
               >
                 <div>{article.title}</div>
                 <div>{article.isoDate}</div>
+                <div>{article.unread.value ? "unread" : "read"}</div>
+                <Link to={"/article/" + article.articleId}>more...</Link>
               </div>
             ))}
           </div>
