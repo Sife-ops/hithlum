@@ -1,11 +1,15 @@
 // import "./App.css";
 // import { useAuthContext } from "./hook/auth-context";
+
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import { Article } from "./component/page/article";
 import { Auth } from "./component/page/auth";
 import { Dev } from "./component/page/dev";
 import { Feed } from "./component/page/feed";
 import { Home } from "./component/page/home";
-import { Link, BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { MyFeeds } from "./component/page/my-feeds";
+import { Navigation } from "./component/navigation";
 import { PrivateRoutes } from "./component/private-routes";
 
 function App() {
@@ -18,28 +22,14 @@ function App() {
           path="/"
           element={
             <div>
-              {/* <button onClick={() => auth.signOut()}>sign out</button> */}
-              <ul>
-                <li>
-                  <Link to={"/dev"}>Dev</Link>
-                </li>
-                <li>
-                  <Link to={"/home"}>Home</Link>
-                </li>
-                <li>
-                  <Link to={"/my-feeds"}>My Feeds</Link>
-                </li>
-                <li>
-                  <Link to={"/friends"}>Friends</Link>
-                </li>
-              </ul>
+              <Navigation />
               <PrivateRoutes errorTo="/error" />
             </div>
           }
         >
           <Route path="/dev" element={<Dev />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/my-feeds" element={<div>my-feeds</div>} />
+          <Route path="/my-feeds" element={<MyFeeds />} />
           <Route path="/friends" element={<div>friends</div>} />
           <Route path="/feed/:feedId" element={<Feed />} />
           <Route path="/article/:articleId" element={<Article />} />
