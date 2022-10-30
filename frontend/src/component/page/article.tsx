@@ -1,3 +1,4 @@
+import { graphql } from "@hithlum/graphql/gql";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -19,7 +20,7 @@ export const Article = () => {
   useEffect(() => {
     const { fetching, data } = articleQueryState;
     if (!fetching && data) {
-      setArticle(data.article);
+      setArticle(data.article as ArticleType);
     }
   }, [articleQueryState.data]);
 
@@ -42,3 +43,35 @@ export const Article = () => {
     </div>
   );
 };
+
+const article = graphql(`
+  query article($articleId: String!) {
+    article(articleId: $articleId) {
+      articleId
+      feedId
+
+      categories
+      content
+      contentSnippet
+      creator
+      guid
+      isoDate
+      link
+      pubDate
+      summary
+      title
+
+      unread {
+        value
+      }
+    }
+  }
+`);
+
+const setUnread = graphql(`
+  mutation setUnread($articleId: String!, $value: Boolean!) {
+    setUnread(articleId: $articleId, value: $value) {
+      value
+    }
+  }
+`)

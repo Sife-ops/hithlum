@@ -1,3 +1,4 @@
+import { graphql } from "@hithlum/graphql/gql";
 import { Feed as FeedType, useFeedQuery } from "@hithlum/graphql/urql";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -10,9 +11,9 @@ export const Feed = () => {
   const [feed, setFeed] = useState<FeedType>();
 
   useEffect(() => {
-    const { fetching, data, error } = feedQueryState;
+    const { fetching, data } = feedQueryState;
     if (!fetching && data) {
-      setFeed(data.feed);
+      setFeed(data.feed as FeedType);
     }
   }, [feedQueryState.data]);
 
@@ -46,3 +47,40 @@ export const Feed = () => {
     </div>
   );
 };
+
+const feed = graphql(`
+  query feed($feedId: String!) {
+    feed(feedId: $feedId) {
+      feedId
+      inputUrl
+      private
+      createdAt_isoDate
+
+      feedUrl
+      imageUrl
+      title
+      description
+      link
+
+      articles {
+        articleId
+        feedId
+
+        categories
+        content
+        contentSnippet
+        creator
+        guid
+        isoDate
+        link
+        pubDate
+        summary
+        title
+
+        unread {
+          value
+        }
+      }
+    }
+  }
+`);

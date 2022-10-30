@@ -76,6 +76,19 @@ const recentArticles = graphql(`
       summary
       title
 
+      feed {
+        feedId
+        inputUrl
+        private
+        createdAt_isoDate
+
+        feedUrl
+        imageUrl
+        title
+        description
+        link
+      }
+
       unread {
         value
       }

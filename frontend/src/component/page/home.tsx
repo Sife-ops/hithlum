@@ -39,6 +39,7 @@ export const Home = () => {
               >
                 <div>{article.title}</div>
                 <div>{article.isoDate}</div>
+                <div>{article.feed.title}</div>
                 <div>{article.unread.value ? "unread" : "read"}</div>
                 <Link to={"/article/" + article.articleId}>more...</Link>
               </div>

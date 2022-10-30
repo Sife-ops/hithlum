@@ -89,15 +89,12 @@ export type Unread = {
   value: Scalars['Boolean'];
 };
 
-export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ArticleQueryVariables = Exact<{
+  articleId: Scalars['String'];
+}>;
 
 
-export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null }> };
-
-export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> };
+export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
 
 export type SetUnreadMutationVariables = Exact<{
   articleId: Scalars['String'];
@@ -107,19 +104,22 @@ export type SetUnreadMutationVariables = Exact<{
 
 export type SetUnreadMutation = { __typename?: 'Mutation', setUnread: { __typename?: 'Unread', value: boolean } };
 
-export type ArticleQueryVariables = Exact<{
-  articleId: Scalars['String'];
-}>;
-
-
-export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
-
 export type FeedQueryVariables = Exact<{
   feedId: Scalars['String'];
 }>;
 
 
 export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
+
+export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null }> };
+
+export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null }, unread: { __typename?: 'Unread', value: boolean } }> };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -134,61 +134,6 @@ export type AddFeedMutationVariables = Exact<{
 export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string } };
 
 
-export const RecentFeedsDocument = gql`
-    query recentFeeds {
-  recentFeeds {
-    feedId
-    inputUrl
-    private
-    createdAt_isoDate
-    feedUrl
-    imageUrl
-    title
-    description
-    link
-  }
-}
-    `;
-
-export function useRecentFeedsQuery(options?: Omit<Urql.UseQueryArgs<RecentFeedsQueryVariables>, 'query'>) {
-  return Urql.useQuery<RecentFeedsQuery, RecentFeedsQueryVariables>({ query: RecentFeedsDocument, ...options });
-};
-export const RecentArticlesDocument = gql`
-    query recentArticles {
-  recentArticles {
-    articleId
-    feedId
-    categories
-    content
-    contentSnippet
-    creator
-    guid
-    isoDate
-    link
-    pubDate
-    summary
-    title
-    unread {
-      value
-    }
-  }
-}
-    `;
-
-export function useRecentArticlesQuery(options?: Omit<Urql.UseQueryArgs<RecentArticlesQueryVariables>, 'query'>) {
-  return Urql.useQuery<RecentArticlesQuery, RecentArticlesQueryVariables>({ query: RecentArticlesDocument, ...options });
-};
-export const SetUnreadDocument = gql`
-    mutation setUnread($articleId: String!, $value: Boolean!) {
-  setUnread(articleId: $articleId, value: $value) {
-    value
-  }
-}
-    `;
-
-export function useSetUnreadMutation() {
-  return Urql.useMutation<SetUnreadMutation, SetUnreadMutationVariables>(SetUnreadDocument);
-};
 export const ArticleDocument = gql`
     query article($articleId: String!) {
   article(articleId: $articleId) {
@@ -213,6 +158,17 @@ export const ArticleDocument = gql`
 
 export function useArticleQuery(options: Omit<Urql.UseQueryArgs<ArticleQueryVariables>, 'query'>) {
   return Urql.useQuery<ArticleQuery, ArticleQueryVariables>({ query: ArticleDocument, ...options });
+};
+export const SetUnreadDocument = gql`
+    mutation setUnread($articleId: String!, $value: Boolean!) {
+  setUnread(articleId: $articleId, value: $value) {
+    value
+  }
+}
+    `;
+
+export function useSetUnreadMutation() {
+  return Urql.useMutation<SetUnreadMutation, SetUnreadMutationVariables>(SetUnreadDocument);
 };
 export const FeedDocument = gql`
     query feed($feedId: String!) {
@@ -249,6 +205,61 @@ export const FeedDocument = gql`
 
 export function useFeedQuery(options: Omit<Urql.UseQueryArgs<FeedQueryVariables>, 'query'>) {
   return Urql.useQuery<FeedQuery, FeedQueryVariables>({ query: FeedDocument, ...options });
+};
+export const RecentFeedsDocument = gql`
+    query recentFeeds {
+  recentFeeds {
+    feedId
+    inputUrl
+    private
+    createdAt_isoDate
+    feedUrl
+    imageUrl
+    title
+    description
+    link
+  }
+}
+    `;
+
+export function useRecentFeedsQuery(options?: Omit<Urql.UseQueryArgs<RecentFeedsQueryVariables>, 'query'>) {
+  return Urql.useQuery<RecentFeedsQuery, RecentFeedsQueryVariables>({ query: RecentFeedsDocument, ...options });
+};
+export const RecentArticlesDocument = gql`
+    query recentArticles {
+  recentArticles {
+    articleId
+    feedId
+    categories
+    content
+    contentSnippet
+    creator
+    guid
+    isoDate
+    link
+    pubDate
+    summary
+    title
+    feed {
+      feedId
+      inputUrl
+      private
+      createdAt_isoDate
+      feedUrl
+      imageUrl
+      title
+      description
+      link
+    }
+    unread {
+      value
+    }
+  }
+}
+    `;
+
+export function useRecentArticlesQuery(options?: Omit<Urql.UseQueryArgs<RecentArticlesQueryVariables>, 'query'>) {
+  return Urql.useQuery<RecentArticlesQuery, RecentArticlesQueryVariables>({ query: RecentArticlesDocument, ...options });
 };
 export const HelloDocument = gql`
     query hello {
