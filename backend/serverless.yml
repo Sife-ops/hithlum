@@ -16,6 +16,7 @@ provider:
     cors: true
   environment:
     ARTICLE_QUEUE: ${construct:articleQueue.queueUrl}
+    ARTWORK_BUCKET: ${construct:artwork.bucketName}
     MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
     STAGE: ${self:provider.stage}
     TABLE: ${self:service}-${opt:stage}-table-v3
@@ -54,3 +55,6 @@ constructs:
       - ${self:custom.global.domain.${self:provider.stage}}
       - www.${self:custom.global.domain.${self:provider.stage}}
     certificate: ${self:custom.global.certificate.${self:provider.stage}}
+
+  artwork:
+    type: storage

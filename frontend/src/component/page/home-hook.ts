@@ -42,6 +42,7 @@ export const useHome = () => {
   };
 };
 
+// todo: refactor these queries
 const recentFeeds = graphql(`
   query recentFeeds {
     recentFeeds {

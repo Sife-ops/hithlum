@@ -1,10 +1,13 @@
-import _, { truncate } from "lodash";
+import _ from "lodash";
+import AWS from "aws-sdk";
 import { ArticleType } from "./article";
 import { FeedEntityType } from "@hithlum/core/entity/feed";
 import { builder } from "../builder";
 import { hithlumModel } from "@hithlum/core/model";
 
 const { ArticleEntity, UserFeedEntity } = hithlumModel.entities;
+const s3 = new AWS.S3();
+const { ARTWORK_BUCKET } = process.env;
 
 export const FeedType = builder.objectRef<FeedEntityType>("Feed");
 FeedType.implement({
@@ -19,14 +22,23 @@ FeedType.implement({
     description: t.exposeString("description", { nullable: true }),
     link: t.exposeString("link", { nullable: true }),
 
-    // imageUrl: t.exposeString("imageUrl", { nullable: true }),
-    // todo: s3 for custom images
     // todo: fallback image
     image: t.string({
-      nullable: true,
-      resolve: (p) => {
+      resolve: async (p) => {
         if (p.imageUrl) return p.imageUrl;
         if (p.itunesImage) return p.itunesImage;
+        try {
+          const params = {
+            Key: p.feedId + ".png",
+            Bucket: ARTWORK_BUCKET!,
+          };
+
+          await s3.headObject(params).promise();
+          return s3.getSignedUrl("getObject", { ...params, Expires: 900 });
+        } catch {
+          console.log("artwork unavailable for feed: " + p.feedId);
+          return "";
+        }
       },
     }),
 
