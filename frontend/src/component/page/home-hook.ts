@@ -42,20 +42,14 @@ export const useHome = () => {
   };
 };
 
-// todo: refactor these queries
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 const recentFeeds = graphql(`
   query recentFeeds {
     recentFeeds {
-      feedId
-      inputUrl
-      private
-      createdAt_isoDate
-
-      feedUrl
-      image
-      title
-      description
-      link
+      ...FeedPreviewFields
     }
   }
 `);
@@ -63,35 +57,12 @@ const recentFeeds = graphql(`
 const recentArticles = graphql(`
   query recentArticles {
     recentArticles {
-      articleId
-      feedId
-
-      categories
-      content
-      contentSnippet
-      creator
-      guid
-      isoDate
-      link
-      pubDate
-      summary
-      title
-
+      ...ArticlePreviewFields
       feed {
         feedId
-        inputUrl
-        private
-        createdAt_isoDate
 
-        feedUrl
         image
         title
-        description
-        link
-      }
-
-      unread {
-        value
       }
     }
   }

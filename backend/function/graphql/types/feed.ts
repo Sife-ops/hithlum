@@ -27,6 +27,7 @@ FeedType.implement({
       resolve: async (p) => {
         if (p.imageUrl) return p.imageUrl;
         if (p.itunesImage) return p.itunesImage;
+        // todo: hasCustomArtwork flag
         try {
           const params = {
             Key: p.feedId + ".png",

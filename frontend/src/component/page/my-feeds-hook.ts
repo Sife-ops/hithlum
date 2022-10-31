@@ -79,32 +79,10 @@ const updateFeed = graphql(`
   }
 `);
 
-const articlePreviewFields = graphql(`
-  fragment ArticlePreviewFields on Article {
-    articleId
-    feedId
-
-    title
-    summary
-    isoDate
-
-    unread {
-      value
-    }
-  }
-`);
-
 const myFeeds = graphql(`
   mutation myFeeds {
     myFeeds {
-      feedId
-
-      image
-      title
-
-      latestArticle {
-        ...ArticlePreviewFields
-      }
+      ...FeedPreviewFields
     }
   }
 `);

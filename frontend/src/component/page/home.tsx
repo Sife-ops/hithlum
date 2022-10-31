@@ -21,7 +21,7 @@ export const Home = () => {
             {recentFeeds?.map((feed) => (
               <div key={feed.feedId} className={style.addedFeeds}>
                 <div>{feed.title}</div>
-                {feed.description && <div>{feed.description}</div>}
+                {/* {feed.description && <div>{feed.description}</div>} */}
                 <Link to={"/feed/" + feed.feedId}>more...</Link>
               </div>
             ))}

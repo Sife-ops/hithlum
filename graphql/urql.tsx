@@ -148,12 +148,12 @@ export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', fee
 export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, image: string, title?: string | null, description?: string | null, link?: string | null }> };
+export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt_isoDate: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
 
 export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, image: string, title?: string | null, description?: string | null, link?: string | null }, unread: { __typename?: 'Unread', value: boolean } }> };
+export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null }, unread: { __typename?: 'Unread', value: boolean } }> };
 
 export type AddFeedMutationVariables = Exact<{
   url: Scalars['String'];
@@ -169,12 +169,14 @@ export type UpdateFeedMutationVariables = Exact<{
 
 export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: string };
 
-export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } };
-
 export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
+export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt_isoDate: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
+
+export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } };
+
+export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt_isoDate: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -193,6 +195,17 @@ export const ArticlePreviewFieldsFragmentDoc = gql`
   }
 }
     `;
+export const FeedPreviewFieldsFragmentDoc = gql`
+    fragment FeedPreviewFields on Feed {
+  feedId
+  image
+  title
+  createdAt_isoDate
+  latestArticle {
+    ...ArticlePreviewFields
+  }
+}
+    ${ArticlePreviewFieldsFragmentDoc}`;
 export const ArticleDocument = gql`
     query article($articleId: String!) {
   article(articleId: $articleId) {
@@ -275,18 +288,10 @@ export function useFeedQuery(options: Omit<Urql.UseQueryArgs<FeedQueryVariables>
 export const RecentFeedsDocument = gql`
     query recentFeeds {
   recentFeeds {
-    feedId
-    inputUrl
-    private
-    createdAt_isoDate
-    feedUrl
-    image
-    title
-    description
-    link
+    ...FeedPreviewFields
   }
 }
-    `;
+    ${FeedPreviewFieldsFragmentDoc}`;
 
 export function useRecentFeedsQuery(options?: Omit<Urql.UseQueryArgs<RecentFeedsQueryVariables>, 'query'>) {
   return Urql.useQuery<RecentFeedsQuery, RecentFeedsQueryVariables>({ query: RecentFeedsDocument, ...options });
@@ -294,35 +299,15 @@ export function useRecentFeedsQuery(options?: Omit<Urql.UseQueryArgs<RecentFeeds
 export const RecentArticlesDocument = gql`
     query recentArticles {
   recentArticles {
-    articleId
-    feedId
-    categories
-    content
-    contentSnippet
-    creator
-    guid
-    isoDate
-    link
-    pubDate
-    summary
-    title
+    ...ArticlePreviewFields
     feed {
       feedId
-      inputUrl
-      private
-      createdAt_isoDate
-      feedUrl
       image
       title
-      description
-      link
-    }
-    unread {
-      value
     }
   }
 }
-    `;
+    ${ArticlePreviewFieldsFragmentDoc}`;
 
 export function useRecentArticlesQuery(options?: Omit<Urql.UseQueryArgs<RecentArticlesQueryVariables>, 'query'>) {
   return Urql.useQuery<RecentArticlesQuery, RecentArticlesQueryVariables>({ query: RecentArticlesDocument, ...options });
@@ -350,15 +335,10 @@ export function useUpdateFeedMutation() {
 export const MyFeedsDocument = gql`
     mutation myFeeds {
   myFeeds {
-    feedId
-    image
-    title
-    latestArticle {
-      ...ArticlePreviewFields
-    }
+    ...FeedPreviewFields
   }
 }
-    ${ArticlePreviewFieldsFragmentDoc}`;
+    ${FeedPreviewFieldsFragmentDoc}`;
 
 export function useMyFeedsMutation() {
   return Urql.useMutation<MyFeedsMutation, MyFeedsMutationVariables>(MyFeedsDocument);
