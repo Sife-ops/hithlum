@@ -53,6 +53,8 @@ export type Mutation = {
   addFeed: Feed;
   myFeeds: Array<Feed>;
   setUnread: Unread;
+  subscribe: Scalars['Boolean'];
+  unsubscribe: Scalars['Boolean'];
   updateFeed: Scalars['String'];
 };
 
@@ -65,6 +67,16 @@ export type MutationAddFeedArgs = {
 export type MutationSetUnreadArgs = {
   articleId: Scalars['String'];
   value: Scalars['Boolean'];
+};
+
+
+export type MutationSubscribeArgs = {
+  feedId: Scalars['String'];
+};
+
+
+export type MutationUnsubscribeArgs = {
+  feedId: Scalars['String'];
 };
 
 
@@ -110,6 +122,20 @@ export type SetUnreadMutationVariables = Exact<{
 
 
 export type SetUnreadMutation = { __typename?: 'Mutation', setUnread: { __typename?: 'Unread', value: boolean } };
+
+export type SubscribeMutationVariables = Exact<{
+  feedId: Scalars['String'];
+}>;
+
+
+export type SubscribeMutation = { __typename?: 'Mutation', subscribe: boolean };
+
+export type UnsubscribeMutationVariables = Exact<{
+  feedId: Scalars['String'];
+}>;
+
+
+export type UnsubscribeMutation = { __typename?: 'Mutation', unsubscribe: boolean };
 
 export type FeedQueryVariables = Exact<{
   feedId: Scalars['String'];
@@ -188,6 +214,24 @@ export const SetUnreadDocument = gql`
 
 export function useSetUnreadMutation() {
   return Urql.useMutation<SetUnreadMutation, SetUnreadMutationVariables>(SetUnreadDocument);
+};
+export const SubscribeDocument = gql`
+    mutation subscribe($feedId: String!) {
+  subscribe(feedId: $feedId)
+}
+    `;
+
+export function useSubscribeMutation() {
+  return Urql.useMutation<SubscribeMutation, SubscribeMutationVariables>(SubscribeDocument);
+};
+export const UnsubscribeDocument = gql`
+    mutation unsubscribe($feedId: String!) {
+  unsubscribe(feedId: $feedId)
+}
+    `;
+
+export function useUnsubscribeMutation() {
+  return Urql.useMutation<UnsubscribeMutation, UnsubscribeMutationVariables>(UnsubscribeDocument);
 };
 export const FeedDocument = gql`
     query feed($feedId: String!) {

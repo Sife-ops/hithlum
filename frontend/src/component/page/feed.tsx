@@ -1,5 +1,10 @@
 import { graphql } from "@hithlum/graphql/gql";
-import { Feed as FeedType, useFeedQuery } from "@hithlum/graphql/urql";
+import {
+  useSubscribeMutation,
+  useUnsubscribeMutation,
+  Feed as FeedType,
+  useFeedQuery,
+} from "@hithlum/graphql/urql";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -9,6 +14,8 @@ export const Feed = () => {
   // todo: redirect if feedId undefined
   const [feedQueryState] = useFeedQuery({ variables: { feedId: feedId! } });
   const [feed, setFeed] = useState<FeedType>();
+  const [__, subscribeMutation] = useSubscribeMutation();
+  const [___, unsubscribeMutation] = useUnsubscribeMutation();
 
   useEffect(() => {
     const { fetching, data } = feedQueryState;
@@ -28,7 +35,8 @@ export const Feed = () => {
           <div>{feed.feedUrl}</div>
           <button
             onClick={() => {
-              //
+              if (feed.subscribed) unsubscribeMutation({ feedId: feed.feedId });
+              else subscribeMutation({ feedId: feed.feedId });
             }}
           >
             {feed.subscribed ? "unsubscribe" : "subscribe"}
@@ -54,6 +62,18 @@ export const Feed = () => {
     </div>
   );
 };
+
+const subscribe = graphql(`
+  mutation subscribe($feedId: String!) {
+    subscribe(feedId: $feedId)
+  }
+`);
+
+const unsubscribe = graphql(`
+  mutation unsubscribe($feedId: String!) {
+    unsubscribe(feedId: $feedId)
+  }
+`);
 
 const feed = graphql(`
   query feed($feedId: String!) {
