@@ -44,30 +44,26 @@ export const Feeds: React.FC<{ feeds: FeedType[] | undefined }> = (p) => {
         gap: "1rem",
       }}
     >
-      {p.feeds?.map((feed) => (
-        <Feed feed={feed} key={feed.feedId} />
-      ))}
-    </div>
-  );
-};
-
-export const Feed: React.FC<{ feed: FeedType }> = (p) => {
-  const firstArticle = p.feed.articles[0];
-  return (
-    <div>
-      <div>
-        <Link to={"/feed/" + p.feed.feedId}>{p.feed.title}</Link>
-      </div>
-      <div>
-        <div>{firstArticle.title}</div>
-        {firstArticle.summary && <div>{firstArticle.summary}</div>}
-        <Link to={"/article/" + firstArticle.articleId}>Read...</Link>
-        <div>
-          {formatDistance(new Date(firstArticle.isoDate!), new Date(), {
-            addSuffix: true,
-          })}
-        </div>
-      </div>
+      {p.feeds?.map((feed) => {
+        const firstArticle = feed.articles[0];
+        return (
+          <div>
+            <div>
+              <Link to={"/feed/" + feed.feedId}>{feed.title}</Link>
+            </div>
+            <div>
+              <div>{firstArticle.title}</div>
+              {firstArticle.summary && <div>{firstArticle.summary}</div>}
+              <Link to={"/article/" + firstArticle.articleId}>Read...</Link>
+              <div>
+                {formatDistance(new Date(firstArticle.isoDate!), new Date(), {
+                  addSuffix: true,
+                })}
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

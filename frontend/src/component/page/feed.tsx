@@ -1,48 +1,66 @@
+import React from "react";
+import { formatDistance } from "date-fns";
 import { useFeed } from "./feed-hook";
 import { useParams, Link } from "react-router-dom";
+import { Article } from "@hithlum/graphql/urql";
 
 export const Feed = () => {
   const { feedId } = useParams();
   // todo: redirect if feedId undefined
   const ctx = useFeed(feedId!);
 
+  if (ctx.feed) {
+    const { feed } = ctx;
+
+    return (
+      <div>
+        <img src={feed.imageUrl || ""} alt="missing imageUrl" />
+        <h3>{feed.title || "untitled"}</h3>
+        {feed.description && <div>Description: {feed.description}</div>}
+        {feed.feedUrl && <div>Feed URL:{feed.feedUrl}</div>}
+        {feed.link && <div>Link: {feed.link}</div>}
+        <button
+          onClick={() => {
+            const { feedId } = feed;
+            if (feed.subscribed) ctx.unsubscribeMutation({ feedId });
+            else ctx.subscribeMutation({ feedId });
+          }}
+        >
+          {feed.subscribed ? "unsubscribe" : "subscribe"}
+        </button>
+        <h3>Articles</h3>
+        <Articles articles={feed.articles} />
+      </div>
+    );
+  }
+
+  return <div>loading...</div>;
+};
+
+const Articles: React.FC<{ articles: Article[] }> = (p) => {
   return (
     <div>
-      {ctx.feed && (
-        <div>
-          <div>{ctx.feed.imageUrl}</div> {/* todo: image tag */}
-          <h3>{ctx.feed.title}</h3>
-          <div>{ctx.feed.description}</div>
-          <div>{ctx.feed.feedUrl}</div>
-          <div>{ctx.feed.link}</div>
-          <button
-            onClick={() => {
-              if (!ctx.feed) return;
-              const { feedId } = ctx.feed;
-              if (ctx.feed.subscribed) ctx.unsubscribeMutation({ feedId });
-              else ctx.subscribeMutation({ feedId });
+      {p.articles.map((article) => {
+        const color = article.unread.value ? "blue" : "purple";
+        return (
+          <div
+            key={article.articleId}
+            style={{
+              border: `1px solid ${color}`,
             }}
           >
-            {ctx.feed.subscribed ? "unsubscribe" : "subscribe"}
-          </button>
-          <h3>Articles</h3>
-          <div>
-            {ctx.feed.articles.map((article) => (
-              <div key={article.articleId}>
-                {/* todo: indicate unread */}
-                <div>{article.unread.value ? "unread" : "read"}</div>{" "}
-                <div>{article.title}</div>
-                <div>{article.summary}</div>
-                {/* todo: distance */}
-                <div>{article.isoDate}</div>
-                <div>
-                  <Link to={"/article/" + article.articleId}>read</Link>
-                </div>
-              </div>
-            ))}
+            <div>
+              <Link to={"/article/" + article.articleId}>{article.title}</Link>
+            </div>
+            <div>{article.summary}</div>
+            <div>
+              {formatDistance(new Date(article.isoDate!), new Date(), {
+                addSuffix: true,
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })}
     </div>
   );
 };
