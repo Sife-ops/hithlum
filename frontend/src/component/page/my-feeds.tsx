@@ -35,32 +35,37 @@ export const MyFeeds = () => {
   );
 };
 
-export const Feeds: React.FC<{ feeds: FeedType[] | undefined }> = (p) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-      }}
-    >
-      {p.feeds?.map(({ latestArticle, feedId, title }) => (
+export const Feeds: React.FC<{ feeds: FeedType[] | undefined }> = (p) => (
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr 1fr",
+      gap: "1rem",
+    }}
+  >
+    {p.feeds?.map(({ latestArticle, feedId, title }) => (
+      <div
+        key={feedId}
+        style={{
+          border: `1px solid ${latestArticle.unread.value ? "blue" : "purple"}`,
+        }}
+      >
+        <div>
+          <Link to={"/feed/" + feedId}>{title}</Link>
+        </div>
         <div>
           <div>
-            <Link to={"/feed/" + feedId}>{title}</Link>
-          </div>
-          <div>
-            <div>{latestArticle.title}</div>
-            {latestArticle.summary && <div>{latestArticle.summary}</div>}
+            {latestArticle.title}{" "}
             <Link to={"/article/" + latestArticle.articleId}>Read...</Link>
-            <div>
-              {formatDistance(new Date(latestArticle.isoDate!), new Date(), {
-                addSuffix: true,
-              })}
-            </div>
+          </div>
+          {/* {latestArticle.summary && <div>{latestArticle.summary}</div>} */}
+          <div>
+            {formatDistance(new Date(latestArticle.isoDate!), new Date(), {
+              addSuffix: true,
+            })}
           </div>
         </div>
-      ))}
-    </div>
-  );
-};
+      </div>
+    ))}
+  </div>
+);

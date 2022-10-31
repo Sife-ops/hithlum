@@ -37,30 +37,28 @@ export const Feed = () => {
   return <div>loading...</div>;
 };
 
-const Articles: React.FC<{ articles: Article[] }> = (p) => {
-  return (
-    <div>
-      {p.articles.map((article) => {
-        const color = article.unread.value ? "blue" : "purple";
-        return (
-          <div
-            key={article.articleId}
-            style={{
-              border: `1px solid ${color}`,
-            }}
-          >
-            <div>
-              <Link to={"/article/" + article.articleId}>{article.title}</Link>
-            </div>
-            <div>{article.summary}</div>
-            <div>
-              {formatDistance(new Date(article.isoDate!), new Date(), {
-                addSuffix: true,
-              })}
-            </div>
+const Articles: React.FC<{ articles: Article[] }> = (p) => (
+  <div>
+    {p.articles.map((article) => {
+      const color = article.unread.value ? "blue" : "purple";
+      return (
+        <div
+          key={article.articleId}
+          style={{
+            border: `1px solid ${color}`,
+          }}
+        >
+          <div>
+            <Link to={"/article/" + article.articleId}>{article.title}</Link>
           </div>
-        );
-      })}
-    </div>
-  );
-};
+          <div>{article.summary}</div>
+          <div>
+            {formatDistance(new Date(article.isoDate!), new Date(), {
+              addSuffix: true,
+            })}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+);

@@ -9,7 +9,8 @@ export const Home = () => {
       <h1>Recent</h1>
       <div
         style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
         }}
       >
         {/* // */}
