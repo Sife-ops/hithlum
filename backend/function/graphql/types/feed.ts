@@ -4,7 +4,7 @@ import { FeedEntityType } from "@hithlum/core/entity/feed";
 import { builder } from "../builder";
 import { hithlumModel } from "@hithlum/core/model";
 
-const { ArticleEntity } = hithlumModel.entities;
+const { ArticleEntity, UserFeedEntity } = hithlumModel.entities;
 
 export const FeedType = builder.objectRef<FeedEntityType>("Feed");
 FeedType.implement({
@@ -19,6 +19,17 @@ FeedType.implement({
     title: t.exposeString("title", { nullable: true }),
     description: t.exposeString("description", { nullable: true }),
     link: t.exposeString("link", { nullable: true }),
+
+    subscribed: t.boolean({
+      resolve: ({ feedId }, __, { user: { userId } }) =>
+        UserFeedEntity.query
+          .feed_({ feedId, userId })
+          .go()
+          .then((e) => {
+            if (e.data.length > 0) return true;
+            else return false;
+          }),
+    }),
 
     // can't use loader
     articles: t.field({

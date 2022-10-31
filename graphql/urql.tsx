@@ -44,6 +44,7 @@ export type Feed = {
   inputUrl: Scalars['String'];
   link?: Maybe<Scalars['String']>;
   private: Scalars['Boolean'];
+  subscribed: Scalars['Boolean'];
   title?: Maybe<Scalars['String']>;
 };
 
@@ -115,7 +116,7 @@ export type FeedQueryVariables = Exact<{
 }>;
 
 
-export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
+export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, subscribed: boolean, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
 
 export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -200,6 +201,7 @@ export const FeedDocument = gql`
     title
     description
     link
+    subscribed
     articles {
       articleId
       feedId

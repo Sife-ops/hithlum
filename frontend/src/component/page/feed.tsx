@@ -26,6 +26,13 @@ export const Feed = () => {
           <div>{feed.description}</div>
           <div>{feed.link}</div>
           <div>{feed.feedUrl}</div>
+          <button
+            onClick={() => {
+              //
+            }}
+          >
+            {feed.subscribed ? "unsubscribe" : "subscribe"}
+          </button>
 
           <h3>Articles</h3>
           <div>
@@ -61,6 +68,8 @@ const feed = graphql(`
       title
       description
       link
+
+      subscribed
 
       articles {
         articleId

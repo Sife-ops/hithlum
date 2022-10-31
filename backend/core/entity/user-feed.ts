@@ -25,7 +25,7 @@ export const UserFeedEntity = new Entity(
         },
         sk: {
           field: "gsi1sk",
-          composite: [],
+          composite: ["feedId"],
         },
       },
 
@@ -38,7 +38,7 @@ export const UserFeedEntity = new Entity(
         },
         sk: {
           field: "gsi2sk",
-          composite: [],
+          composite: ["userId"],
         },
       },
       //
