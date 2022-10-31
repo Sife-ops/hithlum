@@ -6,7 +6,10 @@ import {
   Feed,
   useUpdateFeedMutation,
   useAddFeedMutation,
+  Exact,
+  MyFeedsMutation,
 } from "@hithlum/graphql/urql";
+import { UseMutationResponse } from "urql";
 
 type UserContextType = {
   myFeeds: Feed[] | undefined;
@@ -15,14 +18,15 @@ type UserContextType = {
   setNewFeedUrl: React.Dispatch<React.SetStateAction<string>>;
   addFeed: () => void;
   newFeedUrl: string;
+  myFeedsMutation: UseMutationResponse<MyFeedsMutation, Exact<{
+    [key: string]: never;
+}>>
 };
 
 const userContext = (): UserContextType => {
-  const [myFeedsMutationState, myFeedsMutation] = useMyFeedsMutation();
+  const myFeedsMutation = useMyFeedsMutation();
+  const [myFeedsMutationState, myFeedsMutationFn] = myFeedsMutation;
   const [myFeeds, setMyFeeds] = useState<Feed[]>();
-  useEffect(() => {
-    myFeedsMutation({});
-  }, []);
   useEffect(() => {
     const { fetching, data } = myFeedsMutationState;
     if (!fetching && data) {
@@ -40,7 +44,7 @@ const userContext = (): UserContextType => {
   const addFeed = async () => {
     await addFeedMutation({ url: newFeedUrl });
     await new Promise((resolve) => setTimeout(resolve, 1000)); // todo: don't use this syntax
-    await myFeedsMutation({});
+    await myFeedsMutationFn({});
   };
 
   const [__, updateFeedmutation] = useUpdateFeedMutation();
@@ -53,7 +57,7 @@ const userContext = (): UserContextType => {
       }
       setUpdatingFeed("done!");
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      await myFeedsMutation({});
+      await myFeedsMutationFn({});
       setUpdatingFeed(undefined);
     }
   };
@@ -65,6 +69,7 @@ const userContext = (): UserContextType => {
     newFeedUrl,
     updatingFeed,
     addFeed,
+    myFeedsMutation,
   };
 };
 

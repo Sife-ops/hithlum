@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Feed as FeedType } from "@hithlum/graphql/urql";
 import { Link } from "react-router-dom";
 import { formatDistance } from "date-fns";
@@ -6,6 +6,11 @@ import { useUserContext } from "../../hook/user-context";
 
 export const MyFeeds = () => {
   const ctx = useUserContext();
+
+  useEffect(() => {
+    const [_, myFeedsMutationFn] = ctx.myFeedsMutation;
+    myFeedsMutationFn({});
+  }, []);
 
   return (
     <div>
