@@ -42,6 +42,7 @@ export type Feed = {
   feedUrl?: Maybe<Scalars['String']>;
   imageUrl?: Maybe<Scalars['String']>;
   inputUrl: Scalars['String'];
+  latestArticle: Article;
   link?: Maybe<Scalars['String']>;
   private: Scalars['Boolean'];
   subscribed: Scalars['Boolean'];
@@ -173,7 +174,7 @@ export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: 
 export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, imageUrl?: string | null, title?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } }> }> };
+export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, imageUrl?: string | null, title?: string | null, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -352,7 +353,7 @@ export const MyFeedsDocument = gql`
     feedId
     imageUrl
     title
-    articles {
+    latestArticle {
       ...ArticlePreviewFields
     }
   }

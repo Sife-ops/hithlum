@@ -13,7 +13,7 @@ const documents = {
     "\n  mutation addFeed($url: String!) {\n    addFeed(url: $url) {\n      feedId\n    }\n  }\n": types.AddFeedDocument,
     "\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId)\n  }\n": types.UpdateFeedDocument,
     "\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n": types.ArticlePreviewFieldsFragmentDoc,
-    "\n  mutation myFeeds {\n    myFeeds {\n      feedId\n\n      imageUrl\n      title\n\n      articles {\n        ...ArticlePreviewFields\n      }\n    }\n  }\n": types.MyFeedsDocument,
+    "\n  mutation myFeeds {\n    myFeeds {\n      feedId\n\n      imageUrl\n      title\n\n      latestArticle {\n        ...ArticlePreviewFields\n      }\n    }\n  }\n": types.MyFeedsDocument,
     "\n  query hello {\n    hello\n  }\n": types.HelloDocument,
 };
 
@@ -27,7 +27,7 @@ export function graphql(source: "\n  query recentArticles {\n    recentArticles 
 export function graphql(source: "\n  mutation addFeed($url: String!) {\n    addFeed(url: $url) {\n      feedId\n    }\n  }\n"): (typeof documents)["\n  mutation addFeed($url: String!) {\n    addFeed(url: $url) {\n      feedId\n    }\n  }\n"];
 export function graphql(source: "\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId)\n  }\n"): (typeof documents)["\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId)\n  }\n"];
 export function graphql(source: "\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n"): (typeof documents)["\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n"];
-export function graphql(source: "\n  mutation myFeeds {\n    myFeeds {\n      feedId\n\n      imageUrl\n      title\n\n      articles {\n        ...ArticlePreviewFields\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation myFeeds {\n    myFeeds {\n      feedId\n\n      imageUrl\n      title\n\n      articles {\n        ...ArticlePreviewFields\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation myFeeds {\n    myFeeds {\n      feedId\n\n      imageUrl\n      title\n\n      latestArticle {\n        ...ArticlePreviewFields\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation myFeeds {\n    myFeeds {\n      feedId\n\n      imageUrl\n      title\n\n      latestArticle {\n        ...ArticlePreviewFields\n      }\n    }\n  }\n"];
 export function graphql(source: "\n  query hello {\n    hello\n  }\n"): (typeof documents)["\n  query hello {\n    hello\n  }\n"];
 
 export function graphql(source: string): unknown;

@@ -31,6 +31,15 @@ FeedType.implement({
           }),
     }),
 
+    latestArticle: t.field({
+      type: ArticleType,
+      resolve: ({ feedId }) =>
+        ArticleEntity.query
+          .feed_({ feedId })
+          .go({ order: "desc", limit: 1 })
+          .then((e) => e.data[0]),
+    }),
+
     // can't use loader
     articles: t.field({
       type: [ArticleType],

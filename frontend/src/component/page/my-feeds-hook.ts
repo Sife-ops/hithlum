@@ -20,7 +20,7 @@ export const useMyFeedsHook = () => {
     if (!fetching && data) {
       const desc = _.orderBy(
         data.myFeeds,
-        [(feed) => feed.articles[0].isoDate],
+        [(feed) => feed.latestArticle.isoDate],
         "desc"
       );
       setMyFeeds(desc as Feed[]);
@@ -102,7 +102,7 @@ const myFeeds = graphql(`
       imageUrl
       title
 
-      articles {
+      latestArticle {
         ...ArticlePreviewFields
       }
     }

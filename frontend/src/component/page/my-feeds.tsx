@@ -44,26 +44,23 @@ export const Feeds: React.FC<{ feeds: FeedType[] | undefined }> = (p) => {
         gap: "1rem",
       }}
     >
-      {p.feeds?.map((feed) => {
-        const firstArticle = feed.articles[0];
-        return (
+      {p.feeds?.map(({ latestArticle, feedId, title }) => (
+        <div>
           <div>
+            <Link to={"/feed/" + feedId}>{title}</Link>
+          </div>
+          <div>
+            <div>{latestArticle.title}</div>
+            {latestArticle.summary && <div>{latestArticle.summary}</div>}
+            <Link to={"/article/" + latestArticle.articleId}>Read...</Link>
             <div>
-              <Link to={"/feed/" + feed.feedId}>{feed.title}</Link>
-            </div>
-            <div>
-              <div>{firstArticle.title}</div>
-              {firstArticle.summary && <div>{firstArticle.summary}</div>}
-              <Link to={"/article/" + firstArticle.articleId}>Read...</Link>
-              <div>
-                {formatDistance(new Date(firstArticle.isoDate!), new Date(), {
-                  addSuffix: true,
-                })}
-              </div>
+              {formatDistance(new Date(latestArticle.isoDate!), new Date(), {
+                addSuffix: true,
+              })}
             </div>
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 };
