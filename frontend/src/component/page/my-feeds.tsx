@@ -1,7 +1,8 @@
 import React from "react";
 import { Feed as FeedType } from "@hithlum/graphql/urql";
-import { useUserContext } from "../../hook/user-context";
 import { Link } from "react-router-dom";
+import { formatDistance } from "date-fns";
+import { useUserContext } from "../../hook/user-context";
 
 export const MyFeeds = () => {
   const ctx = useUserContext();
@@ -34,7 +35,13 @@ export const MyFeeds = () => {
 
 export const Feeds: React.FC<{ feeds: FeedType[] | undefined }> = (p) => {
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+      }}
+    >
       {p.feeds?.map((feed) => (
         <Feed feed={feed} key={feed.feedId} />
       ))}
@@ -55,7 +62,11 @@ export const Feed: React.FC<{ feed: FeedType }> = (p) => {
           {firstArticle.title}{" "}
           <Link to={"/article/" + firstArticle.articleId}>Read...</Link>
         </div>
-        <div>{firstArticle.isoDate}</div>
+        <div>
+          {formatDistance(new Date(firstArticle.isoDate!), new Date(), {
+            addSuffix: true,
+          })}
+        </div>
       </div>
     </div>
   );
