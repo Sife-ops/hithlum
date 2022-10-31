@@ -1,10 +1,12 @@
 import { builder } from "../../builder";
 import { hithlumModel } from "@hithlum/core/model";
+import { FeedType } from "../feed";
 
-const { UserFeedEntity } = hithlumModel.entities;
+const { UserFeedEntity, FeedEntity } = hithlumModel.entities;
 
 builder.mutationFields((t) => ({
-  subscribe: t.boolean({
+  subscribe: t.field({
+    type: FeedType,
     args: {
       feedId: t.arg.string({ required: true }),
       //   value: t.arg.boolean({ required: true }),
@@ -18,11 +20,16 @@ builder.mutationFields((t) => ({
 
       await UserFeedEntity.create({ feedId, userId }).go();
 
-      return true;
+      const {
+        data: [feed],
+      } = await FeedEntity.query.feed({ feedId }).go();
+
+      return feed;
     },
   }),
 
-  unsubscribe: t.boolean({
+  unsubscribe: t.field({
+    type: FeedType,
     args: {
       feedId: t.arg.string({ required: true }),
     },
@@ -35,7 +42,11 @@ builder.mutationFields((t) => ({
 
       await UserFeedEntity.remove(userFeed).go();
 
-      return true;
+      const {
+        data: [feed],
+      } = await FeedEntity.query.feed({ feedId }).go();
+
+      return feed;
     },
   }),
 }));

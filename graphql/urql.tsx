@@ -53,8 +53,8 @@ export type Mutation = {
   addFeed: Feed;
   myFeeds: Array<Feed>;
   setUnread: Unread;
-  subscribe: Scalars['Boolean'];
-  unsubscribe: Scalars['Boolean'];
+  subscribe: Feed;
+  unsubscribe: Feed;
   updateFeed: Scalars['String'];
 };
 
@@ -128,14 +128,14 @@ export type SubscribeMutationVariables = Exact<{
 }>;
 
 
-export type SubscribeMutation = { __typename?: 'Mutation', subscribe: boolean };
+export type SubscribeMutation = { __typename?: 'Mutation', subscribe: { __typename?: 'Feed', subscribed: boolean } };
 
 export type UnsubscribeMutationVariables = Exact<{
   feedId: Scalars['String'];
 }>;
 
 
-export type UnsubscribeMutation = { __typename?: 'Mutation', unsubscribe: boolean };
+export type UnsubscribeMutation = { __typename?: 'Mutation', unsubscribe: { __typename?: 'Feed', subscribed: boolean } };
 
 export type FeedQueryVariables = Exact<{
   feedId: Scalars['String'];
@@ -153,11 +153,6 @@ export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null }, unread: { __typename?: 'Unread', value: boolean } }> };
-
-export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type HelloQuery = { __typename?: 'Query', hello: string };
 
 export type AddFeedMutationVariables = Exact<{
   url: Scalars['String'];
@@ -177,6 +172,11 @@ export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> }> };
+
+export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HelloQuery = { __typename?: 'Query', hello: string };
 
 
 export const ArticleDocument = gql`
@@ -217,7 +217,9 @@ export function useSetUnreadMutation() {
 };
 export const SubscribeDocument = gql`
     mutation subscribe($feedId: String!) {
-  subscribe(feedId: $feedId)
+  subscribe(feedId: $feedId) {
+    subscribed
+  }
 }
     `;
 
@@ -226,7 +228,9 @@ export function useSubscribeMutation() {
 };
 export const UnsubscribeDocument = gql`
     mutation unsubscribe($feedId: String!) {
-  unsubscribe(feedId: $feedId)
+  unsubscribe(feedId: $feedId) {
+    subscribed
+  }
 }
     `;
 
@@ -325,15 +329,6 @@ export const RecentArticlesDocument = gql`
 export function useRecentArticlesQuery(options?: Omit<Urql.UseQueryArgs<RecentArticlesQueryVariables>, 'query'>) {
   return Urql.useQuery<RecentArticlesQuery, RecentArticlesQueryVariables>({ query: RecentArticlesDocument, ...options });
 };
-export const HelloDocument = gql`
-    query hello {
-  hello
-}
-    `;
-
-export function useHelloQuery(options?: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'>) {
-  return Urql.useQuery<HelloQuery, HelloQueryVariables>({ query: HelloDocument, ...options });
-};
 export const AddFeedDocument = gql`
     mutation addFeed($url: String!) {
   addFeed(url: $url) {
@@ -388,4 +383,13 @@ export const MyFeedsDocument = gql`
 
 export function useMyFeedsMutation() {
   return Urql.useMutation<MyFeedsMutation, MyFeedsMutationVariables>(MyFeedsDocument);
+};
+export const HelloDocument = gql`
+    query hello {
+  hello
+}
+    `;
+
+export function useHelloQuery(options?: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'>) {
+  return Urql.useQuery<HelloQuery, HelloQueryVariables>({ query: HelloDocument, ...options });
 };

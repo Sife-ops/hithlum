@@ -1,16 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Feed as FeedType } from "@hithlum/graphql/urql";
 import { Link } from "react-router-dom";
 import { formatDistance } from "date-fns";
-import { useUserContext } from "../../hook/user-context";
+import { useMyFeedsHook } from "./my-feeds-hook";
 
 export const MyFeeds = () => {
-  const ctx = useUserContext();
-
-  useEffect(() => {
-    const [_, myFeedsMutationFn] = ctx.myFeedsMutation;
-    myFeedsMutationFn({});
-  }, []);
+  const myFeeds = useMyFeedsHook();
 
   return (
     <div>
@@ -19,21 +14,23 @@ export const MyFeeds = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          ctx.addFeed();
+          myFeeds.addFeed();
         }}
       >
         <input
-          value={ctx.newFeedUrl}
-          onChange={(e) => ctx.setNewFeedUrl(e.target.value)}
+          value={myFeeds.newFeedUrl}
+          onChange={(e) => myFeeds.setNewFeedUrl(e.target.value)}
         />
         <button type="submit">save</button>
       </form>
       <div>
-        <button onClick={async () => ctx.updateFeeds()}>update feeds</button>
-        {ctx.updatingFeed && <div>{ctx.updatingFeed}</div>}
+        <button onClick={async () => myFeeds.updateFeeds()}>
+          update feeds
+        </button>
+        {myFeeds.updatingFeed && <div>{myFeeds.updatingFeed}</div>}
       </div>
       <h2>Feeds</h2>
-      <Feeds feeds={ctx.myFeeds} />
+      <Feeds feeds={myFeeds.myFeeds} />
     </div>
   );
 };
