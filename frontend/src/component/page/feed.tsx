@@ -14,7 +14,7 @@ export const Feed = () => {
 
     return (
       <div>
-        <img src={feed.imageUrl || ""} alt="missing imageUrl" />
+        <img src={feed.image || ""} alt="missing imageUrl" />
         <h3>{feed.title || "untitled"}</h3>
         {feed.description && <div>Description: {feed.description}</div>}
         {feed.feedUrl && <div>Feed URL:{feed.feedUrl}</div>}

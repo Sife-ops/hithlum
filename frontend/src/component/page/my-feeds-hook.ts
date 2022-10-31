@@ -99,7 +99,7 @@ const myFeeds = graphql(`
     myFeeds {
       feedId
 
-      imageUrl
+      image
       title
 
       latestArticle {

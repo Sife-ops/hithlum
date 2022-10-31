@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _, { truncate } from "lodash";
 import { ArticleType } from "./article";
 import { FeedEntityType } from "@hithlum/core/entity/feed";
 import { builder } from "../builder";
@@ -15,10 +15,20 @@ FeedType.implement({
     createdAt_isoDate: t.exposeString("createdAt_isoDate"),
 
     feedUrl: t.exposeString("feedUrl", { nullable: true }),
-    imageUrl: t.exposeString("imageUrl", { nullable: true }),
     title: t.exposeString("title", { nullable: true }),
     description: t.exposeString("description", { nullable: true }),
     link: t.exposeString("link", { nullable: true }),
+
+    // imageUrl: t.exposeString("imageUrl", { nullable: true }),
+    // todo: s3 for custom images
+    // todo: fallback image
+    image: t.string({
+      nullable: true,
+      resolve: (p) => {
+        if (p.imageUrl) return p.imageUrl;
+        if (p.itunesImage) return p.itunesImage;
+      },
+    }),
 
     subscribed: t.boolean({
       resolve: ({ feedId }, __, { user: { userId } }) =>

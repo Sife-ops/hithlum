@@ -51,7 +51,7 @@ const recentFeeds = graphql(`
       createdAt_isoDate
 
       feedUrl
-      imageUrl
+      image
       title
       description
       link
@@ -83,7 +83,7 @@ const recentArticles = graphql(`
         createdAt_isoDate
 
         feedUrl
-        imageUrl
+        image
         title
         description
         link

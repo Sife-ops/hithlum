@@ -143,6 +143,7 @@ export const FeedEntity = new Entity(
       //   image: 'https://c10.patreonusercontent.com/4/patreon-media/p/campaign/2107286/cdb73e31728f40c28d0609887d5f5a9a/eyJ3Ijo0MDB9/1?token-time=2145916800&token-hash=-p3qHOYzRhQRzjDsOAEUEAEW0HVXeaqixL-Ob170LoE%3D',
       //   author: 'cum town RSS'
       // }
+      itunesImage: { type: "string" },
     },
   },
   Dynamo.Configuration

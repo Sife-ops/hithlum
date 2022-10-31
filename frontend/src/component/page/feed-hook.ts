@@ -55,7 +55,7 @@ const feed = graphql(`
       feedId
       inputUrl
 
-      imageUrl
+      image
       title
       description
       feedUrl
