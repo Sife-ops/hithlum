@@ -54,35 +54,17 @@ const feed = graphql(`
     feed(feedId: $feedId) {
       feedId
       inputUrl
-      private
-      createdAt_isoDate
 
-      feedUrl
       imageUrl
       title
       description
+      feedUrl
       link
 
       subscribed
 
       articles {
-        articleId
-        feedId
-
-        categories
-        content
-        contentSnippet
-        creator
-        guid
-        isoDate
-        link
-        pubDate
-        summary
-        title
-
-        unread {
-          value
-        }
+        ...ArticlePreviewFields
       }
     }
   }

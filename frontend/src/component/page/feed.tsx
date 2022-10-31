@@ -10,11 +10,11 @@ export const Feed = () => {
     <div>
       {ctx.feed && (
         <div>
+          <div>{ctx.feed.imageUrl}</div> {/* todo: image tag */}
           <h3>{ctx.feed.title}</h3>
-          <div>{ctx.feed.imageUrl}</div>
           <div>{ctx.feed.description}</div>
-          <div>{ctx.feed.link}</div>
           <div>{ctx.feed.feedUrl}</div>
+          <div>{ctx.feed.link}</div>
           <button
             onClick={() => {
               if (!ctx.feed) return;
@@ -25,15 +25,15 @@ export const Feed = () => {
           >
             {ctx.feed.subscribed ? "unsubscribe" : "subscribe"}
           </button>
-
           <h3>Articles</h3>
           <div>
             {ctx.feed.articles.map((article) => (
               <div key={article.articleId}>
+                {/* todo: indicate unread */}
+                <div>{article.unread.value ? "unread" : "read"}</div>{" "}
                 <div>{article.title}</div>
-                <div>{article.unread.value ? "unread" : "read"}</div>
-                <div>{article.link}</div>
                 <div>{article.summary}</div>
+                {/* todo: distance */}
                 <div>{article.isoDate}</div>
                 <div>
                   <Link to={"/article/" + article.articleId}>read</Link>

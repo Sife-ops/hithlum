@@ -58,12 +58,10 @@ export const Feed: React.FC<{ feed: FeedType }> = (p) => {
       <div>
         <Link to={"/feed/" + p.feed.feedId}>{p.feed.title}</Link>
       </div>
-      {p.feed.description && <div>{p.feed.description}</div>}
       <div>
-        <div>
-          {firstArticle.title}{" "}
-          <Link to={"/article/" + firstArticle.articleId}>Read...</Link>
-        </div>
+        <div>{firstArticle.title}</div>
+        {firstArticle.summary && <div>{firstArticle.summary}</div>}
+        <Link to={"/article/" + firstArticle.articleId}>Read...</Link>
         <div>
           {formatDistance(new Date(firstArticle.isoDate!), new Date(), {
             addSuffix: true,

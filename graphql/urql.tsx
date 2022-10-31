@@ -142,7 +142,7 @@ export type FeedQueryVariables = Exact<{
 }>;
 
 
-export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, private: boolean, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, subscribed: boolean, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
+export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, imageUrl?: string | null, title?: string | null, description?: string | null, feedUrl?: string | null, link?: string | null, subscribed: boolean, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
 
 export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -168,17 +168,30 @@ export type UpdateFeedMutationVariables = Exact<{
 
 export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: string };
 
+export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } };
+
 export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, inputUrl: string, createdAt_isoDate: string, feedUrl?: string | null, imageUrl?: string | null, title?: string | null, description?: string | null, link?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } }> }> };
+export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, imageUrl?: string | null, title?: string | null, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } }> }> };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HelloQuery = { __typename?: 'Query', hello: string };
 
-
+export const ArticlePreviewFieldsFragmentDoc = gql`
+    fragment ArticlePreviewFields on Article {
+  articleId
+  feedId
+  title
+  summary
+  isoDate
+  unread {
+    value
+  }
+}
+    `;
 export const ArticleDocument = gql`
     query article($articleId: String!) {
   article(articleId: $articleId) {
@@ -242,34 +255,18 @@ export const FeedDocument = gql`
   feed(feedId: $feedId) {
     feedId
     inputUrl
-    private
-    createdAt_isoDate
-    feedUrl
     imageUrl
     title
     description
+    feedUrl
     link
     subscribed
     articles {
-      articleId
-      feedId
-      categories
-      content
-      contentSnippet
-      creator
-      guid
-      isoDate
-      link
-      pubDate
-      summary
-      title
-      unread {
-        value
-      }
+      ...ArticlePreviewFields
     }
   }
 }
-    `;
+    ${ArticlePreviewFieldsFragmentDoc}`;
 
 export function useFeedQuery(options: Omit<Urql.UseQueryArgs<FeedQueryVariables>, 'query'>) {
   return Urql.useQuery<FeedQuery, FeedQueryVariables>({ query: FeedDocument, ...options });
@@ -353,33 +350,14 @@ export const MyFeedsDocument = gql`
     mutation myFeeds {
   myFeeds {
     feedId
-    inputUrl
-    createdAt_isoDate
-    feedUrl
     imageUrl
     title
-    description
-    link
     articles {
-      articleId
-      feedId
-      categories
-      content
-      contentSnippet
-      creator
-      guid
-      isoDate
-      link
-      pubDate
-      summary
-      title
-      unread {
-        value
-      }
+      ...ArticlePreviewFields
     }
   }
 }
-    `;
+    ${ArticlePreviewFieldsFragmentDoc}`;
 
 export function useMyFeedsMutation() {
   return Urql.useMutation<MyFeedsMutation, MyFeedsMutationVariables>(MyFeedsDocument);
