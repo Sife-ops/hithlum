@@ -52,43 +52,35 @@ export const Article = () => {
         />
         <div>
           <h3>{article.title}</h3>
-          {article.summary && (
-            <div>
-              summary:{" "}
-              <a href={article.summary} target="_blank">
-                {article.summary}
-              </a>
-            </div>
-          )}
-          {article.content && (
-            <div>
-              content:{" "}
-              <a href={article.content} target="_blank">
-                {article.content}
-              </a>
-            </div>
-          )}
-          {article.contentSnippet && (
-            <div>
-              contentSnippet:{" "}
-              <a href={article.contentSnippet} target="_blank">
-                {article.contentSnippet}
-              </a>
-            </div>
-          )}
-          {article.link && (
-            <div>
-              link:{" "}
-              <a href={article.link} target="_blank">
-                {article.link}
-              </a>
-            </div>
-          )}
           <div>
             {formatDistance(new Date(article.isoDate!), new Date(), {
               addSuffix: true,
             })}
           </div>
+          <br />
+          {article.summary && (
+            <div>
+              <h4>Summary:</h4>
+              <p>{article.summary}</p>
+            </div>
+          )}
+          {article.content && (
+            <div>
+              <h4>Content:</h4>
+              <div dangerouslySetInnerHTML={{ __html: article.content }} />
+            </div>
+          )}
+          {/* {article.contentSnippet && (
+            <div>contentSnippet: {article.contentSnippet}</div>
+          )} */}
+          {article.link && (
+            <div>
+              Link:{" "}
+              <a href={article.link} target="_blank">
+                {article.link}
+              </a>
+            </div>
+          )}
         </div>
       </div>
     );
