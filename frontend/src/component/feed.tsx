@@ -1,4 +1,5 @@
 import React from "react";
+import defaultArtwork from "../assets/default.png";
 import {
   Article as ArticleType,
   Feed as FeedType,
@@ -14,12 +15,21 @@ export const Feed: React.FC<{ feed: FeedType; article: ArticleType }> = ({
     key={feed.feedId}
     style={{
       border: `1px solid ${article.unread.value ? "blue" : "purple"}`,
+      display: "flex",
     }}
   >
+    <img
+      src={feed.image || defaultArtwork}
+      alt="artwork"
+      style={{
+        width: "128px",
+        height: "auto",
+      }}
+    />
     <div>
-      <Link to={"/feed/" + feed.feedId}>{feed.title}</Link>
-    </div>
-    <div>
+      <div>
+        <Link to={"/feed/" + feed.feedId}>{feed.title}</Link>
+      </div>
       <div>
         {article.title}{" "}
         <Link to={"/article/" + article.articleId}>Read...</Link>

@@ -104,13 +104,13 @@ export const FeedEntity = new Entity(
         default: () => Date.now(),
       },
 
-      createdAt_isoDate: {
+      createdAt_isoDate: { // todo: remove field
         type: "string",
         required: true,
         default: () => new Date().toISOString(),
       },
 
-      private: {
+      hasCustomArtwork: {
         type: "boolean",
         required: true,
         default: () => false,

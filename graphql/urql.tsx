@@ -40,11 +40,11 @@ export type Feed = {
   description?: Maybe<Scalars['String']>;
   feedId: Scalars['ID'];
   feedUrl?: Maybe<Scalars['String']>;
+  hasCustomArtwork: Scalars['Boolean'];
   image: Scalars['String'];
   inputUrl: Scalars['String'];
   latestArticle: Article;
   link?: Maybe<Scalars['String']>;
-  private: Scalars['Boolean'];
   subscribed: Scalars['Boolean'];
   title?: Maybe<Scalars['String']>;
 };

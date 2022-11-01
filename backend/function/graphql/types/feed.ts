@@ -14,8 +14,8 @@ FeedType.implement({
   fields: (t) => ({
     feedId: t.exposeID("feedId"),
     inputUrl: t.exposeString("inputUrl"),
-    private: t.exposeBoolean("private"),
     createdAt_isoDate: t.exposeString("createdAt_isoDate"),
+    hasCustomArtwork: t.exposeBoolean("hasCustomArtwork"),
 
     feedUrl: t.exposeString("feedUrl", { nullable: true }),
     title: t.exposeString("title", { nullable: true }),
@@ -27,7 +27,7 @@ FeedType.implement({
       resolve: async (p) => {
         if (p.imageUrl) return p.imageUrl;
         if (p.itunesImage) return p.itunesImage;
-        // todo: hasCustomArtwork flag
+        if (!p.hasCustomArtwork) return "";
         try {
           const params = {
             Key: p.feedId + ".png",
