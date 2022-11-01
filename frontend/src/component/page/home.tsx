@@ -1,4 +1,5 @@
 import * as style from "./home.css";
+import { Feed } from "../feed";
 import { Link } from "react-router-dom";
 import { useHome } from "./home-hook";
 
@@ -17,13 +18,14 @@ export const Home = () => {
 
         <div>
           <h3>Added Feeds</h3>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {recentFeeds?.map((feed) => (
-              <div key={feed.feedId} className={style.addedFeeds}>
-                <div>{feed.title}</div>
-                {/* {feed.description && <div>{feed.description}</div>} */}
-                <Link to={"/feed/" + feed.feedId}>more...</Link>
-              </div>
+              <Feed feed={feed} />
             ))}
           </div>
         </div>
