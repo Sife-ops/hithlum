@@ -1,5 +1,5 @@
 import React from "react";
-import defaultArtwork from "../assets/default.png";
+import defaultArtwork from "../assets/default/artwork.svg";
 import {
   Article as ArticleType,
   Feed as FeedType,

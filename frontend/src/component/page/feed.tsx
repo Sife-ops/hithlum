@@ -1,5 +1,5 @@
 import React from "react";
-import defaultArtwork from "../../assets/default.png";
+import defaultArtwork from "../../assets/default/artwork.svg";
 import { formatDistance } from "date-fns";
 import { useFeed } from "./feed-hook";
 import { useParams, Link } from "react-router-dom";
