@@ -8,7 +8,7 @@ import {
   useUpdateFeedMutation,
 } from "@hithlum/graphql/urql";
 
-export const useMyFeedsHook = () => {
+export const useMyFeeds = () => {
   const myFeedsMutation = useMyFeedsMutation();
   const [myFeedsMutationState, myFeedsMutationFn] = myFeedsMutation;
   const [myFeeds, setMyFeeds] = useState<Feed[]>();

@@ -18,7 +18,7 @@ export const Feed = () => {
         <img src={feed.image || defaultArtwork} alt="missing imageUrl" />
         <h3>{feed.title || "untitled"}</h3>
         {feed.description && <div>Description: {feed.description}</div>}
-        {feed.feedUrl && <div>Feed URL:{feed.feedUrl}</div>}
+        {feed.feedUrl && <div>Feed URL: {feed.feedUrl}</div>}
         {feed.link && <div>Link: {feed.link}</div>}
         <button
           onClick={() => {

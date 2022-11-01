@@ -1,13 +1,13 @@
 import { Feed } from "../feed";
-import { useMyFeedsHook } from "./my-feeds-hook";
+import { useMyFeeds } from "./my-feeds-hook";
 
 export const MyFeeds = () => {
-  const myFeeds = useMyFeedsHook();
+  const myFeeds = useMyFeeds();
 
   return (
     <div>
       <h1>My Feeds</h1>
-      <h2>Add Feed</h2>
+      <h3>Add Feed</h3>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -27,17 +27,29 @@ export const MyFeeds = () => {
         {myFeeds.updatingFeed && <div>{myFeeds.updatingFeed}</div>}
       </div>
 
-      <h2>Feeds</h2>
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "1rem",
+          margin: "1rem",
         }}
       >
-        {myFeeds.myFeeds?.map((feed) => (
-          <Feed feed={feed} article={feed.latestArticle} />
-        ))}
+        <h3
+          style={{
+            marginBottom: "1rem",
+          }}
+        >
+          Feeds
+        </h3>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "1rem",
+          }}
+        >
+          {myFeeds.myFeeds?.map((feed) => (
+            <Feed feed={feed} article={feed.latestArticle} />
+          ))}
+        </div>
       </div>
     </div>
   );
