@@ -21,7 +21,7 @@ const feedPreviewFields = graphql(`
 
     image
     title
-    createdAt_isoDate
+    createdAt
 
     latestArticle {
       ...ArticlePreviewFields

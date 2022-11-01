@@ -14,15 +14,16 @@ FeedType.implement({
   fields: (t) => ({
     feedId: t.exposeID("feedId"),
     inputUrl: t.exposeString("inputUrl"),
-    createdAt_isoDate: t.exposeString("createdAt_isoDate"),
     hasCustomArtwork: t.exposeBoolean("hasCustomArtwork"),
+    createdAt: t.string({
+      resolve: (p) => p.createdAt.toString(),
+    }),
 
     feedUrl: t.exposeString("feedUrl", { nullable: true }),
     title: t.exposeString("title", { nullable: true }),
     description: t.exposeString("description", { nullable: true }),
     link: t.exposeString("link", { nullable: true }),
 
-    // todo: fallback image
     image: t.string({
       resolve: async (p) => {
         if (p.imageUrl) return p.imageUrl;

@@ -16,10 +16,7 @@ export const useHome = () => {
   useEffect(() => {
     const { fetching, data } = recentFeedsQueryState;
     if (!fetching && data) {
-      const desc = _.reverse(
-        _.sortBy(data.recentFeeds, [(e) => Date.parse(e.createdAt_isoDate)])
-      );
-      setRecentFeeds(desc as Feed[]);
+      setRecentFeeds(data.recentFeeds as Feed[]);
     }
   }, [recentFeedsQueryState.data]);
 
@@ -29,10 +26,7 @@ export const useHome = () => {
   useEffect(() => {
     const { fetching, data } = recentArticlesQueryState;
     if (!fetching && data) {
-      const desc = _.reverse(
-        _.sortBy(data.recentArticles, [(e) => Date.parse(e.isoDate!)])
-      );
-      setRecentArticles(desc as Article[]);
+      setRecentArticles(data.recentArticles as Article[]);
     }
   }, [recentArticlesQueryState.data]);
 

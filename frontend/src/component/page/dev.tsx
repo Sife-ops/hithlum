@@ -38,13 +38,13 @@ export const Dev = () => {
   useEffect(() => {
     const { fetching, data } = recentFeedsQueryState;
     if (!fetching && data) {
-      let desc = data.recentFeeds;
-      desc.sort((a, b) => {
-        const aa = Date.parse(a.createdAt_isoDate);
-        const bb = Date.parse(b.createdAt_isoDate);
-        return bb - aa;
-      });
-      setRecentFeeds(desc as Feed[]);
+      // let desc = data.recentFeeds;
+      // desc.sort((a, b) => {
+      //   const aa = Date.parse(a.createdAt);
+      //   const bb = Date.parse(b.createdAt);
+      //   return bb - aa;
+      // });
+      setRecentFeeds(data.recentFeeds as Feed[]);
     }
   }, [recentFeedsQueryState.data]);
 

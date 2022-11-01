@@ -36,7 +36,7 @@ export type Article = {
 export type Feed = {
   __typename?: 'Feed';
   articles: Array<Article>;
-  createdAt_isoDate: Scalars['String'];
+  createdAt: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   feedId: Scalars['ID'];
   feedUrl?: Maybe<Scalars['String']>;
@@ -148,7 +148,7 @@ export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', fee
 export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt_isoDate: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
+export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
 
 export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -172,11 +172,11 @@ export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: string }
 export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt_isoDate: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
+export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
 
 export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } };
 
-export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt_isoDate: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
+export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -200,7 +200,7 @@ export const FeedPreviewFieldsFragmentDoc = gql`
   feedId
   image
   title
-  createdAt_isoDate
+  createdAt
   latestArticle {
     ...ArticlePreviewFields
   }
