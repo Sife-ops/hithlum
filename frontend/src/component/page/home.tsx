@@ -14,8 +14,6 @@ export const Home = () => {
           gridTemplateColumns: "1fr 1fr",
         }}
       >
-        {/* // */}
-
         <div>
           <h3>Added Feeds</h3>
           <div
@@ -25,32 +23,32 @@ export const Home = () => {
             }}
           >
             {recentFeeds?.map((feed) => (
-              <Feed feed={feed} />
+              <Feed
+                feed={feed}
+                article={feed.latestArticle}
+                key={feed.feedId}
+              />
             ))}
           </div>
         </div>
 
         <div>
           <h3>New Articles</h3>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {recentArticles?.map((article) => (
-              <div
+              <Feed
+                feed={article.feed}
+                article={article}
                 key={article.articleId}
-                style={{
-                  border: "1px solid purple",
-                }}
-              >
-                <div>{article.title}</div>
-                <div>{article.isoDate}</div>
-                <div>{article.feed.title}</div>
-                <div>{article.unread.value ? "unread" : "read"}</div>
-                <Link to={"/article/" + article.articleId}>more...</Link>
-              </div>
+              />
             ))}
           </div>
         </div>
-
-        {/* // */}
       </div>
     </div>
   );

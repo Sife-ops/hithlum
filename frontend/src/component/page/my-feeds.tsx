@@ -36,7 +36,7 @@ export const MyFeeds = () => {
         }}
       >
         {myFeeds.myFeeds?.map((feed) => (
-          <Feed feed={feed} />
+          <Feed feed={feed} article={feed.latestArticle} />
         ))}
       </div>
     </div>
