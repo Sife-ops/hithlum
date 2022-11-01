@@ -5,6 +5,7 @@
     "start": "nodemon -e ts --exec node ../node_modules/.bin/sls offline --stage local"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.200.0",
     "@pothos/core": "^3.22.8",
     "@pothos/plugin-dataloader": "^3.12.6",
     "@serverless-stack/node": "^1.15.16",

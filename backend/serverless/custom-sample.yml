@@ -1,0 +1,13 @@
+global:
+  mandosUrl:
+    local: "local"
+    dev: "dev"
+    prod: "prod"
+
+  domain:
+    dev: dev
+    prod: prod
+
+  certificate:
+    dev: dev
+    prod: prod

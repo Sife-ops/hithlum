@@ -7,7 +7,7 @@ import { hithlumModel } from "@hithlum/core/model";
 
 const { ArticleEntity, UserFeedEntity } = hithlumModel.entities;
 const s3 = new AWS.S3();
-const { ARTWORK_BUCKET } = process.env;
+const { ARTWORK_BUCKET, STAGE } = process.env;
 
 export const FeedType = builder.objectRef<FeedEntityType>("Feed");
 FeedType.implement({
@@ -28,6 +28,7 @@ FeedType.implement({
       resolve: async (p) => {
         if (p.imageUrl) return p.imageUrl;
         if (p.itunesImage) return p.itunesImage;
+        if (STAGE === "local") return "";
         if (!p.hasCustomArtwork) return "";
         try {
           const params = {

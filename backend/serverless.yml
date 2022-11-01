@@ -35,12 +35,15 @@ provider:
             - arn:aws:dynamodb:*:*:table/${self:provider.environment.TABLE}
             - arn:aws:dynamodb:*:*:table/${self:provider.environment.TABLE}/index/*
 
-custom:
-  global: ${file(./serverless/global.yml)}
-
+custom: ${file(./serverless/custom.yml)}
 functions: ${file(./serverless/functions.yml)}
 
-resources: ${file(./serverless/resources.yml)}
+resources:
+  Resources:
+    hithlumTableV3:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties: ${file(./serverless/table-properties-v3.js)}
 
 constructs:
   articleQueue:

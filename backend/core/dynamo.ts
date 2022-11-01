@@ -1,11 +1,19 @@
 export * as Dynamo from "./dynamo";
-
 import { EntityConfiguration } from "electrodb";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
-export const Client = new DynamoDBClient({});
+const { STAGE, TABLE } = process.env;
+
+export const Client = new DynamoDBClient(
+  STAGE === "local"
+    ? {
+        region: "us-east-1",
+        endpoint: "http://localhost:8000",
+      }
+    : {}
+);
 
 export const Configuration: EntityConfiguration = {
-  table: process.env.TABLE,
+  table: TABLE,
   client: Client,
 };
