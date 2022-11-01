@@ -14,23 +14,55 @@ export const Feed = () => {
     const { feed } = ctx;
 
     return (
-      <div>
-        <img src={feed.image || defaultArtwork} alt="missing imageUrl" />
-        <h3>{feed.title || "untitled"}</h3>
-        {feed.description && <div>Description: {feed.description}</div>}
-        {feed.feedUrl && <div>Feed URL: {feed.feedUrl}</div>}
-        {feed.link && <div>Link: {feed.link}</div>}
-        <button
-          onClick={() => {
-            const { feedId } = feed;
-            if (feed.subscribed) ctx.unsubscribeMutation({ feedId });
-            else ctx.subscribeMutation({ feedId });
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        <img
+          src={feed.image || defaultArtwork}
+          alt="missing imageUrl"
+          style={{
+            width: "128px",
+            height: "auto",
           }}
-        >
-          {feed.subscribed ? "unsubscribe" : "subscribe"}
-        </button>
-        <h3>Articles</h3>
-        <Articles articles={feed.articles} />
+        />
+        <div>
+          <h3>{feed.title || "untitled"}</h3>
+          {feed.description && <div>Description: {feed.description}</div>}
+          {feed.feedUrl && (
+            <div>
+              {/* todo: open in new tab */}
+              Feed URL:{" "}
+              <a href={feed.feedUrl} target="_blank">
+                {feed.feedUrl}
+              </a>
+            </div>
+          )}
+          {feed.link && (
+            <div>
+              Link:{" "}
+              <a href={feed.link} target="_blank">
+                {feed.link}
+              </a>
+            </div>
+          )}
+          <button
+            onClick={() => {
+              const { feedId } = feed;
+              if (feed.subscribed) ctx.unsubscribeMutation({ feedId });
+              else ctx.subscribeMutation({ feedId });
+            }}
+          >
+            {feed.subscribed ? "unsubscribe" : "subscribe"}
+          </button>
+        </div>
+        <div>
+          <h3>Articles</h3>
+          <Articles articles={feed.articles} />
+        </div>
       </div>
     );
   }
@@ -39,7 +71,13 @@ export const Feed = () => {
 };
 
 const Articles: React.FC<{ articles: Article[] }> = (p) => (
-  <div>
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+    }}
+  >
     {p.articles.map((article) => {
       const color = article.unread.value ? "blue" : "purple";
       return (

@@ -109,13 +109,6 @@ export type Unread = {
   value: Scalars['Boolean'];
 };
 
-export type ArticleQueryVariables = Exact<{
-  articleId: Scalars['String'];
-}>;
-
-
-export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
-
 export type SetUnreadMutationVariables = Exact<{
   articleId: Scalars['String'];
   value: Scalars['Boolean'];
@@ -123,6 +116,13 @@ export type SetUnreadMutationVariables = Exact<{
 
 
 export type SetUnreadMutation = { __typename?: 'Mutation', setUnread: { __typename?: 'Unread', value: boolean } };
+
+export type ArticleQueryVariables = Exact<{
+  articleId: Scalars['String'];
+}>;
+
+
+export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean }, feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } } } };
 
 export type SubscribeMutationVariables = Exact<{
   feedId: Scalars['String'];
@@ -206,6 +206,17 @@ export const FeedPreviewFieldsFragmentDoc = gql`
   }
 }
     ${ArticlePreviewFieldsFragmentDoc}`;
+export const SetUnreadDocument = gql`
+    mutation setUnread($articleId: String!, $value: Boolean!) {
+  setUnread(articleId: $articleId, value: $value) {
+    value
+  }
+}
+    `;
+
+export function useSetUnreadMutation() {
+  return Urql.useMutation<SetUnreadMutation, SetUnreadMutationVariables>(SetUnreadDocument);
+};
 export const ArticleDocument = gql`
     query article($articleId: String!) {
   article(articleId: $articleId) {
@@ -224,23 +235,15 @@ export const ArticleDocument = gql`
     unread {
       value
     }
+    feed {
+      ...FeedPreviewFields
+    }
   }
 }
-    `;
+    ${FeedPreviewFieldsFragmentDoc}`;
 
 export function useArticleQuery(options: Omit<Urql.UseQueryArgs<ArticleQueryVariables>, 'query'>) {
   return Urql.useQuery<ArticleQuery, ArticleQueryVariables>({ query: ArticleDocument, ...options });
-};
-export const SetUnreadDocument = gql`
-    mutation setUnread($articleId: String!, $value: Boolean!) {
-  setUnread(articleId: $articleId, value: $value) {
-    value
-  }
-}
-    `;
-
-export function useSetUnreadMutation() {
-  return Urql.useMutation<SetUnreadMutation, SetUnreadMutationVariables>(SetUnreadDocument);
 };
 export const SubscribeDocument = gql`
     mutation subscribe($feedId: String!) {
