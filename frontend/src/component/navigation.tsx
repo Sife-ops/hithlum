@@ -2,11 +2,20 @@ import { Link } from "react-router-dom";
 
 export const Navigation = () => {
   return (
-    <ul>
+    <ul
+      style={{
+        display: "flex",
+        listStyleType: "none",
+        gap: "2rem",
+        paddingLeft: 0,
+      }}
+    >
       {/* <button onClick={() => auth.signOut()}>sign out</button> */}
-      <li>
-        <Link to={"/dev"}>Dev</Link>
-      </li>
+      {import.meta.env.MODE === "local" && (
+        <li>
+          <Link to={"/dev"}>Dev</Link>
+        </li>
+      )}
       <li>
         <Link to={"/home"}>Home</Link>
       </li>

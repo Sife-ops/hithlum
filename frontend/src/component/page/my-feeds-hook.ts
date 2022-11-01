@@ -31,6 +31,7 @@ export const useMyFeeds = () => {
   const [newFeedUrl, setNewFeedUrl] = useState("");
   const addFeed = async () => {
     await addFeedMutation({ url: newFeedUrl });
+    setNewFeedUrl("");
     await new Promise((resolve) => setTimeout(resolve, 1000)); // todo: don't use this syntax
     await myFeedsMutationFn({});
   };

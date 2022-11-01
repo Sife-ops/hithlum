@@ -5,24 +5,23 @@ export const Home = () => {
   const { recentArticles, recentFeeds } = useHome();
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+      }}
+    >
       <h1>Recent</h1>
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: "1rem",
-          margin: "1rem",
         }}
       >
         <div>
-          <h3
-            style={{
-              marginBottom: "1rem",
-            }}
-          >
-            Added Feeds
-          </h3>
+          <h3>Added Feeds</h3>
           <div
             style={{
               display: "flex",
@@ -41,13 +40,7 @@ export const Home = () => {
         </div>
 
         <div>
-          <h3
-            style={{
-              marginBottom: "1rem",
-            }}
-          >
-            New Articles
-          </h3>
+          <h3>New Articles</h3>
           <div
             style={{
               display: "flex",

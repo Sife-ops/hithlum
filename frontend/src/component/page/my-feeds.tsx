@@ -5,40 +5,45 @@ export const MyFeeds = () => {
   const myFeeds = useMyFeeds();
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+      }}
+    >
       <h1>My Feeds</h1>
-      <h3>Add Feed</h3>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          myFeeds.addFeed();
-        }}
-      >
-        <input
-          value={myFeeds.newFeedUrl}
-          onChange={(e) => myFeeds.setNewFeedUrl(e.target.value)}
-        />
-        <button type="submit">save</button>
-      </form>
       <div>
-        <button onClick={async () => myFeeds.updateFeeds()}>
-          update feeds
-        </button>
-        {myFeeds.updatingFeed && <div>{myFeeds.updatingFeed}</div>}
-      </div>
-
-      <div
-        style={{
-          margin: "1rem",
-        }}
-      >
-        <h3
+        <h3>Add Feed</h3>
+        <div
           style={{
-            marginBottom: "1rem",
+            display: "flex",
+            gap: "1rem",
           }}
         >
-          Feeds
-        </h3>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              myFeeds.addFeed();
+            }}
+          >
+            <input
+              value={myFeeds.newFeedUrl}
+              onChange={(e) => myFeeds.setNewFeedUrl(e.target.value)}
+            />
+            <button type="submit">save</button>
+          </form>
+          <div>
+            <button onClick={async () => myFeeds.updateFeeds()}>
+              update feeds
+            </button>
+            {myFeeds.updatingFeed && <div>{myFeeds.updatingFeed}</div>}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Feeds</h3>
         <div
           style={{
             display: "grid",
