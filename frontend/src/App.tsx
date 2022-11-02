@@ -12,6 +12,7 @@ import { Home } from "./component/page/home";
 import { MyFeeds } from "./component/page/my-feeds";
 import { Navigation } from "./component/navigation";
 import { PrivateRoutes } from "./component/private-routes";
+import { User } from "./component/page/user";
 
 function App() {
   // const auth = useAuthContext();
@@ -36,6 +37,7 @@ function App() {
           <Route path="/friends" element={<div>friends</div>} />
           <Route path="/feed/:feedId" element={<Feed />} />
           <Route path="/article/:articleId" element={<Article />} />
+          <Route path="/user/:userId" element={<User />} />
         </Route>
         <Route path="/auth" element={<Auth to="/home" />} />
         <Route path="/error" element={<div>Error</div>} />

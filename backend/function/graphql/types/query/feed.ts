@@ -2,7 +2,7 @@ import { FeedType } from "../feed";
 import { builder } from "../../builder";
 import { hithlumModel } from "@hithlum/core/model";
 
-const { FeedEntity, UserFeedEntity } = hithlumModel.entities;
+const { FeedEntity } = hithlumModel.entities;
 
 builder.queryFields((t) => ({
   feed: t.field({

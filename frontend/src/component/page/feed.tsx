@@ -1,10 +1,10 @@
 import React from "react";
 import defaultArtwork from "../../assets/default/artwork.svg";
 import defaultAvatar from "../../assets/default/avatar.png";
+import { Article } from "@hithlum/graphql/urql";
 import { formatDistance } from "date-fns";
 import { useFeed } from "./feed-hook";
 import { useParams, Link } from "react-router-dom";
-import { Article } from "@hithlum/graphql/urql";
 
 export const Feed = () => {
   const { feedId } = useParams();
@@ -24,7 +24,7 @@ export const Feed = () => {
       >
         <img
           src={feed.image || defaultArtwork}
-          alt="missing imageUrl"
+          alt="artwork"
           style={{
             width: "128px",
             height: "auto",
