@@ -25,7 +25,7 @@ export const UserFeedEntity = new Entity(
         },
         sk: {
           field: "gsi1sk",
-          composite: ["feedId"],
+          composite: ["feedId"], // todo: createdAt
         },
       },
 
@@ -41,19 +41,6 @@ export const UserFeedEntity = new Entity(
           composite: ["userId"],
         },
       },
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
     },
 
     model: {
@@ -79,13 +66,7 @@ export const UserFeedEntity = new Entity(
         required: true,
       },
 
-      //////////////////////////////////////////////////////////////////////////
-
-      // todo: unread
-      // unread: {
-      //   type: "string",
-      //   required: true,
-      // },
+      // todo: createdAt
     },
   },
   Dynamo.Configuration

@@ -63,6 +63,13 @@ const feed = graphql(`
 
       subscribed
 
+      addedByUser {
+        userId
+        username
+        discriminator
+        avatarUrl
+      }
+
       articles {
         ...ArticlePreviewFields
       }

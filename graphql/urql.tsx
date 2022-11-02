@@ -35,6 +35,7 @@ export type Article = {
 
 export type Feed = {
   __typename?: 'Feed';
+  addedByUser: User;
   articles: Array<Article>;
   createdAt: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -109,6 +110,14 @@ export type Unread = {
   value: Scalars['Boolean'];
 };
 
+export type User = {
+  __typename?: 'User';
+  avatarUrl: Scalars['String'];
+  discriminator: Scalars['String'];
+  userId: Scalars['ID'];
+  username: Scalars['String'];
+};
+
 export type SetUnreadMutationVariables = Exact<{
   articleId: Scalars['String'];
   value: Scalars['Boolean'];
@@ -143,7 +152,7 @@ export type FeedQueryVariables = Exact<{
 }>;
 
 
-export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, image: string, title?: string | null, description?: string | null, feedUrl?: string | null, link?: string | null, subscribed: boolean, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
+export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, image: string, title?: string | null, description?: string | null, feedUrl?: string | null, link?: string | null, subscribed: boolean, addedByUser: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string }, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
 
 export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -278,6 +287,12 @@ export const FeedDocument = gql`
     feedUrl
     link
     subscribed
+    addedByUser {
+      userId
+      username
+      discriminator
+      avatarUrl
+    }
     articles {
       ...ArticlePreviewFields
     }

@@ -1,5 +1,6 @@
 import React from "react";
 import defaultArtwork from "../../assets/default/artwork.svg";
+import defaultAvatar from "../../assets/default/avatar.png";
 import { formatDistance } from "date-fns";
 import { useFeed } from "./feed-hook";
 import { useParams, Link } from "react-router-dom";
@@ -58,6 +59,27 @@ export const Feed = () => {
           >
             {feed.subscribed ? "unsubscribe" : "subscribe"}
           </button>
+        </div>
+        <div>
+          <h3>Added By</h3>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+            }}
+          >
+            <img
+              src={feed.addedByUser.avatarUrl || defaultAvatar}
+              alt="avatar"
+              style={{
+                width: "64px",
+                height: "64px",
+                borderRadius: "50%",
+              }}
+            />
+            <a href="#">{feed.addedByUser.username}</a>
+          </div>
         </div>
         <div>
           <h3>Articles</h3>

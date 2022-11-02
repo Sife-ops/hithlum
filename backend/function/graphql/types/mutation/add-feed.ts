@@ -43,6 +43,7 @@ builder.mutationFields((t) => ({
           feedUrl: parsed.feedUrl || url,
           imageUrl: parsed.image?.url,
           itunesImage: parsed.itunes?.image,
+          addedByUser: userId,
         }).go();
 
         feed = data;

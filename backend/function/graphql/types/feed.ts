@@ -1,5 +1,6 @@
 import _ from "lodash";
 import AWS from "aws-sdk";
+import got from "got";
 import { ArticleType } from "./article";
 import { FeedEntityType } from "@hithlum/core/entity/feed";
 import { builder } from "../builder";
@@ -7,7 +8,24 @@ import { hithlumModel } from "@hithlum/core/model";
 
 const { ArticleEntity, UserFeedEntity } = hithlumModel.entities;
 const s3 = new AWS.S3();
-const { ARTWORK_BUCKET, STAGE } = process.env;
+const { ARTWORK_BUCKET, STAGE, MANDOS_URL } = process.env;
+
+interface UserEntityType {
+  userId: string;
+  username: string;
+  discriminator: string;
+  avatarUrl: string;
+}
+
+const UserType = builder.objectRef<UserEntityType>("User");
+UserType.implement({
+  fields: (t) => ({
+    userId: t.exposeID("userId"),
+    username: t.exposeString("username"),
+    discriminator: t.exposeString("discriminator"),
+    avatarUrl: t.exposeString("avatarUrl"),
+  }),
+});
 
 export const FeedType = builder.objectRef<FeedEntityType>("Feed");
 FeedType.implement({
@@ -23,6 +41,19 @@ FeedType.implement({
     title: t.exposeString("title", { nullable: true }),
     description: t.exposeString("description", { nullable: true }),
     link: t.exposeString("link", { nullable: true }),
+
+    addedByUser: t.field({
+      type: UserType,
+      resolve: async ({ addedByUser }) => {
+        const res = await got
+          .post(MANDOS_URL + "/user", {
+            json: { userId: addedByUser },
+          })
+          .json<{ success: boolean; user: UserEntityType; message?: string }>();
+        if (!res.success) throw new Error(`mandos: ${res.message}`);
+        return res.user;
+      },
+    }),
 
     image: t.string({
       resolve: async (p) => {
