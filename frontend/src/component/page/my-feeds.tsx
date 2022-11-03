@@ -50,7 +50,11 @@ export const MyFeeds = () => {
         }}
       >
         {myFeeds.myFeeds?.map((feed) => (
-          <Feed feed={feed} article={feed.latestArticle} key={feed.feedId} />
+          <Feed
+            feed={feed}
+            article={feed.latestArticle || undefined}
+            key={feed.feedId}
+          />
         ))}
       </div>
     </div>

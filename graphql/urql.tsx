@@ -44,7 +44,7 @@ export type Feed = {
   hasCustomArtwork: Scalars['Boolean'];
   image: Scalars['String'];
   inputUrl: Scalars['String'];
-  latestArticle: Article;
+  latestArticle?: Maybe<Article>;
   link?: Maybe<Scalars['String']>;
   subscribed: Scalars['Boolean'];
   title?: Maybe<Scalars['String']>;
@@ -157,7 +157,7 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean }, feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } } } };
+export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean }, feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null } } };
 
 export type SubscribeMutationVariables = Exact<{
   feedId: Scalars['String'];
@@ -197,7 +197,7 @@ export type FriendQuery = { __typename?: 'Query', user: { __typename?: 'User', u
 export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
+export type RecentFeedsQuery = { __typename?: 'Query', recentFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null }> };
 
 export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -221,7 +221,7 @@ export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: string }
 export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
+export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null }> };
 
 export type FollowMutationVariables = Exact<{
   userId: Scalars['String'];
@@ -242,11 +242,11 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string, following: boolean, feeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string, following: boolean, feeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null }> } };
 
 export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } };
 
-export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } };
+export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 

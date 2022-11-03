@@ -67,6 +67,7 @@ FeedType.implement({
 
     latestArticle: t.field({
       type: ArticleType,
+      nullable: true,
       resolve: ({ feedId }) =>
         ArticleEntity.query
           .feed_({ feedId })

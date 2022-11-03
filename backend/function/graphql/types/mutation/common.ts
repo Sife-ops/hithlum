@@ -6,6 +6,8 @@ const sqs = new AWS.SQS();
 
 const { ARTICLE_QUEUE } = process.env;
 
+// todo: if batched is too large, switch to one-message strategy
+// todo: increase lambda timeout?
 // todo: remove content until small enough
 const isBodyTooLong = (s: string): boolean => {
   let bytes = Buffer.byteLength(s, "utf-8");

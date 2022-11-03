@@ -32,7 +32,7 @@ export const Home = () => {
             {recentFeeds?.map((feed) => (
               <Feed
                 feed={feed}
-                article={feed.latestArticle}
+                article={feed.latestArticle || undefined}
                 key={feed.feedId}
               />
             ))}

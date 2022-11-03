@@ -20,7 +20,7 @@ export const useMyFeeds = () => {
     if (!fetching && data) {
       const desc = _.orderBy(
         data.myFeeds,
-        [(feed) => feed.latestArticle.isoDate],
+        [(feed) => feed.latestArticle?.isoDate],
         "desc"
       );
       setMyFeeds(desc as Feed[]);

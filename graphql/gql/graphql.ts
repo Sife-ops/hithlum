@@ -43,7 +43,7 @@ export type Feed = {
   hasCustomArtwork: Scalars['Boolean'];
   image: Scalars['String'];
   inputUrl: Scalars['String'];
-  latestArticle: Article;
+  latestArticle?: Maybe<Article>;
   link?: Maybe<Scalars['String']>;
   subscribed: Scalars['Boolean'];
   title?: Maybe<Scalars['String']>;
@@ -269,10 +269,10 @@ export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', use
 
 export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } & { ' $fragmentName'?: 'ArticlePreviewFieldsFragment' };
 
-export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: (
+export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: (
     { __typename?: 'Article' }
     & { ' $fragmentRefs'?: { 'ArticlePreviewFieldsFragment': ArticlePreviewFieldsFragment } }
-  ) } & { ' $fragmentName'?: 'FeedPreviewFieldsFragment' };
+  ) | null } & { ' $fragmentName'?: 'FeedPreviewFieldsFragment' };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 

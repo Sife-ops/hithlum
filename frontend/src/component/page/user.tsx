@@ -103,7 +103,7 @@ export const User = () => {
             {user.feeds.map((feed) => (
               <Feed
                 feed={feed}
-                article={feed.latestArticle}
+                article={feed.latestArticle || undefined}
                 key={feed.feedId}
               />
             ))}

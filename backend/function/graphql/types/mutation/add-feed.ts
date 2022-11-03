@@ -20,21 +20,24 @@ builder.mutationFields((t) => ({
 
       const {
         data: [foundFeed],
-      } = await FeedEntity.query.feedUrl_({ feedUrl: url }).go();
+      } = await FeedEntity.query
+        .feedUrl_({ feedUrl: parsed.feedUrl || url })
+        .go();
 
       let feed: any;
       if (foundFeed) {
         // feed exists
-        feed = foundFeed;
-
         const {
           data: [foundUserFeed],
         } = await UserFeedEntity.query
           .user_({ userId })
-          .where(({ feedId }, { eq }) => eq(feedId, feed.feedId))
+          .where(({ feedId }, { eq }) => eq(feedId, foundFeed.feedId))
           .go();
 
         if (foundUserFeed) throw new Error("already subscribed");
+        await UserFeedEntity.create({ userId, feedId: foundFeed.feedId }).go();
+
+        feed = foundFeed;
       } else {
         // create feed
         const { data } = await FeedEntity.create({
@@ -46,12 +49,11 @@ builder.mutationFields((t) => ({
           addedByUser: userId,
         }).go();
 
-        feed = data;
-
+        await UserFeedEntity.create({ userId, feedId: data.feedId }).go();
         await sendArticlesBatch(parsed.items, data.feedId);
-      }
 
-      await UserFeedEntity.create({ userId, feedId: feed.feedId }).go();
+        feed = data;
+      }
 
       return feed;
     },
