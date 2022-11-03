@@ -3,8 +3,8 @@ import { UserEntityType } from "./user";
 
 const { MANDOS_URL } = process.env;
 
-export const fetchUser = async (userId: string) => {
-  const res = await got
+export const fetchUser = (userId: string) =>
+  got
     .post(MANDOS_URL + "/user", {
       json: { userId },
     })
@@ -12,9 +12,10 @@ export const fetchUser = async (userId: string) => {
       success: boolean;
       user: UserEntityType;
       message?: string;
-    }>();
-  if (!res.success) throw new Error(`mandos: ${res.message}`);
-  return res.user;
-};
+    }>()
+    .then((res) => {
+      if (res.success) return res.user;
+      throw new Error(`mandos: ${res.message}`);
+    });
 
 // todo: fetchUsers

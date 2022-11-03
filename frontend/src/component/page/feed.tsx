@@ -78,7 +78,9 @@ export const Feed = () => {
                 borderRadius: "50%",
               }}
             />
-            <a href="#">{feed.addedByUser.username}</a>
+            <Link to={"/user/" + feed.addedByUser.userId}>
+              {feed.addedByUser.username}
+            </Link>
           </div>
         </div>
         <div>

@@ -93,6 +93,7 @@ export type Query = {
   hello: Scalars['String'];
   recentArticles: Array<Article>;
   recentFeeds: Array<Feed>;
+  user: User;
 };
 
 
@@ -105,6 +106,11 @@ export type QueryFeedArgs = {
   feedId: Scalars['String'];
 };
 
+
+export type QueryUserArgs = {
+  userId: Scalars['String'];
+};
+
 export type Unread = {
   __typename?: 'Unread';
   value: Scalars['Boolean'];
@@ -114,6 +120,7 @@ export type User = {
   __typename?: 'User';
   avatarUrl: Scalars['String'];
   discriminator: Scalars['String'];
+  feeds: Array<Feed>;
   userId: Scalars['ID'];
   username: Scalars['String'];
 };
@@ -182,6 +189,13 @@ export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
+
+export type UserQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string, feeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> } };
 
 export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } };
 
@@ -360,6 +374,23 @@ export const MyFeedsDocument = gql`
 
 export function useMyFeedsMutation() {
   return Urql.useMutation<MyFeedsMutation, MyFeedsMutationVariables>(MyFeedsDocument);
+};
+export const UserDocument = gql`
+    query user($userId: String!) {
+  user(userId: $userId) {
+    userId
+    username
+    discriminator
+    avatarUrl
+    feeds {
+      ...FeedPreviewFields
+    }
+  }
+}
+    ${FeedPreviewFieldsFragmentDoc}`;
+
+export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserQuery, UserQueryVariables>({ query: UserDocument, ...options });
 };
 export const HelloDocument = gql`
     query hello {
