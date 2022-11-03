@@ -121,7 +121,7 @@ export type QueryFeedArgs = {
 
 
 export type QueryUserArgs = {
-  userId: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type Unread = {
@@ -138,6 +138,11 @@ export type User = {
   userId: Scalars['ID'];
   username: Scalars['String'];
 };
+
+export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SelfQuery = { __typename?: 'Query', user: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string } };
 
 export type SetUnreadMutationVariables = Exact<{
   articleId: Scalars['String'];
@@ -179,6 +184,8 @@ export type FriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FriendsQuery = { __typename?: 'Query', friends: Array<string> };
+
+export type UserPreviewFieldsFragment = { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string };
 
 export type FriendQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -246,6 +253,14 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HelloQuery = { __typename?: 'Query', hello: string };
 
+export const UserPreviewFieldsFragmentDoc = gql`
+    fragment UserPreviewFields on User {
+  userId
+  username
+  discriminator
+  avatarUrl
+}
+    `;
 export const ArticlePreviewFieldsFragmentDoc = gql`
     fragment ArticlePreviewFields on Article {
   articleId
@@ -269,6 +284,17 @@ export const FeedPreviewFieldsFragmentDoc = gql`
   }
 }
     ${ArticlePreviewFieldsFragmentDoc}`;
+export const SelfDocument = gql`
+    query self {
+  user {
+    ...UserPreviewFields
+  }
+}
+    ${UserPreviewFieldsFragmentDoc}`;
+
+export function useSelfQuery(options?: Omit<Urql.UseQueryArgs<SelfQueryVariables>, 'query'>) {
+  return Urql.useQuery<SelfQuery, SelfQueryVariables>({ query: SelfDocument, ...options });
+};
 export const SetUnreadDocument = gql`
     mutation setUnread($articleId: String!, $value: Boolean!) {
   setUnread(articleId: $articleId, value: $value) {
@@ -369,13 +395,10 @@ export function useFriendsQuery(options?: Omit<Urql.UseQueryArgs<FriendsQueryVar
 export const FriendDocument = gql`
     query friend($userId: String!) {
   user(userId: $userId) {
-    userId
-    username
-    discriminator
-    avatarUrl
+    ...UserPreviewFields
   }
 }
-    `;
+    ${UserPreviewFieldsFragmentDoc}`;
 
 export function useFriendQuery(options: Omit<Urql.UseQueryArgs<FriendQueryVariables>, 'query'>) {
   return Urql.useQuery<FriendQuery, FriendQueryVariables>({ query: FriendDocument, ...options });

@@ -10,13 +10,19 @@ const friends = graphql(`
   }
 `);
 
+const userPreviewFields = graphql(`
+  fragment UserPreviewFields on User {
+    userId
+    username
+    discriminator
+    avatarUrl
+  }
+`);
+
 const friend = graphql(`
   query friend($userId: String!) {
     user(userId: $userId) {
-      userId
-      username
-      discriminator
-      avatarUrl
+      ...UserPreviewFields
     }
   }
 `);
