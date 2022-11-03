@@ -7,6 +7,7 @@ import { sendArticlesBatch } from "./common";
 const parser = new rss();
 
 builder.mutationFields((t) => ({
+  // todo: return feed entity
   updateFeed: t.string({
     args: {
       feedId: t.arg.string({ required: true }),
@@ -19,42 +20,21 @@ builder.mutationFields((t) => ({
         },
       } = await hithlumModel.collections.feed({ feedId }).go(); // todo: use order option
 
-      const orderedArticles = _.orderBy(
-        ArticleEntity,
-        [(article) => article.isoDate],
-        ["desc"]
-      );
-
       const parsed = await parser.parseURL(feed.inputUrl);
 
-      const orderedArticles_ = _.orderBy(
-        parsed.items,
-        [(item) => item.isoDate],
-        ["desc"]
+      const filtered = parsed.items.filter(
+        (item) => !ArticleEntity.find((article) => article.title === item.title)
       );
 
-      let lastUpdatedIndex: number | null = null;
-      for (let i = 0; i < orderedArticles_.length; i++) {
-        if (orderedArticles_[i].isoDate === orderedArticles[0].isoDate) {
-          lastUpdatedIndex = i;
-          break;
-        }
-      }
-
-      if (lastUpdatedIndex === 0) {
+      if (filtered.length < 1) {
         return "up to date";
       }
 
-      let newArticles = [];
-      if (lastUpdatedIndex === null) {
-        newArticles = orderedArticles_;
-      } else {
-        newArticles = orderedArticles_.slice(0, lastUpdatedIndex);
-      }
+      const ordered = _.orderBy(filtered, [(item) => item.isoDate], ["desc"]);
 
-      await sendArticlesBatch(newArticles, feed.feedId);
+      await sendArticlesBatch(ordered, feed.feedId);
 
-      return `${newArticles.length} new articles`;
+      return `${ordered.length} new articles`;
     },
   }),
 }));
