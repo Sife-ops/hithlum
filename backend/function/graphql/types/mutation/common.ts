@@ -38,8 +38,8 @@ export const sendArticlesBatch = (articles: any[], feedId: string) => {
 export const sendArticlesBatch_ = async (
   articles: any[],
   feedId: string,
-  fn1: (MessageBody: any) => Promise<void>,
-  fn2: (messages: any[]) => Promise<void>
+  singleFn: (MessageBody: string) => Promise<void>,
+  batchFn: (messages: string[]) => Promise<void>
 ) => {
   for (const articleChunk of _.chunk(articles, 10)) {
     let messages: any = [];
@@ -55,13 +55,14 @@ export const sendArticlesBatch_ = async (
         bytes = Buffer.byteLength(MessageBody, "utf-8");
         if (bytes > 262143) {
           // todo: log this message somewhere
+          console.log("discarding message exceeding byte limit:", MessageBody);
           continue;
         } else {
-          await fn1(MessageBody);
+          await singleFn(MessageBody);
         }
       }
     } else {
-      await fn2(messages);
+      await batchFn(messages);
     }
   }
 };

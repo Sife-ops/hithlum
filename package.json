@@ -9,7 +9,8 @@
   "author": "Wyatt Goettsch",
   "license": "ISC",
   "devDependencies": {
-    "@tsconfig/node16": "^1.0.3"
+    "@tsconfig/node16": "^1.0.3",
+    "vitest": "^0.24.5"
   },
   "workspaces": [
     "backend",
