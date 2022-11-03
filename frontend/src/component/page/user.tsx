@@ -81,24 +81,6 @@ export const User = () => {
           <h3>
             {user.username}#{user.discriminator}
           </h3>
-          {/* {feed.description && <div>Description: {feed.description}</div>} */}
-          {/* {feed.feedUrl && (
-            <div> */}
-          {/* todo: open in new tab */}
-          {/* Feed URL:{" "}
-              <a href={feed.feedUrl} target="_blank">
-                {feed.feedUrl}
-              </a>
-            </div>
-          )}
-          {feed.link && (
-            <div>
-              Link:{" "}
-              <a href={feed.link} target="_blank">
-                {feed.link}
-              </a>
-            </div>
-          )} */}
           <button
             onClick={() => {
               const { userId } = user;
@@ -107,30 +89,8 @@ export const User = () => {
             }}
           >
             {user.following ? "unfollow" : "follow"}
-            {/* todo: follow */}
           </button>
         </div>
-        {/* <div>
-          <h3>Added By</h3>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-            }}
-          >
-            <img
-              src={feed.addedByUser.avatarUrl || defaultAvatar}
-              alt="avatar"
-              style={{
-                width: "64px",
-                height: "64px",
-                borderRadius: "50%",
-              }}
-            />
-            <a href="#">{feed.addedByUser.username}</a>
-          </div>
-        </div> */}
         <div>
           <h3>Subscriptions</h3>
           <div
@@ -141,7 +101,11 @@ export const User = () => {
             }}
           >
             {user.feeds.map((feed) => (
-              <Feed feed={feed} article={feed.latestArticle} />
+              <Feed
+                feed={feed}
+                article={feed.latestArticle}
+                key={feed.feedId}
+              />
             ))}
           </div>
         </div>

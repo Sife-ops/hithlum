@@ -42,19 +42,16 @@ export const MyFeeds = () => {
         </div>
       </div>
 
-      <div>
-        <h3>Feeds</h3>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gap: "1rem",
-          }}
-        >
-          {myFeeds.myFeeds?.map((feed) => (
-            <Feed feed={feed} article={feed.latestArticle} />
-          ))}
-        </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          gap: "1rem",
+        }}
+      >
+        {myFeeds.myFeeds?.map((feed) => (
+          <Feed feed={feed} article={feed.latestArticle} key={feed.feedId} />
+        ))}
       </div>
     </div>
   );

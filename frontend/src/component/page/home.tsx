@@ -12,7 +12,7 @@ export const Home = () => {
         gap: "1rem",
       }}
     >
-      <h1>Recent</h1>
+      <h1>Feeds</h1>
       <div
         style={{
           display: "grid",
@@ -21,7 +21,7 @@ export const Home = () => {
         }}
       >
         <div>
-          <h3>Added Feeds</h3>
+          <h3>Recently Added</h3>
           <div
             style={{
               display: "flex",
@@ -40,7 +40,7 @@ export const Home = () => {
         </div>
 
         <div>
-          <h3>New Articles</h3>
+          <h3>Recently Updated</h3>
           <div
             style={{
               display: "flex",

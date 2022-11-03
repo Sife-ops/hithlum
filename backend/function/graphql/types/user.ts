@@ -20,15 +20,14 @@ UserType.implement({
 
     following: t.boolean({
       resolve: async (p, _, { user: { userId } }) => {
-        const {
-          data: [friend],
-        } = await hithlumModel.entities.FriendEntity.query
-          .user_({
-            userId,
-          })
+        const { data: friends } = await hithlumModel.entities.FriendEntity.query
+          .user_({ userId })
           .go();
-        if (friend) return true;
-        return false;
+        if (friends.find((friend) => friend.friendUserId === p.userId)) {
+          return true;
+        } else {
+          return false;
+        }
       },
     }),
 

@@ -8,6 +8,6 @@ builder.queryFields((t) => ({
     args: {
       userId: t.arg.string({ required: true }),
     },
-    resolve: (_, { userId }) => fetchUser(userId),
+    resolve: async (_, { userId }) => await fetchUser(userId),
   }),
 }));

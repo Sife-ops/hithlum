@@ -12,7 +12,6 @@ export const Feed: React.FC<{ feed: FeedType; article: ArticleType }> = ({
   article,
 }) => (
   <div
-    key={feed.feedId}
     style={{
       border: `1px solid ${article.unread.value ? "blue" : "purple"}`,
       display: "flex",

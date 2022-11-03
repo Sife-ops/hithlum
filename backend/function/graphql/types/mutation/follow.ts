@@ -31,7 +31,9 @@ builder.mutationFields((t) => ({
     },
     resolve: async (_, args, { user: { userId } }) => {
       const { data: friends } = await FriendEntity.query.user_({ userId }).go();
-      const friend = friends.find((friend) => friend.userId === args.userId);
+      const friend = friends.find(
+        (friend) => friend.friendUserId === args.userId
+      );
       if (!friend) throw new Error("already not following");
       await FriendEntity.remove(friend).go();
       return await fetchUser(args.userId);

@@ -102,6 +102,7 @@ export type Query = {
   __typename?: 'Query';
   article: Article;
   feed: Feed;
+  friends: Array<Scalars['String']>;
   hello: Scalars['String'];
   recentArticles: Array<Article>;
   recentFeeds: Array<Feed>;
@@ -173,6 +174,18 @@ export type FeedQueryVariables = Exact<{
 
 
 export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, image: string, title?: string | null, description?: string | null, feedUrl?: string | null, link?: string | null, subscribed: boolean, addedByUser: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string }, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
+
+export type FriendsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FriendsQuery = { __typename?: 'Query', friends: Array<string> };
+
+export type FriendQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type FriendQuery = { __typename?: 'Query', user: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string } };
 
 export type RecentFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -343,6 +356,29 @@ export const FeedDocument = gql`
 
 export function useFeedQuery(options: Omit<Urql.UseQueryArgs<FeedQueryVariables>, 'query'>) {
   return Urql.useQuery<FeedQuery, FeedQueryVariables>({ query: FeedDocument, ...options });
+};
+export const FriendsDocument = gql`
+    query friends {
+  friends
+}
+    `;
+
+export function useFriendsQuery(options?: Omit<Urql.UseQueryArgs<FriendsQueryVariables>, 'query'>) {
+  return Urql.useQuery<FriendsQuery, FriendsQueryVariables>({ query: FriendsDocument, ...options });
+};
+export const FriendDocument = gql`
+    query friend($userId: String!) {
+  user(userId: $userId) {
+    userId
+    username
+    discriminator
+    avatarUrl
+  }
+}
+    `;
+
+export function useFriendQuery(options: Omit<Urql.UseQueryArgs<FriendQueryVariables>, 'query'>) {
+  return Urql.useQuery<FriendQuery, FriendQueryVariables>({ query: FriendDocument, ...options });
 };
 export const RecentFeedsDocument = gql`
     query recentFeeds {

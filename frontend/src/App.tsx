@@ -8,6 +8,7 @@ import { Article } from "./component/page/article";
 import { Auth } from "./component/page/auth";
 import { Dev } from "./component/page/dev";
 import { Feed } from "./component/page/feed";
+import { Friends } from "./component/page/friends";
 import { Home } from "./component/page/home";
 import { MyFeeds } from "./component/page/my-feeds";
 import { Navigation } from "./component/navigation";
@@ -34,7 +35,7 @@ function App() {
           <Route path="/dev" element={<Dev />} />
           <Route path="/home" element={<Home />} />
           <Route path="/my-feeds" element={<MyFeeds />} />
-          <Route path="/friends" element={<div>friends</div>} />
+          <Route path="/friends" element={<Friends />} />
           <Route path="/feed/:feedId" element={<Feed />} />
           <Route path="/article/:articleId" element={<Article />} />
           <Route path="/user/:userId" element={<User />} />
