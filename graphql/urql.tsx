@@ -53,9 +53,11 @@ export type Feed = {
 export type Mutation = {
   __typename?: 'Mutation';
   addFeed: Feed;
+  follow: User;
   myFeeds: Array<Feed>;
   setUnread: Unread;
   subscribe: Feed;
+  unfollow: User;
   unsubscribe: Feed;
   updateFeed: Scalars['String'];
 };
@@ -63,6 +65,11 @@ export type Mutation = {
 
 export type MutationAddFeedArgs = {
   url: Scalars['String'];
+};
+
+
+export type MutationFollowArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -74,6 +81,11 @@ export type MutationSetUnreadArgs = {
 
 export type MutationSubscribeArgs = {
   feedId: Scalars['String'];
+};
+
+
+export type MutationUnfollowArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -121,6 +133,7 @@ export type User = {
   avatarUrl: Scalars['String'];
   discriminator: Scalars['String'];
   feeds: Array<Feed>;
+  following: Scalars['Boolean'];
   userId: Scalars['ID'];
   username: Scalars['String'];
 };
@@ -190,12 +203,26 @@ export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> };
 
+export type FollowMutationVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type FollowMutation = { __typename?: 'Mutation', follow: { __typename?: 'User', following: boolean } };
+
+export type UnfollowMutationVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type UnfollowMutation = { __typename?: 'Mutation', unfollow: { __typename?: 'User', following: boolean } };
+
 export type UserQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string, feeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string, following: boolean, feeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } }> } };
 
 export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } };
 
@@ -375,6 +402,28 @@ export const MyFeedsDocument = gql`
 export function useMyFeedsMutation() {
   return Urql.useMutation<MyFeedsMutation, MyFeedsMutationVariables>(MyFeedsDocument);
 };
+export const FollowDocument = gql`
+    mutation follow($userId: String!) {
+  follow(userId: $userId) {
+    following
+  }
+}
+    `;
+
+export function useFollowMutation() {
+  return Urql.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument);
+};
+export const UnfollowDocument = gql`
+    mutation unfollow($userId: String!) {
+  unfollow(userId: $userId) {
+    following
+  }
+}
+    `;
+
+export function useUnfollowMutation() {
+  return Urql.useMutation<UnfollowMutation, UnfollowMutationVariables>(UnfollowDocument);
+};
 export const UserDocument = gql`
     query user($userId: String!) {
   user(userId: $userId) {
@@ -382,6 +431,7 @@ export const UserDocument = gql`
     username
     discriminator
     avatarUrl
+    following
     feeds {
       ...FeedPreviewFields
     }

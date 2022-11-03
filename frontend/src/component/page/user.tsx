@@ -3,7 +3,28 @@ import { Feed } from "../feed";
 import { graphql } from "@hithlum/graphql/gql";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useUserQuery, User as UserType } from "@hithlum/graphql/urql";
+import {
+  useUserQuery,
+  User as UserType,
+  useFollowMutation,
+  useUnfollowMutation,
+} from "@hithlum/graphql/urql";
+
+const follow = graphql(`
+  mutation follow($userId: String!) {
+    follow(userId: $userId) {
+      following
+    }
+  }
+`);
+
+const unfollow = graphql(`
+  mutation unfollow($userId: String!) {
+    unfollow(userId: $userId) {
+      following
+    }
+  }
+`);
 
 const user = graphql(`
   query user($userId: String!) {
@@ -12,6 +33,8 @@ const user = graphql(`
       username
       discriminator
       avatarUrl
+
+      following
 
       feeds {
         ...FeedPreviewFields
@@ -32,6 +55,9 @@ export const User = () => {
       setUser(data.user as UserType);
     }
   }, [userQueryState.data]);
+
+  const [_, followMutation] = useFollowMutation();
+  const [__, unfollowMutation] = useUnfollowMutation();
 
   if (user) {
     return (
@@ -75,13 +101,13 @@ export const User = () => {
           )} */}
           <button
             onClick={() => {
-              // const { feedId } = feed;
-              // if (feed.subscribed) ctx.unsubscribeMutation({ feedId });
-              // else ctx.subscribeMutation({ feedId });
+              const { userId } = user;
+              if (user.following) unfollowMutation({ userId });
+              else followMutation({ userId });
             }}
           >
-            {/* {feed.subscribed ? "unfollow" : "follow"} */}
-            todo: follow
+            {user.following ? "unfollow" : "follow"}
+            {/* todo: follow */}
           </button>
         </div>
         {/* <div>

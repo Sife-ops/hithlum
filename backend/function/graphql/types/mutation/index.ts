@@ -1,5 +1,6 @@
 import "./add-feed";
+import "./follow";
 import "./my-feeds";
 import "./set-unread";
-import "./update-feed";
 import "./subscribe";
+import "./update-feed";

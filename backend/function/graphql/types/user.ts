@@ -18,6 +18,20 @@ UserType.implement({
     discriminator: t.exposeString("discriminator"),
     avatarUrl: t.exposeString("avatarUrl"),
 
+    following: t.boolean({
+      resolve: async (p, _, { user: { userId } }) => {
+        const {
+          data: [friend],
+        } = await hithlumModel.entities.FriendEntity.query
+          .user_({
+            userId,
+          })
+          .go();
+        if (friend) return true;
+        return false;
+      },
+    }),
+
     feeds: t.field({
       type: [FeedType],
       resolve: async ({ userId }) => {
