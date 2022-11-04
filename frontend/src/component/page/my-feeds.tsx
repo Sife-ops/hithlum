@@ -1,9 +1,11 @@
 import * as style from "./common.css";
 import { Feed } from "../feed";
 import { useMyFeeds } from "./my-feeds-hook";
+import { useUserContext } from "../../hook/user-context";
 
 export const MyFeeds = () => {
-  const ctx = useMyFeeds();
+  const page = useMyFeeds();
+  const ctx = useUserContext();
 
   return (
     <div
@@ -26,12 +28,12 @@ export const MyFeeds = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              ctx.addFeed();
+              page.addFeed();
             }}
           >
             <input
-              value={ctx.newFeedUrl}
-              onChange={(e) => ctx.setNewFeedUrl(e.target.value)}
+              value={page.newFeedUrl}
+              onChange={(e) => page.setNewFeedUrl(e.target.value)}
             />
             <button type="submit">save</button>
           </form>
