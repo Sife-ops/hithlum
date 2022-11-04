@@ -17,8 +17,8 @@ const sizeOf = (input: string | string[]): number => {
   return bytes;
 };
 
-const testFeed = async (s: string) => {
-  const feed = await rssParser.parseURL(s);
+const testFeed = async (url: string) => {
+  const feed = await rssParser.parseURL(url);
 
   sendArticlesBatch_(
     feed.items,

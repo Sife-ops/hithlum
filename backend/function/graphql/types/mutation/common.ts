@@ -5,10 +5,7 @@ import { ulid } from "ulid";
 const sqs = new AWS.SQS();
 const { ARTICLE_QUEUE } = process.env;
 
-// todo: if batched is too large, switch to one-message strategy
-// todo: increase lambda timeout?
-// todo: remove content until small enough
-
+// todo: uses too much 'any'
 export const sendArticlesBatch = (articles: any[], feedId: string) => {
   sendArticlesBatch_(
     articles,
@@ -35,6 +32,7 @@ export const sendArticlesBatch = (articles: any[], feedId: string) => {
   );
 };
 
+// todo: this function sucks and needs to be refactored
 export const sendArticlesBatch_ = async (
   articles: any[],
   feedId: string,
@@ -51,15 +49,32 @@ export const sendArticlesBatch_ = async (
     }
 
     if (bytes > 262143) {
-      for (const MessageBody of messages) {
+      for (let MessageBody of messages) {
         bytes = Buffer.byteLength(MessageBody, "utf-8");
+
         if (bytes > 262143) {
-          // todo: log this message somewhere
-          console.log("discarding message exceeding byte limit:", MessageBody);
-          continue;
-        } else {
-          await singleFn(MessageBody);
+          console.log("stripping content snippet");
+          const parsed = JSON.parse(MessageBody);
+          MessageBody = JSON.stringify(_.omit(parsed, "contentSnippet"));
+          bytes = Buffer.byteLength(MessageBody, "utf-8");
         }
+
+        if (bytes > 262143) {
+          console.log("stripping content");
+          const parsed = JSON.parse(MessageBody);
+          MessageBody = JSON.stringify(_.omit(parsed, "content"));
+          bytes = Buffer.byteLength(MessageBody, "utf-8");
+        }
+
+        if (bytes > 262143) {
+          console.error(
+            `discarding message for feed ${feedId} exceeding byte limit:`,
+            MessageBody.slice(0, 100)
+          );
+          continue;
+        }
+
+        await singleFn(MessageBody);
       }
     } else {
       await batchFn(messages);
