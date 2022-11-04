@@ -6,8 +6,8 @@ const sqs = new AWS.SQS();
 const { ARTICLE_QUEUE } = process.env;
 
 // todo: uses too much 'any'
-export const sendArticlesBatch = (articles: any[], feedId: string) => {
-  sendArticlesBatch_(
+export const sendArticlesBatch = async (articles: any[], feedId: string) => {
+  await sendArticlesBatch_(
     articles,
     feedId,
     async (MessageBody) => {

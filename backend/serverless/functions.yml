@@ -9,6 +9,7 @@ hello:
 graphql:
   name: ${self:service}-${opt:stage}-graphql
   handler: function/graphql/graphql.main
+  timeout: 10
   events:
     - httpApi:
         path: /graphql
