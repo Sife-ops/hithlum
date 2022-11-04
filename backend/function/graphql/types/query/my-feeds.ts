@@ -1,4 +1,3 @@
-// todo: delete - duplicated in queries
 import { FeedEntityType } from "@hithlum/core/entity/feed";
 import { FeedType } from "../feed";
 import { builder } from "../../builder";
@@ -6,7 +5,7 @@ import { hithlumModel } from "@hithlum/core/model";
 
 const { FeedEntity, UserFeedEntity } = hithlumModel.entities;
 
-builder.mutationFields((t) => ({
+builder.queryFields((t) => ({
   myFeeds: t.field({
     type: [FeedType],
     resolve: async (_, __, { user: { userId } }) => {

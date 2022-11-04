@@ -53,18 +53,24 @@ export type Feed = {
 export type Mutation = {
   __typename?: 'Mutation';
   addFeed: Feed;
+  feed: Feed;
   follow: User;
   myFeeds: Array<Feed>;
   setUnread: Unread;
   subscribe: Feed;
   unfollow: User;
   unsubscribe: Feed;
-  updateFeed: Scalars['String'];
+  updateFeed: Feed;
 };
 
 
 export type MutationAddFeedArgs = {
   url: Scalars['String'];
+};
+
+
+export type MutationFeedArgs = {
+  feedId: Scalars['String'];
 };
 
 
@@ -104,6 +110,7 @@ export type Query = {
   feed: Feed;
   friends: Array<Scalars['String']>;
   hello: Scalars['String'];
+  myFeeds: Array<Feed>;
   recentArticles: Array<Article>;
   recentFeeds: Array<Feed>;
   user: User;
@@ -211,17 +218,24 @@ export type AddFeedMutationVariables = Exact<{
 
 export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string } };
 
+export type SyncFeedMutationVariables = Exact<{
+  feedId: Scalars['String'];
+}>;
+
+
+export type SyncFeedMutation = { __typename?: 'Mutation', feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null } };
+
 export type UpdateFeedMutationVariables = Exact<{
   feedId: Scalars['String'];
 }>;
 
 
-export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: string };
+export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null } };
 
-export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
+export type MyFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null }> };
+export type MyFeedsQuery = { __typename?: 'Query', myFeeds: Array<{ __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null }> };
 
 export type FollowMutationVariables = Exact<{
   userId: Scalars['String'];
@@ -441,25 +455,38 @@ export const AddFeedDocument = gql`
 export function useAddFeedMutation() {
   return Urql.useMutation<AddFeedMutation, AddFeedMutationVariables>(AddFeedDocument);
 };
+export const SyncFeedDocument = gql`
+    mutation syncFeed($feedId: String!) {
+  feed(feedId: $feedId) {
+    ...FeedPreviewFields
+  }
+}
+    ${FeedPreviewFieldsFragmentDoc}`;
+
+export function useSyncFeedMutation() {
+  return Urql.useMutation<SyncFeedMutation, SyncFeedMutationVariables>(SyncFeedDocument);
+};
 export const UpdateFeedDocument = gql`
     mutation updateFeed($feedId: String!) {
-  updateFeed(feedId: $feedId)
+  updateFeed(feedId: $feedId) {
+    ...FeedPreviewFields
+  }
 }
-    `;
+    ${FeedPreviewFieldsFragmentDoc}`;
 
 export function useUpdateFeedMutation() {
   return Urql.useMutation<UpdateFeedMutation, UpdateFeedMutationVariables>(UpdateFeedDocument);
 };
 export const MyFeedsDocument = gql`
-    mutation myFeeds {
+    query myFeeds {
   myFeeds {
     ...FeedPreviewFields
   }
 }
     ${FeedPreviewFieldsFragmentDoc}`;
 
-export function useMyFeedsMutation() {
-  return Urql.useMutation<MyFeedsMutation, MyFeedsMutationVariables>(MyFeedsDocument);
+export function useMyFeedsQuery(options?: Omit<Urql.UseQueryArgs<MyFeedsQueryVariables>, 'query'>) {
+  return Urql.useQuery<MyFeedsQuery, MyFeedsQueryVariables>({ query: MyFeedsDocument, ...options });
 };
 export const FollowDocument = gql`
     mutation follow($userId: String!) {

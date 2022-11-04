@@ -4,19 +4,16 @@ import { graphql } from "@hithlum/graphql/gql";
 import {
   Feed,
   useAddFeedMutation,
-  useMyFeedsMutation,
+  useMyFeedsQuery,
   useUpdateFeedMutation,
+  useSyncFeedMutation,
 } from "@hithlum/graphql/urql";
 
 export const useMyFeeds = () => {
-  const myFeedsMutation = useMyFeedsMutation();
-  const [myFeedsMutationState, myFeedsMutationFn] = myFeedsMutation;
+  const [myFeedsQueryState] = useMyFeedsQuery();
   const [myFeeds, setMyFeeds] = useState<Feed[]>();
   useEffect(() => {
-    myFeedsMutationFn({});
-  }, []);
-  useEffect(() => {
-    const { fetching, data } = myFeedsMutationState;
+    const { fetching, data } = myFeedsQueryState;
     if (!fetching && data) {
       const desc = _.orderBy(
         data.myFeeds,
@@ -25,28 +22,36 @@ export const useMyFeeds = () => {
       );
       setMyFeeds(desc as Feed[]);
     }
-  }, [myFeedsMutationState.data]);
+  }, [myFeedsQueryState.data]);
 
-  const [__, addFeedMutation] = useAddFeedMutation();
   const [newFeedUrl, setNewFeedUrl] = useState("");
+  const [addFeedMutationState, addFeedMutation] = useAddFeedMutation();
+  const [__, syncFeedMutation] = useSyncFeedMutation();
+  useEffect(() => {
+    const { fetching, data } = addFeedMutationState;
+    if (!fetching && data) {
+      setTimeout(() => {
+        syncFeedMutation({
+          feedId: data.addFeed.feedId,
+        });
+      }, 2000);
+    }
+  }, [addFeedMutationState.data]);
   const addFeed = async () => {
     await addFeedMutation({ url: newFeedUrl });
     setNewFeedUrl("");
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // todo: don't use this syntax
-    await myFeedsMutationFn({});
   };
 
-  const [___, updateFeedmutation] = useUpdateFeedMutation();
+  const [___, updateFeedMutation] = useUpdateFeedMutation();
   const [updatingFeed, setUpdatingFeed] = useState<string>();
   const updateFeeds = async () => {
     if (myFeeds) {
       for (const { feedId, title } of myFeeds) {
         setUpdatingFeed(title || "untitled feed");
-        await updateFeedmutation({ feedId });
+        await updateFeedMutation({ feedId });
       }
       setUpdatingFeed("done!");
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      await myFeedsMutationFn({});
       setUpdatingFeed(undefined);
     }
   };
@@ -58,7 +63,6 @@ export const useMyFeeds = () => {
     newFeedUrl,
     updatingFeed,
     addFeed,
-    myFeedsMutation,
   };
 };
 
@@ -74,14 +78,24 @@ const addFeed = graphql(`
   }
 `);
 
+const syncFeed = graphql(`
+  mutation syncFeed($feedId: String!) {
+    feed(feedId: $feedId) {
+      ...FeedPreviewFields
+    }
+  }
+`);
+
 const updateFeed = graphql(`
   mutation updateFeed($feedId: String!) {
-    updateFeed(feedId: $feedId)
+    updateFeed(feedId: $feedId) {
+      ...FeedPreviewFields
+    }
   }
 `);
 
 const myFeeds = graphql(`
-  mutation myFeeds {
+  query myFeeds {
     myFeeds {
       ...FeedPreviewFields
     }

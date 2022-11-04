@@ -98,7 +98,8 @@ export const ArticleEntity = new Entity(
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
 
-      categories: { type: "string" },
+      // todo: enclosure
+      // categories: { type: "string" },
       content: { type: "string" },
       contentSnippet: { type: "string" },
       creator: { type: "string" },

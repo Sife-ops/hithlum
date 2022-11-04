@@ -52,18 +52,24 @@ export type Feed = {
 export type Mutation = {
   __typename?: 'Mutation';
   addFeed: Feed;
+  feed: Feed;
   follow: User;
   myFeeds: Array<Feed>;
   setUnread: Unread;
   subscribe: Feed;
   unfollow: User;
   unsubscribe: Feed;
-  updateFeed: Scalars['String'];
+  updateFeed: Feed;
 };
 
 
 export type MutationAddFeedArgs = {
   url: Scalars['String'];
+};
+
+
+export type MutationFeedArgs = {
+  feedId: Scalars['String'];
 };
 
 
@@ -103,6 +109,7 @@ export type Query = {
   feed: Feed;
   friends: Array<Scalars['String']>;
   hello: Scalars['String'];
+  myFeeds: Array<Feed>;
   recentArticles: Array<Article>;
   recentFeeds: Array<Feed>;
   user: User;
@@ -228,17 +235,30 @@ export type AddFeedMutationVariables = Exact<{
 
 export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string } };
 
+export type SyncFeedMutationVariables = Exact<{
+  feedId: Scalars['String'];
+}>;
+
+
+export type SyncFeedMutation = { __typename?: 'Mutation', feed: (
+    { __typename?: 'Feed' }
+    & { ' $fragmentRefs'?: { 'FeedPreviewFieldsFragment': FeedPreviewFieldsFragment } }
+  ) };
+
 export type UpdateFeedMutationVariables = Exact<{
   feedId: Scalars['String'];
 }>;
 
 
-export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: string };
+export type UpdateFeedMutation = { __typename?: 'Mutation', updateFeed: (
+    { __typename?: 'Feed' }
+    & { ' $fragmentRefs'?: { 'FeedPreviewFieldsFragment': FeedPreviewFieldsFragment } }
+  ) };
 
-export type MyFeedsMutationVariables = Exact<{ [key: string]: never; }>;
+export type MyFeedsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFeedsMutation = { __typename?: 'Mutation', myFeeds: Array<(
+export type MyFeedsQuery = { __typename?: 'Query', myFeeds: Array<(
     { __typename?: 'Feed' }
     & { ' $fragmentRefs'?: { 'FeedPreviewFieldsFragment': FeedPreviewFieldsFragment } }
   )> };
@@ -293,8 +313,9 @@ export const FriendDocument = {"kind":"Document","definitions":[{"kind":"Operati
 export const RecentFeedsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"recentFeeds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recentFeeds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FeedPreviewFields"}}]}}]}},...FeedPreviewFieldsFragmentDoc.definitions]} as unknown as DocumentNode<RecentFeedsQuery, RecentFeedsQueryVariables>;
 export const RecentArticlesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"recentArticles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recentArticles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArticlePreviewFields"}},{"kind":"Field","name":{"kind":"Name","value":"feed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"feedId"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}},...ArticlePreviewFieldsFragmentDoc.definitions]} as unknown as DocumentNode<RecentArticlesQuery, RecentArticlesQueryVariables>;
 export const AddFeedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"addFeed"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"url"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addFeed"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"Variable","name":{"kind":"Name","value":"url"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"feedId"}}]}}]}}]} as unknown as DocumentNode<AddFeedMutation, AddFeedMutationVariables>;
-export const UpdateFeedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateFeed"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"feedId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateFeed"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"feedId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"feedId"}}}]}]}}]} as unknown as DocumentNode<UpdateFeedMutation, UpdateFeedMutationVariables>;
-export const MyFeedsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"myFeeds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myFeeds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FeedPreviewFields"}}]}}]}},...FeedPreviewFieldsFragmentDoc.definitions]} as unknown as DocumentNode<MyFeedsMutation, MyFeedsMutationVariables>;
+export const SyncFeedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"syncFeed"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"feedId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"feed"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"feedId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"feedId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FeedPreviewFields"}}]}}]}},...FeedPreviewFieldsFragmentDoc.definitions]} as unknown as DocumentNode<SyncFeedMutation, SyncFeedMutationVariables>;
+export const UpdateFeedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateFeed"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"feedId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateFeed"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"feedId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"feedId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FeedPreviewFields"}}]}}]}},...FeedPreviewFieldsFragmentDoc.definitions]} as unknown as DocumentNode<UpdateFeedMutation, UpdateFeedMutationVariables>;
+export const MyFeedsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"myFeeds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myFeeds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FeedPreviewFields"}}]}}]}},...FeedPreviewFieldsFragmentDoc.definitions]} as unknown as DocumentNode<MyFeedsQuery, MyFeedsQueryVariables>;
 export const FollowDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"follow"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follow"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"following"}}]}}]}}]} as unknown as DocumentNode<FollowMutation, FollowMutationVariables>;
 export const UnfollowDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"unfollow"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"unfollow"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"following"}}]}}]}}]} as unknown as DocumentNode<UnfollowMutation, UnfollowMutationVariables>;
 export const UserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"user"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"discriminator"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}},{"kind":"Field","name":{"kind":"Name","value":"following"}},{"kind":"Field","name":{"kind":"Name","value":"feeds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FeedPreviewFields"}}]}}]}}]}},...FeedPreviewFieldsFragmentDoc.definitions]} as unknown as DocumentNode<UserQuery, UserQueryVariables>;

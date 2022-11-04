@@ -3,7 +3,7 @@ import { Feed } from "../feed";
 import { useMyFeeds } from "./my-feeds-hook";
 
 export const MyFeeds = () => {
-  const myFeeds = useMyFeeds();
+  const ctx = useMyFeeds();
 
   return (
     <div
@@ -26,26 +26,26 @@ export const MyFeeds = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              myFeeds.addFeed();
+              ctx.addFeed();
             }}
           >
             <input
-              value={myFeeds.newFeedUrl}
-              onChange={(e) => myFeeds.setNewFeedUrl(e.target.value)}
+              value={ctx.newFeedUrl}
+              onChange={(e) => ctx.setNewFeedUrl(e.target.value)}
             />
             <button type="submit">save</button>
           </form>
           <div>
-            <button onClick={async () => myFeeds.updateFeeds()}>
+            <button onClick={async () => ctx.updateFeeds()}>
               update feeds
             </button>
           </div>
         </div>
-        {myFeeds.updatingFeed && <div>{myFeeds.updatingFeed}</div>}
+        {ctx.updatingFeed && <div>{ctx.updatingFeed}</div>}
       </div>
 
       <div className={style.list__container}>
-        {myFeeds.myFeeds?.map((feed) => (
+        {ctx.myFeeds?.map((feed) => (
           <Feed
             feed={feed}
             article={feed.latestArticle || undefined}

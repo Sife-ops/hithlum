@@ -17,14 +17,15 @@ FeedType.implement({
     feedId: t.exposeID("feedId"),
     inputUrl: t.exposeString("inputUrl"),
     hasCustomArtwork: t.exposeBoolean("hasCustomArtwork"),
-    createdAt: t.string({
-      resolve: (p) => p.createdAt.toString(),
-    }),
 
     feedUrl: t.exposeString("feedUrl", { nullable: true }),
     title: t.exposeString("title", { nullable: true }),
     description: t.exposeString("description", { nullable: true }),
     link: t.exposeString("link", { nullable: true }),
+
+    createdAt: t.string({
+      resolve: (p) => p.createdAt.toString(),
+    }),
 
     addedByUser: t.field({
       type: UserType,
