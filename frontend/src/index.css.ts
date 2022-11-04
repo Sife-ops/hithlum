@@ -2,7 +2,7 @@ import { globalStyle } from "@vanilla-extract/css";
 import { vars } from "./vars.css";
 
 globalStyle("body", {
-  margin: "3rem",
+  margin: "1rem",
 
   fontFamily: vars.fonts.body,
   color: vars.colors.text.normal,

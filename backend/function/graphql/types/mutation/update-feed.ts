@@ -8,6 +8,7 @@ const parser = new rss();
 
 builder.mutationFields((t) => ({
   // todo: return feed entity
+  // todo: move whole thing to sqs
   updateFeed: t.string({
     args: {
       feedId: t.arg.string({ required: true }),

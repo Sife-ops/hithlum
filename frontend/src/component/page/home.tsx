@@ -1,3 +1,4 @@
+import * as style from "./home.css";
 import { Feed } from "../feed";
 import { useHome } from "./home-hook";
 
@@ -13,13 +14,7 @@ export const Home = () => {
       }}
     >
       <h1>Feeds</h1>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1rem",
-        }}
-      >
+      <div className={style.feeds__container}>
         <div>
           <h3>Recently Added</h3>
           <div
