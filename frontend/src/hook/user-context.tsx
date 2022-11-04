@@ -14,6 +14,7 @@ type UserContextType = {
 };
 
 const userContext = (): UserContextType => {
+  const [firstLoad, setFirstLoad] = useState(true); // todo: store in cookies?
   const [myFeedsQueryState] = useMyFeedsQuery();
   const [myFeeds, setMyFeeds] = useState<Feed[]>();
   useEffect(() => {
@@ -25,8 +26,17 @@ const userContext = (): UserContextType => {
         "desc"
       );
       setMyFeeds(desc as Feed[]);
+      if (firstLoad) {
+        setFirstLoad(false);
+      }
     }
   }, [myFeedsQueryState.data]);
+
+  useEffect(() => {
+    if (!firstLoad) {
+      updateFeeds();
+    }
+  }, [firstLoad]);
 
   const [___, updateFeedMutation] = useUpdateFeedMutation();
   const [updatingFeed, setUpdatingFeed] = useState<string>();
