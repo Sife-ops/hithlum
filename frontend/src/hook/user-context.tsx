@@ -42,6 +42,13 @@ const userContext = (): UserContextType => {
     }
   };
 
+  useEffect(() => {
+    const autoUpdate = setInterval(() => {
+      updateFeeds();
+    }, 1000 * 60 * 30); // todo: configurable in settings
+    return () => clearInterval(autoUpdate);
+  });
+
   return {
     myFeeds,
     updateFeeds,

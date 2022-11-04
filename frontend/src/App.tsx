@@ -13,6 +13,7 @@ import { Home } from "./component/page/home";
 import { MyFeeds } from "./component/page/my-feeds";
 import { Navigation } from "./component/navigation";
 import { PrivateRoutes } from "./component/private-routes";
+import { StatusBar } from "./component/status-bar";
 import { User } from "./component/page/user";
 
 function App() {
@@ -24,12 +25,11 @@ function App() {
         <Route
           path="/"
           element={
-            <div>
-              <UserContextProvider>
-                <Navigation />
-                <PrivateRoutes errorTo="/error" />
-              </UserContextProvider>
-            </div>
+            <UserContextProvider>
+              <Navigation />
+              <PrivateRoutes errorTo="/error" />
+              <StatusBar />
+            </UserContextProvider>
           }
         >
           <Route path="/dev" element={<Dev />} />

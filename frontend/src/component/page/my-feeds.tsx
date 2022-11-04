@@ -43,7 +43,6 @@ export const MyFeeds = () => {
             </button>
           </div>
         </div>
-        {ctx.updatingFeed && <div>{ctx.updatingFeed}</div>}
       </div>
 
       <div className={style.list__container}>
