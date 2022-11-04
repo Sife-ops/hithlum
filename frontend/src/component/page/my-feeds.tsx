@@ -1,3 +1,4 @@
+import * as style from "./my-feeds.css";
 import { Feed } from "../feed";
 import { useMyFeeds } from "./my-feeds-hook";
 
@@ -19,6 +20,7 @@ export const MyFeeds = () => {
           style={{
             display: "flex",
             gap: "1rem",
+            justifyContent: "space-between",
           }}
         >
           <form
@@ -37,18 +39,12 @@ export const MyFeeds = () => {
             <button onClick={async () => myFeeds.updateFeeds()}>
               update feeds
             </button>
-            {myFeeds.updatingFeed && <div>{myFeeds.updatingFeed}</div>}
           </div>
         </div>
+        {myFeeds.updatingFeed && <div>{myFeeds.updatingFeed}</div>}
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "1rem",
-        }}
-      >
+      <div className={style.myFeeds__container}>
         {myFeeds.myFeeds?.map((feed) => (
           <Feed
             feed={feed}
