@@ -1,3 +1,4 @@
+import * as style from "./common.css";
 import defaultAvatar from "../../assets/default/avatar.png";
 import { Link } from "react-router-dom";
 import { graphql } from "@hithlum/graphql/gql";
@@ -50,13 +51,7 @@ export const Friends = () => {
       >
         <h1>Friends</h1>
         <div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gap: "1rem",
-            }}
-          >
+          <div className={style.list__container}>
             {friends.map((friend) => {
               console.log(friend);
               return <Friend friend={friend} key={friend} />;

@@ -14,7 +14,7 @@ export const Home = () => {
       }}
     >
       <h1>Feeds</h1>
-      <div className={style.feeds__container}>
+      <div className={style.recents__container}>
         <div>
           <h3>Recently Added</h3>
           <div

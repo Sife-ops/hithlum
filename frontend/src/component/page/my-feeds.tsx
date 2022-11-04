@@ -1,4 +1,4 @@
-import * as style from "./my-feeds.css";
+import * as style from "./common.css";
 import { Feed } from "../feed";
 import { useMyFeeds } from "./my-feeds-hook";
 
@@ -44,7 +44,7 @@ export const MyFeeds = () => {
         {myFeeds.updatingFeed && <div>{myFeeds.updatingFeed}</div>}
       </div>
 
-      <div className={style.myFeeds__container}>
+      <div className={style.list__container}>
         {myFeeds.myFeeds?.map((feed) => (
           <Feed
             feed={feed}

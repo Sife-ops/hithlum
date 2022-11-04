@@ -1,4 +1,4 @@
-import { globalStyle } from "@vanilla-extract/css";
+import { globalStyle, style } from "@vanilla-extract/css";
 import { vars } from "./vars.css";
 
 globalStyle("body", {
@@ -39,8 +39,7 @@ globalStyle("input[type=text], textarea", {
   fontFamily: vars.fonts.body,
   border: "1px solid #CED4DA",
   backgroundClip: "padding-box",
-  transition: "border-color .15s ease-in-out"
-    + ", box-shadow .15s ease-in-out",
+  transition: "border-color .15s ease-in-out" + ", box-shadow .15s ease-in-out",
 });
 globalStyle("input[type=text]:focus, textarea:focus", {
   outline: 0,

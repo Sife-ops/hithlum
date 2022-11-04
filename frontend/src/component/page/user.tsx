@@ -1,3 +1,4 @@
+import * as style from "./common.css";
 import defaultAvatar from "../../assets/default/avatar.png";
 import { Feed } from "../feed";
 import { graphql } from "@hithlum/graphql/gql";
@@ -93,13 +94,7 @@ export const User = () => {
         </div>
         <div>
           <h3>Subscriptions</h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gap: "1rem",
-            }}
-          >
+          <div className={style.list__container}>
             {user.feeds.map((feed) => (
               <Feed
                 feed={feed}
