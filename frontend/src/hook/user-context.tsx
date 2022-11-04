@@ -32,12 +32,6 @@ const userContext = (): UserContextType => {
     }
   }, [myFeedsQueryState.data]);
 
-  useEffect(() => {
-    if (!firstLoad) {
-      updateFeeds();
-    }
-  }, [firstLoad]);
-
   const [___, updateFeedMutation] = useUpdateFeedMutation();
   const [updatingFeed, setUpdatingFeed] = useState<string>();
   const updateFeeds = async () => {

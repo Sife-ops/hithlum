@@ -3,24 +3,42 @@ import {
   useFeedQuery,
   useSubscribeMutation,
   useUnsubscribeMutation,
+  useUpdateFeedMutation,
 } from "@hithlum/graphql/urql";
-
 import { graphql } from "@hithlum/graphql/gql";
 import { useEffect, useState } from "react";
 
 export const useFeed = (feedId: string) => {
   const [feedQueryState] = useFeedQuery({ variables: { feedId: feedId! } });
   const [feed, setFeed] = useState<FeedType>();
-
-  const [_, subscribeMutation] = useSubscribeMutation();
-  const [__, unsubscribeMutation] = useUnsubscribeMutation();
-
+  const [feedLoaded, setFeedLoaded] = useState(false);
   useEffect(() => {
     const { fetching, data } = feedQueryState;
     if (!fetching && data) {
       setFeed(data.feed as FeedType);
+      if (!feedLoaded) {
+        setFeedLoaded(true);
+      }
     }
   }, [feedQueryState.data]);
+
+  const [___, updateFeedMutation] = useUpdateFeedMutation();
+  useEffect(() => {
+    if (feedLoaded && feed) {
+      // todo: duplicated in my-feeds
+      const lastUpdated = localStorage.getItem("feed");
+      if (lastUpdated) {
+        const delta = Date.now() - parseInt(lastUpdated);
+        console.log(delta);
+        if (delta < 60000) return;
+      }
+      updateFeedMutation({ feedId: feed.feedId });
+      localStorage.setItem("feed", Date.now().toString());
+    }
+  }, [feedLoaded]);
+
+  const [_, subscribeMutation] = useSubscribeMutation();
+  const [__, unsubscribeMutation] = useUnsubscribeMutation();
 
   return {
     feed,

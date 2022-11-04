@@ -9,10 +9,10 @@ import { useParams, Link } from "react-router-dom";
 export const Feed = () => {
   const { feedId } = useParams();
   // todo: redirect if feedId undefined
-  const ctx = useFeed(feedId!);
+  const page = useFeed(feedId!);
 
-  if (ctx.feed) {
-    const { feed } = ctx;
+  if (page.feed) {
+    const { feed } = page;
 
     return (
       <div
@@ -53,8 +53,8 @@ export const Feed = () => {
           <button
             onClick={() => {
               const { feedId } = feed;
-              if (feed.subscribed) ctx.unsubscribeMutation({ feedId });
-              else ctx.subscribeMutation({ feedId });
+              if (feed.subscribed) page.unsubscribeMutation({ feedId });
+              else page.subscribeMutation({ feedId });
             }}
           >
             {feed.subscribed ? "unsubscribe" : "subscribe"}

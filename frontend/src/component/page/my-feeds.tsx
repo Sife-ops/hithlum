@@ -1,11 +1,24 @@
 import * as style from "./common.css";
 import { Feed } from "../feed";
+import { useEffect } from "react";
 import { useMyFeeds } from "./my-feeds-hook";
 import { useUserContext } from "../../hook/user-context";
 
 export const MyFeeds = () => {
   const page = useMyFeeds();
   const ctx = useUserContext();
+
+  useEffect(() => {
+    // todo: duplicated in feed-hook
+    const lastUpdated = localStorage.getItem("my-feeds");
+    if (lastUpdated) {
+      const delta = Date.now() - parseInt(lastUpdated);
+      console.log(delta);
+      if (delta < 60000) return;
+    }
+    ctx.updateFeeds();
+    localStorage.setItem("my-feeds", Date.now().toString());
+  }, []);
 
   return (
     <div

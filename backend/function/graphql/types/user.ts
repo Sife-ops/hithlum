@@ -37,7 +37,7 @@ UserType.implement({
         const { data: userFeeds } =
           await hithlumModel.entities.UserFeedEntity.query
             .user_({ userId })
-            .go({ order: "desc" });
+            .go({ order: "asc" });
 
         let feeds: FeedEntityType[] = [];
         for (const { feedId } of userFeeds) {

@@ -1,4 +1,5 @@
-import * as style from "./common.css";
+import * as styleCommon from "./common.css";
+import * as styleFriends from "./friends.css";
 import defaultAvatar from "../../assets/default/avatar.png";
 import { Link } from "react-router-dom";
 import { graphql } from "@hithlum/graphql/gql";
@@ -51,7 +52,7 @@ export const Friends = () => {
       >
         <h1>Friends</h1>
         <div>
-          <div className={style.list__container}>
+          <div className={styleCommon.list__container}>
             {friends.map((friend) => {
               console.log(friend);
               return <Friend friend={friend} key={friend} />;
@@ -89,11 +90,7 @@ const Friend: React.FC<{ friend: string }> = (p) => {
         <img
           src={friend.avatarUrl || defaultAvatar}
           alt="avatar"
-          style={{
-            width: "128px",
-            height: "128px",
-            borderRadius: "50%",
-          }}
+          className={styleFriends.userPreview__artwork}
         />
         <h3>
           <Link to={"/user/" + friend.userId}>
