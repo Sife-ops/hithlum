@@ -42,7 +42,7 @@ FeedType.implement({
         if (!p.hasCustomArtwork) return "";
         try {
           const params = {
-            Key: p.feedId + ".png",
+            Key: p.feedId,
             Bucket: ARTWORK_BUCKET!,
           };
 

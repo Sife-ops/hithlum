@@ -55,6 +55,7 @@ export type Feed = {
 export type Mutation = {
   __typename?: 'Mutation';
   addFeed: Feed;
+  changeArtwork: Scalars['Boolean'];
   feed: Feed;
   follow: User;
   myFeeds: Array<Feed>;
@@ -68,6 +69,12 @@ export type Mutation = {
 
 export type MutationAddFeedArgs = {
   url: Scalars['String'];
+};
+
+
+export type MutationChangeArtworkArgs = {
+  artwork: Scalars['String'];
+  feedId: Scalars['String'];
 };
 
 
@@ -184,6 +191,14 @@ export type FeedQueryVariables = Exact<{
 
 
 export type FeedQuery = { __typename?: 'Query', feed: { __typename?: 'Feed', feedId: string, inputUrl: string, image: string, title?: string | null, description?: string | null, feedUrl?: string | null, link?: string | null, subscribed: boolean, addedByUser: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string }, articles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } }> } };
+
+export type ChangeArtworkMutationVariables = Exact<{
+  feedId: Scalars['String'];
+  artwork: Scalars['String'];
+}>;
+
+
+export type ChangeArtworkMutation = { __typename?: 'Mutation', changeArtwork: boolean };
 
 export type FriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -384,6 +399,15 @@ export const FeedDocument = gql`
 
 export function useFeedQuery(options: Omit<Urql.UseQueryArgs<FeedQueryVariables>, 'query'>) {
   return Urql.useQuery<FeedQuery, FeedQueryVariables>({ query: FeedDocument, ...options });
+};
+export const ChangeArtworkDocument = gql`
+    mutation changeArtwork($feedId: String!, $artwork: String!) {
+  changeArtwork(feedId: $feedId, artwork: $artwork)
+}
+    `;
+
+export function useChangeArtworkMutation() {
+  return Urql.useMutation<ChangeArtworkMutation, ChangeArtworkMutationVariables>(ChangeArtworkDocument);
 };
 export const FriendsDocument = gql`
     query friends {

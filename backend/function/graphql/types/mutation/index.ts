@@ -1,4 +1,5 @@
 import "./add-feed";
+import "./change-artwork";
 import "./feed";
 import "./follow";
 import "./my-feeds";

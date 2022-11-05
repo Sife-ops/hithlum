@@ -1,14 +1,19 @@
 import * as styleCommon from "../common.css";
-import React from "react";
+import React, { useState } from "react";
 import defaultArtwork from "../../assets/default/artwork.svg";
 import defaultAvatar from "../../assets/default/avatar.png";
-import { Article } from "@hithlum/graphql/urql";
+import { Article, useChangeArtworkMutation } from "@hithlum/graphql/urql";
 import { formatDistance } from "date-fns";
 import { useFeed } from "./feed-hook";
 import { useParams, Link } from "react-router-dom";
+import { useUserContext } from "../../hook/user-context";
+import { graphql } from "@hithlum/graphql/gql";
 
 export const Feed = () => {
   const { feedId } = useParams();
+  const { self } = useUserContext();
+  const [artwork, setArtwork] = useState("");
+  const [_, changeArtworkMutation] = useChangeArtworkMutation();
   // todo: redirect if feedId undefined
   const page = useFeed(feedId!);
 
@@ -31,6 +36,43 @@ export const Feed = () => {
             height: "auto",
           }}
         />
+        {self?.roles.includes("change-artwork") && (
+          <div>
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => {
+                const files = e.target.files;
+                if (files !== null) {
+                  const file = files[0];
+                  // setSize(file.size);
+                  let reader = new FileReader();
+                  reader.readAsDataURL(file);
+
+                  reader.onload = () => {
+                    const { result } = reader;
+                    if (result && typeof result === "string") {
+                      setArtwork(result);
+                    }
+                  };
+
+                  reader.onerror = (error) => {
+                    console.log("Error: ", error);
+                  };
+                }
+              }}
+            />
+            <button
+              onClick={() => {
+                if (artwork) {
+                  changeArtworkMutation({ artwork, feedId: feed.feedId });
+                }
+              }}
+            >
+              change artwork
+            </button>
+          </div>
+        )}
         <div>
           <h3>{feed.title || "untitled"}</h3>
           {feed.description && <div>Description: {feed.description}</div>}
@@ -121,3 +163,9 @@ const Articles: React.FC<{ articles: Article[] }> = (p) => (
     })}
   </div>
 );
+
+graphql(`
+  mutation changeArtwork($feedId: String!, $artwork: String!) {
+    changeArtwork(feedId: $feedId, artwork: $artwork)
+  }
+`);
