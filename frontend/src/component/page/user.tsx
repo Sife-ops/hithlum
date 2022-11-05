@@ -1,6 +1,6 @@
 import * as style from "../common.css";
 import defaultAvatar from "../../assets/default/avatar.png";
-import { Feed } from "../feed";
+import { FeedPreview } from "../feed-preview";
 import { graphql } from "@hithlum/graphql/gql";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -96,7 +96,7 @@ export const User = () => {
           <h3>Subscriptions</h3>
           <div className={style.list__container}>
             {user.feeds.map((feed) => (
-              <Feed
+              <FeedPreview
                 feed={feed}
                 article={feed.latestArticle || undefined}
                 key={feed.feedId}

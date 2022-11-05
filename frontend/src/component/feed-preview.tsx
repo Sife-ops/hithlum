@@ -6,10 +6,10 @@ import {
 } from "@hithlum/graphql/urql";
 import { Link } from "react-router-dom";
 import { formatDistance } from "date-fns";
-import * as style from "./feed.css";
+import * as style from "./feed-preview.css";
 
 // todo: rename to FeedPreview
-export const Feed: React.FC<{ feed: FeedType; article?: ArticleType }> = ({
+export const FeedPreview: React.FC<{ feed: FeedType; article?: ArticleType }> = ({
   feed,
   article,
 }) => {

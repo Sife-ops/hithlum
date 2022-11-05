@@ -1,5 +1,5 @@
 import * as style from "../common.css";
-import { Feed } from "../feed";
+import { FeedPreview } from "../feed-preview";
 import { useEffect } from "react";
 import { useMyFeeds } from "./my-feeds-hook";
 import { useUserContext } from "../../hook/user-context";
@@ -60,7 +60,7 @@ export const MyFeeds = () => {
 
       <div className={style.list__container}>
         {ctx.myFeeds?.map((feed) => (
-          <Feed
+          <FeedPreview
             feed={feed}
             article={feed.latestArticle || undefined}
             key={feed.feedId}

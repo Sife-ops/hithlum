@@ -1,5 +1,5 @@
 import * as style from "./home.css";
-import { Feed } from "../feed";
+import { FeedPreview } from "../feed-preview";
 import { useHome } from "./home-hook";
 
 export const Home = () => {
@@ -25,7 +25,7 @@ export const Home = () => {
             }}
           >
             {recentFeeds?.map((feed) => (
-              <Feed
+              <FeedPreview
                 feed={feed}
                 article={feed.latestArticle || undefined}
                 key={feed.feedId}
@@ -44,7 +44,7 @@ export const Home = () => {
             }}
           >
             {recentArticles?.map((article) => (
-              <Feed
+              <FeedPreview
                 feed={article.feed}
                 article={article}
                 key={article.articleId}
