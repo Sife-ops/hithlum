@@ -1,7 +1,8 @@
-module.exports = () => {
+module.exports = (serverless) => {
+  // console.log(serverless); // todo: research this
   return {
     BillingMode: "PAY_PER_REQUEST",
-    TableName: "${self:service}-${opt:stage}-table-v3",
+    TableName: "${self:service}-${opt:stage}-table",
     AttributeDefinitions: [
       {
         AttributeName: "pk",

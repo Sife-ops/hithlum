@@ -1,4 +1,4 @@
-const tableParams = require("@hithlum/backend/serverless/table-properties-v3.js"); // todo: remove version number!!!!
+const tableParams = require("@hithlum/backend/serverless/table-properties.js");
 import _ from "lodash";
 import AWS from "aws-sdk";
 import { mockData } from "./mock-data";
@@ -11,7 +11,7 @@ const config = {
 const dynamodb = new AWS.DynamoDB(config);
 const documentClient = new AWS.DynamoDB.DocumentClient(config);
 
-const TableName = "hithlum-local-table-v3";
+const TableName = "hithlum-local-table";
 
 (async () => {
   await dynamodb

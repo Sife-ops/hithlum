@@ -19,7 +19,7 @@ provider:
     ARTWORK_BUCKET: ${construct:artwork.bucketName}
     MANDOS_URL: ${self:custom.global.mandosUrl.${self:provider.stage}}
     STAGE: ${self:provider.stage}
-    TABLE: ${self:service}-${opt:stage}-table-v3
+    TABLE: ${self:service}-${opt:stage}-table
   iam:
     role:
       statements:
@@ -40,10 +40,10 @@ functions: ${file(./serverless/functions.yml)}
 
 resources:
   Resources:
-    hithlumTableV3:
+    hithlumTable:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
-      Properties: ${file(./serverless/table-properties-v3.js)}
+      Properties: ${file(./serverless/table-properties.js)}
 
 constructs:
   articleQueue:
