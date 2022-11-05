@@ -98,12 +98,9 @@ export const ArticleEntity = new Entity(
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
 
-      // todo: enclosure
-      // categories: { type: "string" },
       content: { type: "string" },
       contentSnippet: { type: "string" },
       creator: { type: "string" },
-      // enclosure: { type: "string" },
       guid: { type: "string" },
       isoDate: {
         type: "string",
@@ -114,6 +111,18 @@ export const ArticleEntity = new Entity(
       pubDate: { type: "string" },
       summary: { type: "string" },
       title: { type: "string" },
+
+      // enclosure: {
+      //   url: 'https://chtbl.com/track/E2288/traffic.megaphone.fm/STA1441745471.mp3',
+      //   length: '0',
+      //   type: 'audio/mpeg'
+      // },
+      enclosureUrl: { type: "string" },
+      enclosureLength: { type: "string" },
+      enclosureType: { type: "string" },
+
+      // todo: categories
+      // categories: { type: "string" },
     },
   },
   Dynamo.Configuration

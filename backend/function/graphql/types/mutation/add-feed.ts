@@ -50,7 +50,18 @@ builder.mutationFields((t) => ({
         }).go();
 
         await UserFeedEntity.create({ userId, feedId: data.feedId }).go();
-        await sendArticlesBatch(parsed.items, data.feedId);
+        await sendArticlesBatch(
+          parsed.items.map((item) => ({
+            ...item,
+            enclosureUrl: item.enclosure?.url,
+            // enclosureLength: item.enclosure?.length, // todo: might break?
+            enclosureType: item.enclosure?.type,
+            // categories: item.categories
+            //   ? JSON.stringify(item.categories)
+            //   : "[]",
+          })),
+          data.feedId
+        );
 
         feed = data;
       }

@@ -54,6 +54,7 @@ export const FeedEntity = new Entity(
       //
       //
       //
+      //
       recent_: {
         collection: "recent",
         index: "gsi4",

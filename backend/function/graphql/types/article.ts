@@ -19,7 +19,7 @@ ArticleType.implement({
     articleId: t.exposeID("articleId"),
     feedId: t.exposeString("feedId"),
 
-    categories: t.exposeString("categories", { nullable: true }),
+    // categories: t.exposeString("categories", { nullable: true }),
     content: t.exposeString("content", { nullable: true }),
     contentSnippet: t.exposeString("contentSnippet", { nullable: true }),
     creator: t.exposeString("creator", { nullable: true }),
@@ -30,6 +30,9 @@ ArticleType.implement({
     pubDate: t.exposeString("pubDate", { nullable: true }),
     summary: t.exposeString("summary", { nullable: true }),
     title: t.exposeString("title", { nullable: true }),
+    enclosureUrl: t.exposeString("enclosureUrl", { nullable: true }),
+    enclosureLength: t.exposeString("enclosureLength", { nullable: true }),
+    enclosureType: t.exposeString("enclosureType", { nullable: true }),
 
     feed: t.field({
       type: FeedType,
