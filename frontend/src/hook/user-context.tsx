@@ -34,12 +34,12 @@ const userContext = (): UserContextType => {
   const [updatingFeed, setUpdatingFeed] = useState<string>();
   const updateFeeds = async () => {
     if (myFeeds) {
-      for (const { feedId, title } of myFeeds) {
-        setUpdatingFeed(title || "untitled feed");
-        await updateFeedMutation({ feedId });
-      }
+      setUpdatingFeed("Updating...");
+      await Promise.all(
+        myFeeds.map(({ feedId }) => updateFeedMutation({ feedId }))
+      );
       setUpdatingFeed("done!");
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       setUpdatingFeed(undefined);
     }
   };
