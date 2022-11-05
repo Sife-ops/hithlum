@@ -12,6 +12,7 @@ import {
 export const useMyFeeds = () => {
   const [myFeedsQueryState] = useMyFeedsQuery();
   const [myFeeds, setMyFeeds] = useState<Feed[]>();
+  const [___, updateFeedMutation] = useUpdateFeedMutation();
   const [myFeedsQueryInit, setMyFeedsQueryInit] = useState(true);
   useEffect(() => {
     const { fetching, data } = myFeedsQueryState;
@@ -29,21 +30,14 @@ export const useMyFeeds = () => {
           console.log(delta);
           if (delta < 1000 * 60) return;
         }
-        updateFeeds(data.myFeeds as Feed[]);
+        Promise.all(
+          data.myFeeds.map(({ feedId }) => updateFeedMutation({ feedId }))
+        );
         localStorage.setItem("my-feeds", Date.now().toString());
         setMyFeedsQueryInit(false);
       }
     }
   }, [myFeedsQueryState.data]);
-
-  const [___, updateFeedMutation] = useUpdateFeedMutation();
-  const updateFeeds = (feeds?: Feed[]) => {
-    let feeds_ = feeds;
-    if (!feeds_) feeds_ = myFeeds;
-    if (feeds_) {
-      Promise.all(feeds_.map(({ feedId }) => updateFeedMutation({ feedId })));
-    }
-  };
 
   const [newFeedUrl, setNewFeedUrl] = useState("");
   const [addFeedMutationState, addFeedMutation] = useAddFeedMutation();
@@ -69,7 +63,6 @@ export const useMyFeeds = () => {
     newFeedUrl,
     addFeed,
     myFeeds,
-    updateFeeds,
   };
 };
 

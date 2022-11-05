@@ -35,11 +35,11 @@ export const MyFeeds = () => {
             />
             <button type="submit">save</button>
           </form>
-          <div>
+          {/* <div>
             <button onClick={async () => page.updateFeeds()}>
               update feeds
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 
