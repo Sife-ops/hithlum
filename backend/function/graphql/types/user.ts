@@ -18,6 +18,16 @@ UserType.implement({
     discriminator: t.exposeString("discriminator"),
     avatarUrl: t.exposeString("avatarUrl"),
 
+    roles: t.stringList({
+      resolve: ({ userId }) =>
+        hithlumModel.entities.RoleEntity.query
+          .user_({
+            userId,
+          })
+          .go()
+          .then(({ data }) => data.map((e) => e.role)),
+    }),
+
     following: t.boolean({
       resolve: async (p, _, { user: { userId } }) => {
         const { data: friends } = await hithlumModel.entities.FriendEntity.query

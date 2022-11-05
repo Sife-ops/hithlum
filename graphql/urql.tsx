@@ -144,14 +144,10 @@ export type User = {
   discriminator: Scalars['String'];
   feeds: Array<Feed>;
   following: Scalars['Boolean'];
+  roles: Array<Scalars['String']>;
   userId: Scalars['ID'];
   username: Scalars['String'];
 };
-
-export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SelfQuery = { __typename?: 'Query', user: { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string } };
 
 export type SetUnreadMutationVariables = Exact<{
   articleId: Scalars['String'];
@@ -193,8 +189,6 @@ export type FriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FriendsQuery = { __typename?: 'Query', friends: Array<string> };
-
-export type UserPreviewFieldsFragment = { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string };
 
 export type FriendQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -264,14 +258,13 @@ export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: 
 
 export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null };
 
-export const UserPreviewFieldsFragmentDoc = gql`
-    fragment UserPreviewFields on User {
-  userId
-  username
-  discriminator
-  avatarUrl
-}
-    `;
+export type UserPreviewFieldsFragment = { __typename?: 'User', userId: string, username: string, discriminator: string, avatarUrl: string };
+
+export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SelfQuery = { __typename?: 'Query', user: { __typename?: 'User', roles: Array<string>, userId: string, username: string, discriminator: string, avatarUrl: string } };
+
 export const ArticlePreviewFieldsFragmentDoc = gql`
     fragment ArticlePreviewFields on Article {
   articleId
@@ -295,17 +288,14 @@ export const FeedPreviewFieldsFragmentDoc = gql`
   }
 }
     ${ArticlePreviewFieldsFragmentDoc}`;
-export const SelfDocument = gql`
-    query self {
-  user {
-    ...UserPreviewFields
-  }
+export const UserPreviewFieldsFragmentDoc = gql`
+    fragment UserPreviewFields on User {
+  userId
+  username
+  discriminator
+  avatarUrl
 }
-    ${UserPreviewFieldsFragmentDoc}`;
-
-export function useSelfQuery(options?: Omit<Urql.UseQueryArgs<SelfQueryVariables>, 'query'>) {
-  return Urql.useQuery<SelfQuery, SelfQueryVariables>({ query: SelfDocument, ...options });
-};
+    `;
 export const SetUnreadDocument = gql`
     mutation setUnread($articleId: String!, $value: Boolean!) {
   setUnread(articleId: $articleId, value: $value) {
@@ -525,4 +515,16 @@ export const UserDocument = gql`
 
 export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
   return Urql.useQuery<UserQuery, UserQueryVariables>({ query: UserDocument, ...options });
+};
+export const SelfDocument = gql`
+    query self {
+  user {
+    ...UserPreviewFields
+    roles
+  }
+}
+    ${UserPreviewFieldsFragmentDoc}`;
+
+export function useSelfQuery(options?: Omit<Urql.UseQueryArgs<SelfQueryVariables>, 'query'>) {
+  return Urql.useQuery<SelfQuery, SelfQueryVariables>({ query: SelfDocument, ...options });
 };

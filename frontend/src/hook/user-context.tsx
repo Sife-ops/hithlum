@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { graphql } from "@hithlum/graphql/gql";
-import {
-  Feed,
-  useMyFeedsQuery,
-  useUpdateFeedMutation,
-} from "@hithlum/graphql/urql";
 import _ from "lodash";
+import { User, useSelfQuery } from "@hithlum/graphql/urql";
 
-// todo: delete comments
 type UserContextType = {
-  // myFeeds: Feed[] | undefined;
-  // updateFeeds: () => Promise<void>;
-  // updatingFeed: string | undefined;
+  self: User | undefined;
 };
 
 const userContext = (): UserContextType => {
-  // useEffect(() => {
-  //   const autoUpdate = setInterval(() => {
-  //     updateFeeds();
-  //   }, 1000 * 60 * 30); // todo: configurable in settings
-  //   return () => clearInterval(autoUpdate);
-  // });
+  const [self, setSelf] = useState<User>();
+  const [selfQueryState] = useSelfQuery();
+  useEffect(() => {
+    const { fetching, data } = selfQueryState;
+    if (!fetching && data) {
+      setSelf(data.user as User);
+    }
+  }, [selfQueryState.data]);
 
   return {
-    // myFeeds,
-    // updateFeeds,
-    // updatingFeed,
+    self,
   };
 };
 
@@ -48,3 +41,12 @@ export const useUserContext = () => {
   }
   return context;
 };
+
+graphql(`
+  query self {
+    user {
+      ...UserPreviewFields
+      roles
+    }
+  }
+`);

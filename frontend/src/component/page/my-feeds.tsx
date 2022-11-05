@@ -1,8 +1,10 @@
 import * as style from "../common.css";
 import { FeedPreview } from "../feed-preview";
 import { useMyFeeds } from "./my-feeds-hook";
+import { useUserContext } from "../../hook/user-context";
 
 export const MyFeeds = () => {
+  const { self } = useUserContext();
   const page = useMyFeeds();
 
   return (
@@ -35,11 +37,17 @@ export const MyFeeds = () => {
             />
             <button type="submit">save</button>
           </form>
-          {/* <div>
-            <button onClick={async () => page.updateFeeds()}>
-              update feeds
-            </button>
-          </div> */}
+          {self && self.roles.includes("update-feeds-button") && (
+            <div>
+              <button
+                onClick={() => {
+                  // page.updateFeeds()
+                }}
+              >
+                update feeds
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

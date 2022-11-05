@@ -1,17 +1,8 @@
 import "./navigation.css";
 import defaultAvatar from "../assets/default/avatar.png";
-import { graphql } from "@hithlum/graphql/gql";
-import { User, useSelfQuery } from "@hithlum/graphql/urql";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-const self = graphql(`
-  query self {
-    user {
-      ...UserPreviewFields
-    }
-  }
-`);
+import { useUserContext } from "../hook/user-context";
 
 export const Navigation = () => {
   return (
@@ -52,14 +43,7 @@ export const Navigation = () => {
 };
 
 const Self = () => {
-  const [self, setSelf] = useState<User>();
-  const [selfQueryState] = useSelfQuery();
-  useEffect(() => {
-    const { fetching, data } = selfQueryState;
-    if (!fetching && data) {
-      setSelf(data.user as User);
-    }
-  }, [selfQueryState.data]);
+  const { self } = useUserContext();
 
   if (self) {
     return (

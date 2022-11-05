@@ -1,6 +1,6 @@
 import { graphql } from "@hithlum/graphql/gql";
 
-const articlePreviewFields = graphql(`
+graphql(`
   fragment ArticlePreviewFields on Article {
     articleId
     feedId
@@ -15,7 +15,7 @@ const articlePreviewFields = graphql(`
   }
 `);
 
-const feedPreviewFields = graphql(`
+graphql(`
   fragment FeedPreviewFields on Feed {
     feedId
 
@@ -29,3 +29,11 @@ const feedPreviewFields = graphql(`
   }
 `);
 
+graphql(`
+  fragment UserPreviewFields on User {
+    userId
+    username
+    discriminator
+    avatarUrl
+  }
+`);

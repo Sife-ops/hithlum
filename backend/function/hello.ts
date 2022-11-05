@@ -1,4 +1,11 @@
+import { hithlumModel } from "@hithlum/core/model";
+
 export const main = async (event: any) => {
+  await hithlumModel.entities.RoleEntity.create({
+    userId: event.userId,
+    role: event.role,
+  }).go();
+
   return {
     statusCode: 200,
     body: JSON.stringify(
