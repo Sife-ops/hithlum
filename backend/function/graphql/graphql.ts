@@ -2,6 +2,7 @@ import got from "got";
 import { GraphQLHandler } from "@serverless-stack/node/graphql";
 import { decode } from "jsonwebtoken";
 import { schema } from "./schema";
+import { hithlumModel } from "@hithlum/core/model";
 
 const { MANDOS_URL } = process.env;
 
@@ -35,6 +36,34 @@ export const main = async (
       userId: string;
     };
 
+    /**
+     * default subscription
+     */
+    await hithlumModel.entities.UserEntity.query
+      .user({ userId })
+      .go()
+      .then(async ({ data: [user] }) => {
+        if (user) return;
+        await hithlumModel.entities.UserEntity.create({
+          userId,
+        })
+          .go()
+          .then(async ({ data: user }) => {
+            await hithlumModel.entities.FeedEntity.query
+              .feedUrl_({
+                feedUrl: "http://feed.nashownotes.com/rss.xml",
+              })
+              .go()
+              .then(async ({ data: [defaultFeed] }) => {
+                if (!defaultFeed) return;
+                await hithlumModel.entities.UserFeedEntity.create({
+                  feedId: defaultFeed.feedId,
+                  userId: user.userId,
+                }).go();
+              });
+          });
+      });
+
     return GraphQLHandler({
       schema,
       context: async (request) => {
@@ -54,6 +83,7 @@ export const main = async (
       statusCode: 401,
       headers: {},
       body: JSON.stringify({ errors: [{ message: "unauthorized" }] }),
+      // body: JSON.stringify(e),
     };
   }
 };

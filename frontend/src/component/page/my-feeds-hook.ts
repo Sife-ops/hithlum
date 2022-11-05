@@ -4,18 +4,15 @@ import { graphql } from "@hithlum/graphql/gql";
 import {
   useAddFeedMutation,
   useSyncFeedMutation,
-  // useSyncMyFeedsMutation,
   useMyFeedsQuery,
   useUpdateFeedMutation,
   Feed,
 } from "@hithlum/graphql/urql";
 
 export const useMyFeeds = () => {
-  const [myFeedsQueryState] = useMyFeedsQuery({
-    // requestPolicy: "network-only", // todo: not needed?
-  });
+  const [myFeedsQueryState] = useMyFeedsQuery();
   const [myFeeds, setMyFeeds] = useState<Feed[]>();
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [myFeedsQueryInit, setMyFeedsQueryInit] = useState(true);
   useEffect(() => {
     const { fetching, data } = myFeedsQueryState;
     if (!fetching && data) {
@@ -25,40 +22,32 @@ export const useMyFeeds = () => {
         "desc"
       );
       setMyFeeds(desc as Feed[]);
-      if (firstLoad) setFirstLoad(false);
+      if (myFeedsQueryInit) {
+        const lastUpdated = localStorage.getItem("my-feeds");
+        if (lastUpdated) {
+          const delta = Date.now() - parseInt(lastUpdated);
+          console.log(delta);
+          if (delta < 1000 * 60) return;
+        }
+        updateFeeds(data.myFeeds as Feed[]);
+        localStorage.setItem("my-feeds", Date.now().toString());
+        setMyFeedsQueryInit(false);
+      }
     }
   }, [myFeedsQueryState.data]);
 
   const [___, updateFeedMutation] = useUpdateFeedMutation();
-  // const [updatingFeed, setUpdatingFeed] = useState<string>();
-  const updateFeeds = () => {
-    if (myFeeds) {
-      // setUpdatingFeed("Updating...");
-      Promise.all(myFeeds.map(({ feedId }) => updateFeedMutation({ feedId })));
-      // setUpdatingFeed("done!");
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-      // setUpdatingFeed(undefined);
+  const updateFeeds = (feeds?: Feed[]) => {
+    let feeds_ = feeds;
+    if (!feeds_) feeds_ = myFeeds;
+    if (feeds_) {
+      Promise.all(feeds_.map(({ feedId }) => updateFeedMutation({ feedId })));
     }
   };
-
-  useEffect(() => {
-    if (!firstLoad) {
-      // todo: duplicated in feed-hook
-      const lastUpdated = localStorage.getItem("my-feeds");
-      if (lastUpdated) {
-        const delta = Date.now() - parseInt(lastUpdated);
-        console.log(delta);
-        if (delta < 1000 * 60 * 5) return;
-      }
-      updateFeeds();
-      localStorage.setItem("my-feeds", Date.now().toString());
-    }
-  }, [firstLoad]);
 
   const [newFeedUrl, setNewFeedUrl] = useState("");
   const [addFeedMutationState, addFeedMutation] = useAddFeedMutation();
   const [__, syncFeedMutation] = useSyncFeedMutation();
-  // const [___, syncMyFeedsMutation] = useSyncMyFeedsMutation();
   useEffect(() => {
     const { fetching, data } = addFeedMutationState;
     if (!fetching && data) {
@@ -67,7 +56,6 @@ export const useMyFeeds = () => {
         syncFeedMutation({
           feedId: data.addFeed.feedId,
         });
-        // syncMyFeedsMutation({});
       }, 2000);
     }
   }, [addFeedMutationState.data]);
@@ -82,7 +70,6 @@ export const useMyFeeds = () => {
     addFeed,
     myFeeds,
     updateFeeds,
-    // updatingFeed,
   };
 };
 
@@ -90,7 +77,7 @@ export const useMyFeeds = () => {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-const addFeed = graphql(`
+graphql(`
   mutation addFeed($url: String!) {
     addFeed(url: $url) {
       feedId
@@ -98,7 +85,7 @@ const addFeed = graphql(`
   }
 `);
 
-const syncFeed = graphql(`
+graphql(`
   mutation syncFeed($feedId: String!) {
     feed(feedId: $feedId) {
       ...FeedPreviewFields
@@ -106,7 +93,7 @@ const syncFeed = graphql(`
   }
 `);
 
-const updateFeed = graphql(`
+graphql(`
   mutation updateFeed($feedId: String!) {
     updateFeed(feedId: $feedId) {
       ...FeedPreviewFields
@@ -114,18 +101,10 @@ const updateFeed = graphql(`
   }
 `);
 
-const myFeeds = graphql(`
+graphql(`
   query myFeeds {
     myFeeds {
       ...FeedPreviewFields
     }
   }
 `);
-
-// const syncMyFeeds = graphql(`
-//   mutation syncMyFeeds {
-//     myFeeds {
-//       ...FeedPreviewFields
-//     }
-//   }
-// `);
