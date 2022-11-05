@@ -58,6 +58,27 @@ export const Article = () => {
             })}
           </div>
           <br />
+          {article.link && (
+            <div>
+              Link:{" "}
+              <a href={article.link} target="_blank">
+                {article.link}
+              </a>
+            </div>
+          )}
+          {article.enclosureUrl && (
+            <div>
+              enclosure:{" "}
+              <ul>
+                <li>
+                  <a href={article.enclosureUrl} target="_blank">
+                    {article.enclosureUrl}
+                  </a>
+                </li>
+                {article.enclosureType && <li>{article.enclosureType}</li>}
+              </ul>
+            </div>
+          )}
           {article.summary && (
             <div>
               <h4>Summary:</h4>
@@ -73,14 +94,6 @@ export const Article = () => {
           {/* {article.contentSnippet && (
             <div>contentSnippet: {article.contentSnippet}</div>
           )} */}
-          {article.link && (
-            <div>
-              Link:{" "}
-              <a href={article.link} target="_blank">
-                {article.link}
-              </a>
-            </div>
-          )}
         </div>
       </div>
     );
@@ -103,7 +116,6 @@ const article = graphql(`
       articleId
       feedId
 
-      categories
       content
       contentSnippet
       creator
@@ -113,6 +125,8 @@ const article = graphql(`
       pubDate
       summary
       title
+      enclosureUrl
+      enclosureType
 
       unread {
         value

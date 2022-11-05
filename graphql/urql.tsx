@@ -18,10 +18,12 @@ export type Scalars = {
 export type Article = {
   __typename?: 'Article';
   articleId: Scalars['ID'];
-  categories?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   contentSnippet?: Maybe<Scalars['String']>;
   creator?: Maybe<Scalars['String']>;
+  enclosureLength?: Maybe<Scalars['String']>;
+  enclosureType?: Maybe<Scalars['String']>;
+  enclosureUrl?: Maybe<Scalars['String']>;
   feed: Feed;
   feedId: Scalars['String'];
   guid?: Maybe<Scalars['String']>;
@@ -164,7 +166,7 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, categories?: string | null, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, unread: { __typename?: 'Unread', value: boolean }, feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null } } };
+export type ArticleQuery = { __typename?: 'Query', article: { __typename?: 'Article', articleId: string, feedId: string, content?: string | null, contentSnippet?: string | null, creator?: string | null, guid?: string | null, isoDate?: string | null, link?: string | null, pubDate?: string | null, summary?: string | null, title?: string | null, enclosureUrl?: string | null, enclosureType?: string | null, unread: { __typename?: 'Unread', value: boolean }, feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null } } };
 
 export type SubscribeMutationVariables = Exact<{
   feedId: Scalars['String'];
@@ -325,7 +327,6 @@ export const ArticleDocument = gql`
   article(articleId: $articleId) {
     articleId
     feedId
-    categories
     content
     contentSnippet
     creator
@@ -335,6 +336,8 @@ export const ArticleDocument = gql`
     pubDate
     summary
     title
+    enclosureUrl
+    enclosureType
     unread {
       value
     }

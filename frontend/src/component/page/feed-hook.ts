@@ -26,7 +26,7 @@ export const useFeed = (feedId: string) => {
   useEffect(() => {
     if (feedLoaded && feed) {
       // todo: duplicated in my-feeds
-      const lastUpdated = localStorage.getItem("feed");
+      const lastUpdated = localStorage.getItem(`feed-${feed.feedId}`);
       if (lastUpdated) {
         const delta = Date.now() - parseInt(lastUpdated);
         console.log(delta);

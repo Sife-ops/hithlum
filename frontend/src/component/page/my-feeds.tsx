@@ -14,7 +14,7 @@ export const MyFeeds = () => {
     if (lastUpdated) {
       const delta = Date.now() - parseInt(lastUpdated);
       console.log(delta);
-      if (delta < 60000) return;
+      if (delta < 300000) return;
     }
     ctx.updateFeeds();
     localStorage.setItem("my-feeds", Date.now().toString());
