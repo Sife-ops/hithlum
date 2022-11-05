@@ -14,8 +14,9 @@ type UserContextType = {
 };
 
 const userContext = (): UserContextType => {
-  const [firstLoad, setFirstLoad] = useState(true); // todo: store in cookies?
-  const [myFeedsQueryState] = useMyFeedsQuery();
+  const [myFeedsQueryState] = useMyFeedsQuery({
+    requestPolicy: "network-only", // todo: not needed?
+  });
   const [myFeeds, setMyFeeds] = useState<Feed[]>();
   useEffect(() => {
     const { fetching, data } = myFeedsQueryState;
@@ -26,9 +27,6 @@ const userContext = (): UserContextType => {
         "desc"
       );
       setMyFeeds(desc as Feed[]);
-      if (firstLoad) {
-        setFirstLoad(false);
-      }
     }
   }, [myFeedsQueryState.data]);
 
