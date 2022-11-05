@@ -1,3 +1,4 @@
+import * as styleCommon from "../common.css";
 import React from "react";
 import defaultArtwork from "../../assets/default/artwork.svg";
 import defaultAvatar from "../../assets/default/avatar.png";
@@ -85,7 +86,7 @@ export const Feed = () => {
         </div>
         <div>
           <h3>Articles</h3>
-          <Articles articles={feed.articles} />
+          <Articles articles={feed.articles || []} />
         </div>
       </div>
     );
@@ -95,21 +96,17 @@ export const Feed = () => {
 };
 
 const Articles: React.FC<{ articles: Article[] }> = (p) => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: "1rem",
-    }}
-  >
+  <div className={styleCommon.list__container}>
     {p.articles.map((article) => {
-      const color = article.unread.value ? "blue" : "purple";
+      const unread = article.unread.value;
       return (
         <div
           key={article.articleId}
-          style={{
-            border: `1px solid ${color}`,
-          }}
+          className={
+            unread
+              ? styleCommon.list__item__unread
+              : styleCommon.list__item__read
+          }
         >
           <div>
             <Link to={"/article/" + article.articleId}>{article.title}</Link>

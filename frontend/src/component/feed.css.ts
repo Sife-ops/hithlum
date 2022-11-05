@@ -1,21 +1,18 @@
 import { style } from "@vanilla-extract/css";
+import * as styleCommon from "./common.css";
 
 export const feedPreview__container = style({
   display: "flex",
 });
 
-export const feedPreview__container__unread = style([
-  feedPreview__container,
-  {
-    backgroundColor: "rgb(240, 240, 240)",
-  },
-]);
-
 export const feedPreview__container__read = style([
   feedPreview__container,
-  {
-    backgroundColor: "lightgray",
-  },
+  styleCommon.list__item__read,
+]);
+
+export const feedPreview__container__unread = style([
+  feedPreview__container,
+  styleCommon.list__item__unread,
 ]);
 
 export const feedPreview__artwork = style({

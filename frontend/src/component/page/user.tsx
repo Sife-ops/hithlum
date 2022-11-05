@@ -1,4 +1,4 @@
-import * as style from "./common.css";
+import * as style from "../common.css";
 import defaultAvatar from "../../assets/default/avatar.png";
 import { Feed } from "../feed";
 import { graphql } from "@hithlum/graphql/gql";

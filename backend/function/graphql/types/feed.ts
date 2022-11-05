@@ -77,6 +77,7 @@ FeedType.implement({
     }),
 
     // can't use loader
+    // todo: make nullable
     articles: t.field({
       type: [ArticleType],
       resolve: ({ feedId }) =>

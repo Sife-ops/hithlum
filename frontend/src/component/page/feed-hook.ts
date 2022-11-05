@@ -26,14 +26,15 @@ export const useFeed = (feedId: string) => {
   useEffect(() => {
     if (feedLoaded && feed) {
       // todo: duplicated in my-feeds
-      const lastUpdated = localStorage.getItem(`feed-${feed.feedId}`);
+      const key = `feed-${feed.feedId}`;
+      const lastUpdated = localStorage.getItem(key);
       if (lastUpdated) {
         const delta = Date.now() - parseInt(lastUpdated);
         console.log(delta);
         if (delta < 60000) return;
       }
       updateFeedMutation({ feedId: feed.feedId });
-      localStorage.setItem("feed", Date.now().toString());
+      localStorage.setItem(key, Date.now().toString());
     }
   }, [feedLoaded]);
 

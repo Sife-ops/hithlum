@@ -1,4 +1,4 @@
-import * as style from "./common.css";
+import * as style from "../common.css";
 import { Feed } from "../feed";
 import { useEffect } from "react";
 import { useMyFeeds } from "./my-feeds-hook";

@@ -1,4 +1,4 @@
-import * as styleCommon from "./common.css";
+import * as styleCommon from "../common.css";
 import * as styleFriends from "./friends.css";
 import defaultAvatar from "../../assets/default/avatar.png";
 import { Link } from "react-router-dom";

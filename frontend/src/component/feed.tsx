@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { formatDistance } from "date-fns";
 import * as style from "./feed.css";
 
+// todo: rename to FeedPreview
 export const Feed: React.FC<{ feed: FeedType; article?: ArticleType }> = ({
   feed,
   article,
