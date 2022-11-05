@@ -2,7 +2,7 @@ import {
   Article,
   Feed,
   useAddFeedMutation,
-  useHelloQuery,
+  // useHelloQuery,
   useRecentArticlesQuery,
   useRecentFeedsQuery,
 } from "@hithlum/graphql/urql";
@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 export const Dev = () => {
   const [feedUrl, setFeedUrl] = useState("");
 
-  const [helloQueryState] = useHelloQuery();
+  // const [helloQueryState] = useHelloQuery();
   const [addFeedState, addFeed] = useAddFeedMutation();
 
   const [recentFeedsQueryState] = useRecentFeedsQuery();
@@ -21,12 +21,12 @@ export const Dev = () => {
   const [recentArticlesQueryState] = useRecentArticlesQuery();
   const [recentArticles, setRecentArticles] = useState<Article[]>();
 
-  useEffect(() => {
-    const { fetching, data } = helloQueryState;
-    if (!fetching) {
-      console.log(data);
-    }
-  }, [helloQueryState.data]);
+  // useEffect(() => {
+  //   const { fetching, data } = helloQueryState;
+  //   if (!fetching) {
+  //     console.log(data);
+  //   }
+  // }, [helloQueryState.data]);
 
   useEffect(() => {
     const { fetching, data } = addFeedState;

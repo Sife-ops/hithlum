@@ -264,11 +264,6 @@ export type ArticlePreviewFieldsFragment = { __typename?: 'Article', articleId: 
 
 export type FeedPreviewFieldsFragment = { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null };
 
-export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type HelloQuery = { __typename?: 'Query', hello: string };
-
 export const UserPreviewFieldsFragmentDoc = gql`
     fragment UserPreviewFields on User {
   userId
@@ -530,13 +525,4 @@ export const UserDocument = gql`
 
 export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
   return Urql.useQuery<UserQuery, UserQueryVariables>({ query: UserDocument, ...options });
-};
-export const HelloDocument = gql`
-    query hello {
-  hello
-}
-    `;
-
-export function useHelloQuery(options?: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'>) {
-  return Urql.useQuery<HelloQuery, HelloQueryVariables>({ query: HelloDocument, ...options });
 };

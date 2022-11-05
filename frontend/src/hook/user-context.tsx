@@ -7,6 +7,7 @@ import {
 } from "@hithlum/graphql/urql";
 import _ from "lodash";
 
+// todo: delete comments
 type UserContextType = {
   // myFeeds: Feed[] | undefined;
   // updateFeeds: () => Promise<void>;

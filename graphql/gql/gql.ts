@@ -23,7 +23,6 @@ const documents = {
     "\n  query user($userId: String!) {\n    user(userId: $userId) {\n      userId\n      username\n      discriminator\n      avatarUrl\n\n      following\n\n      feeds {\n        ...FeedPreviewFields\n      }\n    }\n  }\n": types.UserDocument,
     "\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n": types.ArticlePreviewFieldsFragmentDoc,
     "\n  fragment FeedPreviewFields on Feed {\n    feedId\n\n    image\n    title\n    createdAt\n\n    latestArticle {\n      ...ArticlePreviewFields\n    }\n  }\n": types.FeedPreviewFieldsFragmentDoc,
-    "\n  query hello {\n    hello\n  }\n": types.HelloDocument,
 };
 
 export function graphql(source: "\n  query self {\n    user {\n      ...UserPreviewFields\n    }\n  }\n"): (typeof documents)["\n  query self {\n    user {\n      ...UserPreviewFields\n    }\n  }\n"];
@@ -46,7 +45,6 @@ export function graphql(source: "\n  mutation unfollow($userId: String!) {\n    
 export function graphql(source: "\n  query user($userId: String!) {\n    user(userId: $userId) {\n      userId\n      username\n      discriminator\n      avatarUrl\n\n      following\n\n      feeds {\n        ...FeedPreviewFields\n      }\n    }\n  }\n"): (typeof documents)["\n  query user($userId: String!) {\n    user(userId: $userId) {\n      userId\n      username\n      discriminator\n      avatarUrl\n\n      following\n\n      feeds {\n        ...FeedPreviewFields\n      }\n    }\n  }\n"];
 export function graphql(source: "\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n"): (typeof documents)["\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n"];
 export function graphql(source: "\n  fragment FeedPreviewFields on Feed {\n    feedId\n\n    image\n    title\n    createdAt\n\n    latestArticle {\n      ...ArticlePreviewFields\n    }\n  }\n"): (typeof documents)["\n  fragment FeedPreviewFields on Feed {\n    feedId\n\n    image\n    title\n    createdAt\n\n    latestArticle {\n      ...ArticlePreviewFields\n    }\n  }\n"];
-export function graphql(source: "\n  query hello {\n    hello\n  }\n"): (typeof documents)["\n  query hello {\n    hello\n  }\n"];
 
 export function graphql(source: string): unknown;
 export function graphql(source: string) {
