@@ -6,7 +6,6 @@ import { Item } from "rss-parser";
 const sqs = new AWS.SQS();
 const { ARTICLE_QUEUE } = process.env;
 
-// todo: uses too much 'any'
 export const sendArticlesBatch = async (articles: Item[], feedId: string) => {
   await sendArticlesBatch_(
     articles,
@@ -33,7 +32,6 @@ export const sendArticlesBatch = async (articles: Item[], feedId: string) => {
   );
 };
 
-// todo: this function sucks and needs to be refactored
 export const sendArticlesBatch_ = async (
   articles: Item[],
   feedId: string,

@@ -17,5 +17,3 @@ export const fetchUser = (userId: string) =>
       if (res.success) return res.user;
       throw new Error(`mandos: ${res.message}`);
     });
-
-// todo: fetchUsers

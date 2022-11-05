@@ -5,7 +5,6 @@ import { builder } from "../builder";
 
 const { UnreadEntity, FeedEntity } = hithlumModel.entities;
 
-// todo: missing fields
 export const UnreadType = builder.objectRef<{ value: boolean }>("Unread");
 UnreadType.implement({
   fields: (t) => ({

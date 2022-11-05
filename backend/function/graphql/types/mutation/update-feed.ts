@@ -7,7 +7,6 @@ import { hithlumModel } from "@hithlum/core/model";
 const parser = new rss();
 
 builder.mutationFields((t) => ({
-  // todo: move whole thing to sqs
   updateFeed: t.field({
     type: FeedType,
     args: {
@@ -19,7 +18,7 @@ builder.mutationFields((t) => ({
           FeedEntity: [feed],
           ArticleEntity,
         },
-      } = await hithlumModel.collections.feed({ feedId }).go(); // todo: use order option
+      } = await hithlumModel.collections.feed({ feedId }).go();
       const parsed = await parser.parseURL(feed.inputUrl);
 
       // update articles
@@ -29,9 +28,7 @@ builder.mutationFields((t) => ({
       if (filtered.length < 1) {
         return feed;
       }
-      // const ordered = _.orderBy(filtered, [(item) => item.isoDate], ["desc"]);
 
-      // await sendArticlesBatch(ordered, feed.feedId);
       await Promise.all(
         filtered.map((article) =>
           hithlumModel.entities.ArticleEntity.create({
@@ -42,7 +39,6 @@ builder.mutationFields((t) => ({
       );
 
       // update feed
-      // const { data: updated } = await hithlumModel.entities.FeedEntity.update({
       await hithlumModel.entities.FeedEntity.update({
         feedId: feed.feedId,
       })

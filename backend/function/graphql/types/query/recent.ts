@@ -6,7 +6,7 @@ import { hithlumModel } from "@hithlum/core/model";
 const { FeedEntity, ArticleEntity } = hithlumModel.entities;
 
 builder.queryFields((t) => ({
-  hello: t.string({ // todo: remove hello query
+  hello: t.string({
     resolve: () => "hello",
   }),
 

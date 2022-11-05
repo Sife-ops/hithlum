@@ -36,7 +36,6 @@ export const Feed = () => {
           {feed.description && <div>Description: {feed.description}</div>}
           {feed.feedUrl && (
             <div>
-              {/* todo: open in new tab */}
               Feed URL:{" "}
               <a href={feed.feedUrl} target="_blank">
                 {feed.feedUrl}
