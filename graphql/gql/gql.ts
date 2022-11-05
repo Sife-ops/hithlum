@@ -16,14 +16,14 @@ const documents = {
     "\n  query recentArticles {\n    recentArticles {\n      ...ArticlePreviewFields\n      feed {\n        feedId\n\n        image\n        title\n      }\n    }\n  }\n": types.RecentArticlesDocument,
     "\n  mutation addFeed($url: String!) {\n    addFeed(url: $url) {\n      feedId\n    }\n  }\n": types.AddFeedDocument,
     "\n  mutation syncFeed($feedId: String!) {\n    feed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n": types.SyncFeedDocument,
+    "\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n": types.UpdateFeedDocument,
+    "\n  query myFeeds {\n    myFeeds {\n      ...FeedPreviewFields\n    }\n  }\n": types.MyFeedsDocument,
     "\n  mutation follow($userId: String!) {\n    follow(userId: $userId) {\n      following\n    }\n  }\n": types.FollowDocument,
     "\n  mutation unfollow($userId: String!) {\n    unfollow(userId: $userId) {\n      following\n    }\n  }\n": types.UnfollowDocument,
     "\n  query user($userId: String!) {\n    user(userId: $userId) {\n      userId\n      username\n      discriminator\n      avatarUrl\n\n      following\n\n      feeds {\n        ...FeedPreviewFields\n      }\n    }\n  }\n": types.UserDocument,
     "\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n": types.ArticlePreviewFieldsFragmentDoc,
     "\n  fragment FeedPreviewFields on Feed {\n    feedId\n\n    image\n    title\n    createdAt\n\n    latestArticle {\n      ...ArticlePreviewFields\n    }\n  }\n": types.FeedPreviewFieldsFragmentDoc,
     "\n  query hello {\n    hello\n  }\n": types.HelloDocument,
-    "\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n": types.UpdateFeedDocument,
-    "\n  query myFeeds {\n    myFeeds {\n      ...FeedPreviewFields\n    }\n  }\n": types.MyFeedsDocument,
 };
 
 export function graphql(source: "\n  query self {\n    user {\n      ...UserPreviewFields\n    }\n  }\n"): (typeof documents)["\n  query self {\n    user {\n      ...UserPreviewFields\n    }\n  }\n"];
@@ -39,14 +39,14 @@ export function graphql(source: "\n  query recentFeeds {\n    recentFeeds {\n   
 export function graphql(source: "\n  query recentArticles {\n    recentArticles {\n      ...ArticlePreviewFields\n      feed {\n        feedId\n\n        image\n        title\n      }\n    }\n  }\n"): (typeof documents)["\n  query recentArticles {\n    recentArticles {\n      ...ArticlePreviewFields\n      feed {\n        feedId\n\n        image\n        title\n      }\n    }\n  }\n"];
 export function graphql(source: "\n  mutation addFeed($url: String!) {\n    addFeed(url: $url) {\n      feedId\n    }\n  }\n"): (typeof documents)["\n  mutation addFeed($url: String!) {\n    addFeed(url: $url) {\n      feedId\n    }\n  }\n"];
 export function graphql(source: "\n  mutation syncFeed($feedId: String!) {\n    feed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n"): (typeof documents)["\n  mutation syncFeed($feedId: String!) {\n    feed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n"];
+export function graphql(source: "\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n"): (typeof documents)["\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n"];
+export function graphql(source: "\n  query myFeeds {\n    myFeeds {\n      ...FeedPreviewFields\n    }\n  }\n"): (typeof documents)["\n  query myFeeds {\n    myFeeds {\n      ...FeedPreviewFields\n    }\n  }\n"];
 export function graphql(source: "\n  mutation follow($userId: String!) {\n    follow(userId: $userId) {\n      following\n    }\n  }\n"): (typeof documents)["\n  mutation follow($userId: String!) {\n    follow(userId: $userId) {\n      following\n    }\n  }\n"];
 export function graphql(source: "\n  mutation unfollow($userId: String!) {\n    unfollow(userId: $userId) {\n      following\n    }\n  }\n"): (typeof documents)["\n  mutation unfollow($userId: String!) {\n    unfollow(userId: $userId) {\n      following\n    }\n  }\n"];
 export function graphql(source: "\n  query user($userId: String!) {\n    user(userId: $userId) {\n      userId\n      username\n      discriminator\n      avatarUrl\n\n      following\n\n      feeds {\n        ...FeedPreviewFields\n      }\n    }\n  }\n"): (typeof documents)["\n  query user($userId: String!) {\n    user(userId: $userId) {\n      userId\n      username\n      discriminator\n      avatarUrl\n\n      following\n\n      feeds {\n        ...FeedPreviewFields\n      }\n    }\n  }\n"];
 export function graphql(source: "\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n"): (typeof documents)["\n  fragment ArticlePreviewFields on Article {\n    articleId\n    feedId\n\n    title\n    summary\n    isoDate\n\n    unread {\n      value\n    }\n  }\n"];
 export function graphql(source: "\n  fragment FeedPreviewFields on Feed {\n    feedId\n\n    image\n    title\n    createdAt\n\n    latestArticle {\n      ...ArticlePreviewFields\n    }\n  }\n"): (typeof documents)["\n  fragment FeedPreviewFields on Feed {\n    feedId\n\n    image\n    title\n    createdAt\n\n    latestArticle {\n      ...ArticlePreviewFields\n    }\n  }\n"];
 export function graphql(source: "\n  query hello {\n    hello\n  }\n"): (typeof documents)["\n  query hello {\n    hello\n  }\n"];
-export function graphql(source: "\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n"): (typeof documents)["\n  mutation updateFeed($feedId: String!) {\n    updateFeed(feedId: $feedId) {\n      ...FeedPreviewFields\n    }\n  }\n"];
-export function graphql(source: "\n  query myFeeds {\n    myFeeds {\n      ...FeedPreviewFields\n    }\n  }\n"): (typeof documents)["\n  query myFeeds {\n    myFeeds {\n      ...FeedPreviewFields\n    }\n  }\n"];
 
 export function graphql(source: string): unknown;
 export function graphql(source: string) {

@@ -5,9 +5,56 @@ import {
   useAddFeedMutation,
   useSyncFeedMutation,
   // useSyncMyFeedsMutation,
+  useMyFeedsQuery,
+  useUpdateFeedMutation,
+  Feed,
 } from "@hithlum/graphql/urql";
 
 export const useMyFeeds = () => {
+  const [myFeedsQueryState] = useMyFeedsQuery({
+    // requestPolicy: "network-only", // todo: not needed?
+  });
+  const [myFeeds, setMyFeeds] = useState<Feed[]>();
+  const [firstLoad, setFirstLoad] = useState(true);
+  useEffect(() => {
+    const { fetching, data } = myFeedsQueryState;
+    if (!fetching && data) {
+      const desc = _.orderBy(
+        data.myFeeds,
+        [(feed) => feed.latestArticle?.isoDate],
+        "desc"
+      );
+      setMyFeeds(desc as Feed[]);
+      if (firstLoad) setFirstLoad(false);
+    }
+  }, [myFeedsQueryState.data]);
+
+  const [___, updateFeedMutation] = useUpdateFeedMutation();
+  // const [updatingFeed, setUpdatingFeed] = useState<string>();
+  const updateFeeds = () => {
+    if (myFeeds) {
+      // setUpdatingFeed("Updating...");
+      Promise.all(myFeeds.map(({ feedId }) => updateFeedMutation({ feedId })));
+      // setUpdatingFeed("done!");
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
+      // setUpdatingFeed(undefined);
+    }
+  };
+
+  useEffect(() => {
+    if (!firstLoad) {
+      // todo: duplicated in feed-hook
+      const lastUpdated = localStorage.getItem("my-feeds");
+      if (lastUpdated) {
+        const delta = Date.now() - parseInt(lastUpdated);
+        console.log(delta);
+        if (delta < 1000 * 60 * 5) return;
+      }
+      updateFeeds();
+      localStorage.setItem("my-feeds", Date.now().toString());
+    }
+  }, [firstLoad]);
+
   const [newFeedUrl, setNewFeedUrl] = useState("");
   const [addFeedMutationState, addFeedMutation] = useAddFeedMutation();
   const [__, syncFeedMutation] = useSyncFeedMutation();
@@ -33,6 +80,9 @@ export const useMyFeeds = () => {
     setNewFeedUrl,
     newFeedUrl,
     addFeed,
+    myFeeds,
+    updateFeeds,
+    // updatingFeed,
   };
 };
 
@@ -51,6 +101,22 @@ const addFeed = graphql(`
 const syncFeed = graphql(`
   mutation syncFeed($feedId: String!) {
     feed(feedId: $feedId) {
+      ...FeedPreviewFields
+    }
+  }
+`);
+
+const updateFeed = graphql(`
+  mutation updateFeed($feedId: String!) {
+    updateFeed(feedId: $feedId) {
+      ...FeedPreviewFields
+    }
+  }
+`);
+
+const myFeeds = graphql(`
+  query myFeeds {
+    myFeeds {
       ...FeedPreviewFields
     }
   }

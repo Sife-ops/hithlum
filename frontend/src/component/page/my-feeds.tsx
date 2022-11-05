@@ -1,24 +1,9 @@
 import * as style from "../common.css";
 import { FeedPreview } from "../feed-preview";
-import { useEffect } from "react";
 import { useMyFeeds } from "./my-feeds-hook";
-import { useUserContext } from "../../hook/user-context";
 
 export const MyFeeds = () => {
   const page = useMyFeeds();
-  const ctx = useUserContext();
-
-  useEffect(() => {
-    // todo: duplicated in feed-hook
-    const lastUpdated = localStorage.getItem("my-feeds");
-    if (lastUpdated) {
-      const delta = Date.now() - parseInt(lastUpdated);
-      console.log(delta);
-      if (delta < 1000 * 60 * 5) return;
-    }
-    ctx.updateFeeds();
-    localStorage.setItem("my-feeds", Date.now().toString());
-  }, []);
 
   return (
     <div
@@ -51,7 +36,7 @@ export const MyFeeds = () => {
             <button type="submit">save</button>
           </form>
           <div>
-            <button onClick={async () => ctx.updateFeeds()}>
+            <button onClick={async () => page.updateFeeds()}>
               update feeds
             </button>
           </div>
@@ -59,7 +44,7 @@ export const MyFeeds = () => {
       </div>
 
       <div className={style.list__container}>
-        {ctx.myFeeds?.map((feed) => (
+        {page.myFeeds?.map((feed) => (
           <FeedPreview
             feed={feed}
             article={feed.latestArticle || undefined}

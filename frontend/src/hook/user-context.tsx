@@ -8,53 +8,23 @@ import {
 import _ from "lodash";
 
 type UserContextType = {
-  myFeeds: Feed[] | undefined;
-  updateFeeds: () => Promise<void>;
-  updatingFeed: string | undefined;
+  // myFeeds: Feed[] | undefined;
+  // updateFeeds: () => Promise<void>;
+  // updatingFeed: string | undefined;
 };
 
 const userContext = (): UserContextType => {
-  const [myFeedsQueryState] = useMyFeedsQuery({
-    requestPolicy: "network-only", // todo: not needed?
-  });
-  const [myFeeds, setMyFeeds] = useState<Feed[]>();
-  useEffect(() => {
-    const { fetching, data } = myFeedsQueryState;
-    if (!fetching && data) {
-      const desc = _.orderBy(
-        data.myFeeds,
-        [(feed) => feed.latestArticle?.isoDate],
-        "desc"
-      );
-      setMyFeeds(desc as Feed[]);
-    }
-  }, [myFeedsQueryState.data]);
-
-  const [___, updateFeedMutation] = useUpdateFeedMutation();
-  const [updatingFeed, setUpdatingFeed] = useState<string>();
-  const updateFeeds = async () => {
-    if (myFeeds) {
-      setUpdatingFeed("Updating...");
-      await Promise.all(
-        myFeeds.map(({ feedId }) => updateFeedMutation({ feedId }))
-      );
-      setUpdatingFeed("done!");
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setUpdatingFeed(undefined);
-    }
-  };
-
-  useEffect(() => {
-    const autoUpdate = setInterval(() => {
-      updateFeeds();
-    }, 1000 * 60 * 30); // todo: configurable in settings
-    return () => clearInterval(autoUpdate);
-  });
+  // useEffect(() => {
+  //   const autoUpdate = setInterval(() => {
+  //     updateFeeds();
+  //   }, 1000 * 60 * 30); // todo: configurable in settings
+  //   return () => clearInterval(autoUpdate);
+  // });
 
   return {
-    myFeeds,
-    updateFeeds,
-    updatingFeed,
+    // myFeeds,
+    // updateFeeds,
+    // updatingFeed,
   };
 };
 
@@ -77,23 +47,3 @@ export const useUserContext = () => {
   }
   return context;
 };
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-const updateFeed = graphql(`
-  mutation updateFeed($feedId: String!) {
-    updateFeed(feedId: $feedId) {
-      ...FeedPreviewFields
-    }
-  }
-`);
-
-const myFeeds = graphql(`
-  query myFeeds {
-    myFeeds {
-      ...FeedPreviewFields
-    }
-  }
-`);
