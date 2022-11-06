@@ -2,8 +2,8 @@
   "name": "@hithlum/graphql",
   "version": "0.0.0",
   "devDependencies": {
-    "@graphql-codegen/cli": "2.13.7",
-    "@graphql-codegen/client-preset": "1.1.0",
+    "@graphql-codegen/cli": "2.13.11",
+    "@graphql-codegen/client-preset": "1.1.3",
     "@graphql-codegen/typescript": "^2.7.5",
     "@graphql-codegen/typescript-operations": "^2.5.5",
     "@graphql-codegen/typescript-urql": "^3.7.2"
