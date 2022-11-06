@@ -7,6 +7,8 @@ builder.queryFields((t) => ({
       hithlumModel.entities.FriendEntity.query
         .user_({ userId })
         .go({ order: "desc" })
-        .then(({ data: friends }) => friends.map((friend) => friend.friendUserId)),
+        .then(({ data: friends }) =>
+          friends.map((friend) => friend.friendUserId)
+        ),
   }),
 }));

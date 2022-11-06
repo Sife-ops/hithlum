@@ -56,9 +56,6 @@ builder.mutationFields((t) => ({
             enclosureUrl: item.enclosure?.url,
             // enclosureLength: item.enclosure?.length, // todo: might break?
             enclosureType: item.enclosure?.type,
-            // categories: item.categories
-            //   ? JSON.stringify(item.categories)
-            //   : "[]",
           })),
           data.feedId
         );

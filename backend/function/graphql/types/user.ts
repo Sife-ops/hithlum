@@ -21,9 +21,7 @@ UserType.implement({
     roles: t.stringList({
       resolve: ({ userId }) =>
         hithlumModel.entities.RoleEntity.query
-          .user_({
-            userId,
-          })
+          .user_({ userId })
           .go()
           .then(({ data }) => data.map((e) => e.role)),
     }),
@@ -54,9 +52,7 @@ UserType.implement({
           const {
             data: [feed],
           } = await hithlumModel.entities.FeedEntity.query
-            .feed({
-              feedId,
-            })
+            .feed({ feedId })
             .go();
           feeds = [feed, ...feeds];
         }
