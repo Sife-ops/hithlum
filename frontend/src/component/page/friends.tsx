@@ -44,10 +44,9 @@ export const Friends = () => {
         <h1>Friends</h1>
         <div>
           <div className={styleCommon.list__container}>
-            {friends.map((friend) => {
-              console.log(friend);
-              return <Friend friend={friend} key={friend} />;
-            })}
+            {friends.map((friend) => (
+              <Friend friend={friend} key={friend} />
+            ))}
           </div>
         </div>
       </div>

@@ -22,7 +22,7 @@ const authContext = (): AuthContextType => {
   const signOut = () => {
     localStorage.clear();
     window.location.href =
-      import.meta.env.VITE_REGISTRAR_URL + "/sign-in?serviceId=hithlum";
+      import.meta.env.VITE_REGISTRAR_URL + "/sign-in?serviceId=feedshare";
   };
 
   return {

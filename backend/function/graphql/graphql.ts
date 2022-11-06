@@ -27,7 +27,10 @@ export const main = async (
     const accessToken = event.headers.authorization;
 
     const url = `${MANDOS_URL}/verify`;
-    const res = await got.post(url, { json: { accessToken } }).json<any>();
+    const res = await got.post(url, { json: { accessToken } }).json<{
+      success: boolean;
+      message?: string;
+    }>();
 
     if (!res.success) throw new Error(`mandos: ${res.message}`);
 
@@ -82,8 +85,7 @@ export const main = async (
     return {
       statusCode: 401,
       headers: {},
-      body: JSON.stringify({ errors: [{ message: "unauthorized" }] }),
-      // body: JSON.stringify(e),
+      body: "unauthorized",
     };
   }
 };

@@ -107,15 +107,25 @@ export const Navigation = () => {
           }}
         >
           <li>
-            <a href="https://registrar-preprod.goettsch.xyz/sign-in?serviceId=account">
+            <a
+              href={
+                import.meta.env.VITE_REGISTRAR_URL +
+                "/sign-in?serviceId=account"
+              }
+            >
               Account
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href="#">Settings</a>
-          </li>
+          </li> */}
           <li>
-            <a href="https://registrar-preprod.goettsch.xyz/sign-in?serviceId=feedshare">
+            <a
+              href={
+                import.meta.env.VITE_REGISTRAR_URL +
+                "/sign-in?serviceId=feedshare"
+              }
+            >
               Sign Out
             </a>
           </li>
@@ -123,43 +133,4 @@ export const Navigation = () => {
       )}
     </div>
   );
-};
-
-const Self = () => {
-  const { self } = useUserContext();
-
-  if (self) {
-    return (
-      <div
-        className="dropdown"
-        style={{
-          paddingRight: "1rem",
-        }}
-      >
-        {/* <button class="dropbtn">Dropdown</button> */}
-        <img
-          // className="dropbtn"
-          src={self.avatarUrl || defaultAvatar}
-          alt="avatar"
-          style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "50%",
-          }}
-        />
-        <div className="dropdown-content">
-          {/* todo: variable url */}
-          <a href="https://registrar-preprod.goettsch.xyz/sign-in?serviceId=account">
-            Account
-          </a>
-          <a href="#">Settings</a>
-          <a href="https://registrar-preprod.goettsch.xyz/sign-in?serviceId=feedshare">
-            Sign Out
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  return null;
 };

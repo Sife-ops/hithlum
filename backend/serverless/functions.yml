@@ -6,6 +6,14 @@ hello:
         path: /hello
         method: get
 
+refresh:
+  name: ${self:service}-${opt:stage}-refresh
+  handler: function/refresh.main
+  events:
+    - httpApi:
+        path: /refresh
+        method: post
+
 graphql:
   name: ${self:service}-${opt:stage}-graphql
   handler: function/graphql/graphql.main
