@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { graphql } from "@hithlum/graphql/gql";
-import _ from "lodash";
 import { User, useSelfQuery } from "@hithlum/graphql/urql";
 
 type UserContextType = {
   self: User | undefined;
-  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowMenu: () => void;
   showMenu: boolean;
+  setShowUserMenu: () => void;
+  showUserMenu: boolean;
 };
 
 const userContext = (): UserContextType => {
@@ -19,12 +20,25 @@ const userContext = (): UserContextType => {
     }
   }, [selfQueryState.data]);
 
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu_] = useState(false);
+  const [showUserMenu, setShowUserMenu_] = useState(false);
+
+  const setShowMenu = () => {
+    setShowUserMenu_(false);
+    setShowMenu_((s) => !s);
+  };
+
+  const setShowUserMenu = () => {
+    setShowMenu_(false);
+    setShowUserMenu_((s) => !s);
+  };
 
   return {
     self,
     showMenu,
     setShowMenu,
+    showUserMenu,
+    setShowUserMenu,
   };
 };
 

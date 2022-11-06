@@ -2,12 +2,11 @@ import "./navigation.css";
 import defaultAvatar from "../assets/default/avatar.png";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
-import { useMediaQuery } from "@chakra-ui/react";
 import { useUserContext } from "../hook/user-context";
 
 export const Navigation = () => {
-  const { setShowMenu, showMenu } = useUserContext();
-  const [isDesktop] = useMediaQuery("(min-width: 481px)");
+  const { setShowMenu, showMenu, self, setShowUserMenu, showUserMenu } =
+    useUserContext();
 
   return (
     <div
@@ -43,34 +42,35 @@ export const Navigation = () => {
               height: "32px",
             }}
             onClick={() => {
-              if (!isDesktop) setShowMenu((s) => !s);
+              setShowMenu();
             }}
           />
-          {isDesktop && (
-            <ul
-              style={{
-                display: "flex",
-                listStyleType: "none",
-                gap: "2rem",
-                paddingLeft: "1rem",
-              }}
-            >
-              {/* <button onClick={() => auth.signOut()}>sign out</button> */}
-              <li>
-                <Link to={"/home"}>Home</Link>
-              </li>
-              <li>
-                <Link to={"/my-feeds"}>My Feeds</Link>
-              </li>
-              <li>
-                <Link to={"/friends"}>Friends</Link>
-              </li>
-            </ul>
-          )}
         </div>
-        <Self />
+        {self && (
+          <div
+            className="dropdown"
+            style={{
+              paddingRight: "1rem",
+            }}
+          >
+            {/* <button class="dropbtn">Dropdown</button> */}
+            <img
+              // className="dropbtn"
+              src={self.avatarUrl || defaultAvatar}
+              alt="avatar"
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+              }}
+              onClick={() => {
+                setShowUserMenu();
+              }}
+            />
+          </div>
+        )}
       </div>
-      {showMenu && !isDesktop && (
+      {showMenu && (
         <ul
           style={{
             display: "flex",
@@ -90,6 +90,34 @@ export const Navigation = () => {
           </li>
           <li>
             <Link to={"/friends"}>Friends</Link>
+          </li>
+        </ul>
+      )}
+      {showUserMenu && (
+        <ul
+          style={{
+            display: "flex",
+            gap: "2rem",
+            listStyleType: "none",
+            paddingRight: "1rem",
+            margin: "0",
+            height: "48px",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          <li>
+            <a href="https://registrar-preprod.goettsch.xyz/sign-in?serviceId=account">
+              Account
+            </a>
+          </li>
+          <li>
+            <a href="#">Settings</a>
+          </li>
+          <li>
+            <a href="https://registrar-preprod.goettsch.xyz/sign-in?serviceId=feedshare">
+              Sign Out
+            </a>
           </li>
         </ul>
       )}

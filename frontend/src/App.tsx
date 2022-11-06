@@ -1,9 +1,6 @@
-// import "./App.css";
-// import { useAuthContext } from "./hook/auth-context";
-import { useUserContext } from "./hook/user-context";
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserContextProvider } from "./hook/user-context";
+import { useUserContext } from "./hook/user-context";
 
 import { Article } from "./component/page/article";
 import { Auth } from "./component/page/auth";
@@ -48,12 +45,12 @@ export default () => {
 };
 
 const Spacer = () => {
-  const { showMenu } = useUserContext();
+  const { showMenu, showUserMenu } = useUserContext();
 
   return (
     <div
       style={
-        showMenu
+        showMenu || showUserMenu
           ? {
               height: "112px",
             }
