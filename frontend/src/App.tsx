@@ -1,5 +1,6 @@
 // import "./App.css";
 // import { useAuthContext } from "./hook/auth-context";
+import { useUserContext } from "./hook/user-context";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserContextProvider } from "./hook/user-context";
@@ -15,9 +16,7 @@ import { Navigation } from "./component/navigation";
 import { PrivateRoutes } from "./component/private-routes";
 import { User } from "./component/page/user";
 
-function App() {
-  // const auth = useAuthContext();
-
+export default () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -26,6 +25,7 @@ function App() {
           element={
             <UserContextProvider>
               <Navigation />
+              <Spacer />
               <PrivateRoutes errorTo="/error" />
             </UserContextProvider>
           }
@@ -45,6 +45,22 @@ function App() {
       {/* <Footer /> */}
     </BrowserRouter>
   );
-}
+};
 
-export default App;
+const Spacer = () => {
+  const { showMenu } = useUserContext();
+
+  return (
+    <div
+      style={
+        showMenu
+          ? {
+              height: "112px",
+            }
+          : {
+              height: "64px",
+            }
+      }
+    />
+  );
+};

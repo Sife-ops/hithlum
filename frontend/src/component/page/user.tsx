@@ -11,7 +11,7 @@ import {
   useUnfollowMutation,
 } from "@hithlum/graphql/urql";
 
-const follow = graphql(`
+graphql(`
   mutation follow($userId: String!) {
     follow(userId: $userId) {
       following
@@ -19,7 +19,7 @@ const follow = graphql(`
   }
 `);
 
-const unfollow = graphql(`
+graphql(`
   mutation unfollow($userId: String!) {
     unfollow(userId: $userId) {
       following
@@ -27,7 +27,7 @@ const unfollow = graphql(`
   }
 `);
 
-const user = graphql(`
+graphql(`
   query user($userId: String!) {
     user(userId: $userId) {
       userId

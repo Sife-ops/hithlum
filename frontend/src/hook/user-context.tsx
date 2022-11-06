@@ -5,6 +5,8 @@ import { User, useSelfQuery } from "@hithlum/graphql/urql";
 
 type UserContextType = {
   self: User | undefined;
+  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  showMenu: boolean;
 };
 
 const userContext = (): UserContextType => {
@@ -17,8 +19,12 @@ const userContext = (): UserContextType => {
     }
   }, [selfQueryState.data]);
 
+  const [showMenu, setShowMenu] = useState(false);
+
   return {
     self,
+    showMenu,
+    setShowMenu,
   };
 };
 

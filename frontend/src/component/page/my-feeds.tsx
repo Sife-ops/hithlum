@@ -37,7 +37,7 @@ export const MyFeeds = () => {
             />
             <button type="submit">save</button>
           </form>
-          {self && self.roles.includes("update-feeds-button") && (
+          {self?.roles.includes("update-feeds-button") && (
             <div>
               <button
                 onClick={() => {

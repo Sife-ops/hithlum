@@ -2,7 +2,8 @@ import { globalStyle, style } from "@vanilla-extract/css";
 import { vars } from "./vars.css";
 
 globalStyle("body", {
-  margin: "1rem",
+  margin: "0 1rem 1rem 1rem",
+  // paddingTop: "64px",
 
   fontFamily: vars.fonts.body,
   color: vars.colors.text.normal,

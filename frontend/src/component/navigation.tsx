@@ -1,43 +1,98 @@
 import "./navigation.css";
 import defaultAvatar from "../assets/default/avatar.png";
-import { useEffect, useState } from "react";
+import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "@chakra-ui/react";
 import { useUserContext } from "../hook/user-context";
 
 export const Navigation = () => {
+  const { setShowMenu, showMenu } = useUserContext();
+  const [isDesktop] = useMediaQuery("(min-width: 481px)");
+
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
+        position: "fixed",
+        top: "0",
+        width: "100%",
+        left: "0",
+        right: "0",
+        backgroundColor: "rgba(32, 178, 171, 0.76)",
       }}
     >
-      <ul
+      <div
         style={{
           display: "flex",
-          listStyleType: "none",
-          gap: "2rem",
-          paddingLeft: 0,
+          justifyContent: "space-between",
+          height: "48px",
+          alignItems: "center",
         }}
       >
-        {/* <button onClick={() => auth.signOut()}>sign out</button> */}
-        {import.meta.env.MODE === "local" && (
+        <div
+          style={{
+            paddingLeft: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+          }}
+        >
+          <img
+            src={logo}
+            style={{
+              width: "32px",
+              height: "32px",
+            }}
+            onClick={() => {
+              if (!isDesktop) setShowMenu((s) => !s);
+            }}
+          />
+          {isDesktop && (
+            <ul
+              style={{
+                display: "flex",
+                listStyleType: "none",
+                gap: "2rem",
+                paddingLeft: "1rem",
+              }}
+            >
+              {/* <button onClick={() => auth.signOut()}>sign out</button> */}
+              <li>
+                <Link to={"/home"}>Home</Link>
+              </li>
+              <li>
+                <Link to={"/my-feeds"}>My Feeds</Link>
+              </li>
+              <li>
+                <Link to={"/friends"}>Friends</Link>
+              </li>
+            </ul>
+          )}
+        </div>
+        <Self />
+      </div>
+      {showMenu && !isDesktop && (
+        <ul
+          style={{
+            display: "flex",
+            gap: "2rem",
+            listStyleType: "none",
+            paddingLeft: "1rem",
+            margin: "0",
+            height: "48px",
+            alignItems: "center",
+          }}
+        >
           <li>
-            <Link to={"/dev"}>Dev</Link>
+            <Link to={"/home"}>Home</Link>
           </li>
-        )}
-        <li>
-          <Link to={"/home"}>Home</Link>
-        </li>
-        <li>
-          <Link to={"/my-feeds"}>My Feeds</Link>
-        </li>
-        <li>
-          <Link to={"/friends"}>Friends</Link>
-        </li>
-      </ul>
-      <Self />
+          <li>
+            <Link to={"/my-feeds"}>My Feeds</Link>
+          </li>
+          <li>
+            <Link to={"/friends"}>Friends</Link>
+          </li>
+        </ul>
+      )}
     </div>
   );
 };
@@ -47,7 +102,12 @@ const Self = () => {
 
   if (self) {
     return (
-      <div className="dropdown">
+      <div
+        className="dropdown"
+        style={{
+          paddingRight: "1rem",
+        }}
+      >
         {/* <button class="dropbtn">Dropdown</button> */}
         <img
           // className="dropbtn"
