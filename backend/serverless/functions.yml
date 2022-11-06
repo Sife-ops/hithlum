@@ -1,10 +1,6 @@
-hello:
-  name: ${self:service}-${opt:stage}-hello
-  handler: function/hello.main
-  events:
-    - httpApi:
-        path: /hello
-        method: get
+addRole:
+  name: ${self:service}-${opt:stage}-add-role
+  handler: function/add-role.main
 
 refresh:
   name: ${self:service}-${opt:stage}-refresh

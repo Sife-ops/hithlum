@@ -20,7 +20,7 @@ const userContext = (): UserContextType => {
     }
   }, [selfQueryState.data]);
 
-  const [showMenu, setShowMenu_] = useState(false);
+  const [showMenu, setShowMenu_] = useState(true);
   const [showUserMenu, setShowUserMenu_] = useState(false);
 
   const setShowMenu = () => {
