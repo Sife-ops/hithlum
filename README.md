@@ -1,9 +1,8 @@
-# todo
+# Hithlum
 
-- spa construct :heavy_check_mark:
-- graphql
-    - mutation
-        - updateUnread
-    - query
-        - article
-        - feed
+RSS Reader
+
+## To-do
+
+- comments
+- ratings

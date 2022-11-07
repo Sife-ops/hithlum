@@ -3,7 +3,6 @@ import { formatDistance } from "date-fns";
 import { graphql } from "@hithlum/graphql/gql";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import {
   Article as ArticleType,
   useArticleQuery,
@@ -102,7 +101,7 @@ export const Article = () => {
   return <div>loading...</div>;
 };
 
-const setUnread = graphql(`
+graphql(`
   mutation setUnread($articleId: String!, $value: Boolean!) {
     setUnread(articleId: $articleId, value: $value) {
       value
@@ -110,7 +109,7 @@ const setUnread = graphql(`
   }
 `);
 
-const article = graphql(`
+graphql(`
   query article($articleId: String!) {
     article(articleId: $articleId) {
       articleId
