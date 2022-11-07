@@ -110,7 +110,8 @@ export const Navigation = () => {
             <a
               href={
                 import.meta.env.VITE_REGISTRAR_URL +
-                "/sign-in?serviceId=account"
+                "/sign-in?serviceId=account&redirect=" +
+                window.location.href
               }
             >
               Account
