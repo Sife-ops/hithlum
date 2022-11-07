@@ -1,4 +1,4 @@
-import * as styleCommon from "../common.css";
+import * as style from "../common.css";
 import React, { useState } from "react";
 import defaultArtwork from "../../assets/default/artwork.svg";
 import defaultAvatar from "../../assets/default/avatar.png";
@@ -127,7 +127,11 @@ export const Feed = () => {
         </div>
         <div>
           <h3>Articles</h3>
-          <Articles articles={feed.articles || []} />
+          <div className={style.list__container}>
+            {feed.articles.map((article) => (
+              <ArticlePreview article={article} key={article.articleId} />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -136,33 +140,29 @@ export const Feed = () => {
   return <div>loading...</div>;
 };
 
-const Articles: React.FC<{ articles: Article[] }> = (p) => (
-  <div className={styleCommon.list__container}>
-    {p.articles.map((article) => {
-      const unread = article.unread.value;
-      return (
-        <div
-          key={article.articleId}
-          className={
-            unread
-              ? styleCommon.list__item__unread
-              : styleCommon.list__item__read
-          }
-        >
-          <div>
-            <Link to={"/article/" + article.articleId}>{article.title}</Link>
-          </div>
-          <div>{article.summary}</div>
-          <div>
-            {formatDistance(new Date(article.isoDate!), new Date(), {
-              addSuffix: true,
-            })}
-          </div>
-        </div>
-      );
-    })}
-  </div>
-);
+const ArticlePreview: React.FC<{ article: Article }> = ({ article }) => {
+  const unread = article.unread.value;
+  return (
+    <div
+      key={article.articleId}
+      className={
+        unread //
+          ? style.list__item__unread
+          : style.list__item__read
+      }
+    >
+      <div>
+        <Link to={"/article/" + article.articleId}>{article.title}</Link>
+      </div>
+      <div>{article.summary}</div>
+      <div>
+        {formatDistance(new Date(article.isoDate!), new Date(), {
+          addSuffix: true,
+        })}
+      </div>
+    </div>
+  );
+};
 
 graphql(`
   mutation changeArtwork($feedId: String!, $artwork: String!) {

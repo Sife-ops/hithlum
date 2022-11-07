@@ -3,7 +3,7 @@ import * as styleCommon from "./common.css";
 
 export const feedPreview__container = style({
   display: "flex",
-  gap: "1rem",
+  gap: ".5rem",
 });
 
 export const feedPreview__container__read = style([
