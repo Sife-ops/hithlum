@@ -23,7 +23,7 @@ export default () => {
             <UserContextProvider>
               <Navigation />
               <Spacer />
-              <PrivateRoutes errorTo="/error" />
+              <PrivateRoutes />
             </UserContextProvider>
           }
         >
@@ -34,9 +34,10 @@ export default () => {
           <Route path="/feed/:feedId" element={<Feed />} />
           <Route path="/article/:articleId" element={<Article />} />
           <Route path="/user/:userId" element={<User />} />
+          <Route path="/" element={<Navigate to="/home" />} />
         </Route>
         <Route path="/auth" element={<Auth to="/home" />} />
-        <Route path="/error" element={<div>Error</div>} />
+        <Route path="/error" element={<div>404</div>} />
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>
       {/* <Footer /> */}

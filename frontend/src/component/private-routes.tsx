@@ -1,13 +1,13 @@
-import { Navigate, useLocation, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAuthContext } from "../hook/auth-context";
 
-export const PrivateRoutes: React.FC<{errorTo: string}> = (p) => {
-  const location = useLocation();
+export const PrivateRoutes: React.FC = () => {
   const { signedIn } = useAuthContext();
 
-  return signedIn ? (
-    <Outlet />
-  ) : (
-    <Navigate to={p.errorTo} replace state={{ from: location }} />
-  );
+  if (!signedIn) {
+    window.location.href =
+      import.meta.env.VITE_REGISTRAR_URL + "/sign-in?serviceId=feedshare";
+  }
+
+  return <Outlet />
 };

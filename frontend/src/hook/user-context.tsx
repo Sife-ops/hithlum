@@ -36,7 +36,7 @@ const userContext = (): UserContextType => {
   return {
     self,
     showMenu,
-    setShowMenu,
+    setShowMenu, // todo: rename to 'toggleShowMenu'
     showUserMenu,
     setShowUserMenu,
   };
