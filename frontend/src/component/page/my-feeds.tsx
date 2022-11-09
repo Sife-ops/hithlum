@@ -2,8 +2,10 @@ import * as style from "../common.css";
 import { FeedPreview } from "../feed-preview";
 import { useMyFeeds } from "./my-feeds-hook";
 import { useUserContext } from "../../hook/user-context";
+import { useNavigate } from "react-router-dom";
 
 export const MyFeeds = () => {
+  const nav = useNavigate();
   const { self } = useUserContext();
   const page = useMyFeeds();
 
@@ -17,7 +19,6 @@ export const MyFeeds = () => {
     >
       <h1>My Feeds</h1>
       <div>
-        <h3>Add Feed</h3>
         <div
           style={{
             display: "flex",
@@ -25,18 +26,7 @@ export const MyFeeds = () => {
             justifyContent: "space-between",
           }}
         >
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              page.addFeed();
-            }}
-          >
-            <input
-              value={page.newFeedUrl}
-              onChange={(e) => page.setNewFeedUrl(e.target.value)}
-            />
-            <button type="submit">save</button>
-          </form>
+          <button onClick={() => nav("/add-feed")}>Add Feed</button>
           {self?.roles.includes("update-feeds-button") && (
             <div>
               <button

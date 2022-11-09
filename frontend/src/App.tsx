@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserContextProvider } from "./hook/user-context";
 import { useUserContext } from "./hook/user-context";
 
+import { AddFeed } from "./component/page/add-feed";
 import { Article } from "./component/page/article";
 import { Auth } from "./component/page/auth";
 import { Dev } from "./component/page/dev";
@@ -30,6 +31,7 @@ export default () => {
           <Route path="/dev" element={<Dev />} />
           <Route path="/home" element={<Home />} />
           <Route path="/my-feeds" element={<MyFeeds />} />
+          <Route path="/add-feed" element={<AddFeed />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/feed/:feedId" element={<Feed />} />
           <Route path="/article/:articleId" element={<Article />} />
