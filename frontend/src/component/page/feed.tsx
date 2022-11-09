@@ -4,10 +4,10 @@ import defaultArtwork from "../../assets/default/artwork.svg";
 import defaultAvatar from "../../assets/default/avatar.png";
 import { Article, useChangeArtworkMutation } from "@hithlum/graphql/urql";
 import { formatDistance } from "date-fns";
+import { graphql } from "@hithlum/graphql/gql";
 import { useFeed } from "./feed-hook";
 import { useParams, Link } from "react-router-dom";
 import { useUserContext } from "../../hook/user-context";
-import { graphql } from "@hithlum/graphql/gql";
 
 export const Feed = () => {
   const { feedId } = useParams();

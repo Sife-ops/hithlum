@@ -9,10 +9,10 @@ import { formatDistance } from "date-fns";
 import * as style from "./feed-preview.css";
 
 // todo: rename to FeedPreview
-export const FeedPreview: React.FC<{ feed: FeedType; article?: ArticleType }> = ({
-  feed,
-  article,
-}) => {
+export const FeedPreview: React.FC<{
+  feed: FeedType;
+  article?: ArticleType;
+}> = ({ feed, article }) => {
   return (
     <div
       className={
@@ -49,3 +49,40 @@ export const FeedPreview: React.FC<{ feed: FeedType; article?: ArticleType }> = 
     </div>
   );
 };
+
+export const FeedPreviewSkeleton = () => (
+  <div className={style.feedPreview__container__unread}>
+    <div
+      className={style.feedPreview__artwork}
+      style={{
+        backgroundColor: "lightgray",
+      }}
+    />
+    <div
+      style={{
+        flexGrow: "2",
+      }}
+    >
+      <div
+        style={{
+          marginBottom: ".5rem",
+          backgroundColor: "lightgray",
+          height: "1rem",
+        }}
+      />
+      <div
+        style={{
+          backgroundColor: "lightgray",
+          height: "1rem",
+        }}
+      />
+      <div
+        style={{
+          marginTop: ".5rem",
+          backgroundColor: "lightgray",
+          height: "1rem",
+        }}
+      />
+    </div>
+  </div>
+);

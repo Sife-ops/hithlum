@@ -1,11 +1,12 @@
 import * as style from "../common.css";
-import { FeedPreview } from "../feed-preview";
+import { FeedPreview, FeedPreviewSkeleton } from "../feed-preview";
 import { useMyFeeds } from "./my-feeds-hook";
 import { useUserContext } from "../../hook/user-context";
 import { useNavigate } from "react-router-dom";
 
 export const MyFeeds = () => {
   const nav = useNavigate();
+
   const { self } = useUserContext();
   const page = useMyFeeds();
 
@@ -42,13 +43,18 @@ export const MyFeeds = () => {
       </div>
 
       <div className={style.list__container}>
-        {page.myFeeds?.map((feed) => (
-          <FeedPreview
-            feed={feed}
-            article={feed.latestArticle || undefined}
-            key={feed.feedId}
-          />
-        ))}
+        {/* todo: not very dry */}
+        {page.myFeeds
+          ? page.myFeeds.map((feed) => (
+              <FeedPreview
+                feed={feed}
+                article={feed.latestArticle || undefined}
+                key={feed.feedId}
+              />
+            ))
+          : [...Array(10).keys()].map((feed) => (
+              <FeedPreviewSkeleton key={feed} />
+            ))}
       </div>
     </div>
   );

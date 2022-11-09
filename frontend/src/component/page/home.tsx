@@ -1,5 +1,5 @@
 import * as style from "./home.css";
-import { FeedPreview } from "../feed-preview";
+import { FeedPreview, FeedPreviewSkeleton } from "../feed-preview";
 import { useHome } from "./home-hook";
 
 export const Home = () => {
@@ -24,13 +24,17 @@ export const Home = () => {
               gap: "1rem",
             }}
           >
-            {recentFeeds?.map((feed) => (
-              <FeedPreview
-                feed={feed}
-                article={feed.latestArticle || undefined}
-                key={feed.feedId}
-              />
-            ))}
+            {recentFeeds
+              ? recentFeeds?.map((feed) => (
+                  <FeedPreview
+                    feed={feed}
+                    article={feed.latestArticle || undefined}
+                    key={feed.feedId}
+                  />
+                ))
+              : [...Array(10).keys()].map((feed) => (
+                  <FeedPreviewSkeleton key={feed} />
+                ))}
           </div>
         </div>
 
@@ -43,13 +47,17 @@ export const Home = () => {
               gap: "1rem",
             }}
           >
-            {recentArticles?.map((article) => (
-              <FeedPreview
-                feed={article.feed}
-                article={article}
-                key={article.articleId}
-              />
-            ))}
+            {recentArticles
+              ? recentArticles.map((article) => (
+                  <FeedPreview
+                    feed={article.feed}
+                    article={article}
+                    key={article.articleId}
+                  />
+                ))
+              : [...Array(10).keys()].map((feed) => (
+                  <FeedPreviewSkeleton key={feed} />
+                ))}
           </div>
         </div>
       </div>

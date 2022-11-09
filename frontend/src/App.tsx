@@ -28,7 +28,6 @@ export default () => {
             </UserContextProvider>
           }
         >
-          <Route path="/dev" element={<Dev />} />
           <Route path="/home" element={<Home />} />
           <Route path="/my-feeds" element={<MyFeeds />} />
           <Route path="/add-feed" element={<AddFeed />} />
@@ -38,6 +37,7 @@ export default () => {
           <Route path="/user/:userId" element={<User />} />
           <Route path="/" element={<Navigate to="/home" />} />
         </Route>
+        {import.meta.env.DEV && <Route path="/dev" element={<Dev />} />}
         <Route path="/auth" element={<Auth to="/home" />} />
         <Route path="/error" element={<div>404</div>} />
         <Route path="*" element={<Navigate to="/error" />} />
