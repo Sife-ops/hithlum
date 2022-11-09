@@ -156,6 +156,20 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type AddFeedMutationVariables = Exact<{
+  url: Scalars['String'];
+}>;
+
+
+export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, description?: string | null } };
+
+export type SyncFeedMutationVariables = Exact<{
+  feedId: Scalars['String'];
+}>;
+
+
+export type SyncFeedMutation = { __typename?: 'Mutation', feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null } };
+
 export type SetUnreadMutationVariables = Exact<{
   articleId: Scalars['String'];
   value: Scalars['Boolean'];
@@ -221,20 +235,6 @@ export type RecentArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RecentArticlesQuery = { __typename?: 'Query', recentArticles: Array<{ __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null }, unread: { __typename?: 'Unread', value: boolean } }> };
-
-export type AddFeedMutationVariables = Exact<{
-  url: Scalars['String'];
-}>;
-
-
-export type AddFeedMutation = { __typename?: 'Mutation', addFeed: { __typename?: 'Feed', feedId: string } };
-
-export type SyncFeedMutationVariables = Exact<{
-  feedId: Scalars['String'];
-}>;
-
-
-export type SyncFeedMutation = { __typename?: 'Mutation', feed: { __typename?: 'Feed', feedId: string, image: string, title?: string | null, createdAt: string, latestArticle?: { __typename?: 'Article', articleId: string, feedId: string, title?: string | null, summary?: string | null, isoDate?: string | null, unread: { __typename?: 'Unread', value: boolean } } | null } };
 
 export type UpdateFeedMutationVariables = Exact<{
   feedId: Scalars['String'];
@@ -311,6 +311,31 @@ export const UserPreviewFieldsFragmentDoc = gql`
   avatarUrl
 }
     `;
+export const AddFeedDocument = gql`
+    mutation addFeed($url: String!) {
+  addFeed(url: $url) {
+    feedId
+    image
+    title
+    description
+  }
+}
+    `;
+
+export function useAddFeedMutation() {
+  return Urql.useMutation<AddFeedMutation, AddFeedMutationVariables>(AddFeedDocument);
+};
+export const SyncFeedDocument = gql`
+    mutation syncFeed($feedId: String!) {
+  feed(feedId: $feedId) {
+    ...FeedPreviewFields
+  }
+}
+    ${FeedPreviewFieldsFragmentDoc}`;
+
+export function useSyncFeedMutation() {
+  return Urql.useMutation<SyncFeedMutation, SyncFeedMutationVariables>(SyncFeedDocument);
+};
 export const SetUnreadDocument = gql`
     mutation setUnread($articleId: String!, $value: Boolean!) {
   setUnread(articleId: $articleId, value: $value) {
@@ -455,28 +480,6 @@ export const RecentArticlesDocument = gql`
 
 export function useRecentArticlesQuery(options?: Omit<Urql.UseQueryArgs<RecentArticlesQueryVariables>, 'query'>) {
   return Urql.useQuery<RecentArticlesQuery, RecentArticlesQueryVariables>({ query: RecentArticlesDocument, ...options });
-};
-export const AddFeedDocument = gql`
-    mutation addFeed($url: String!) {
-  addFeed(url: $url) {
-    feedId
-  }
-}
-    `;
-
-export function useAddFeedMutation() {
-  return Urql.useMutation<AddFeedMutation, AddFeedMutationVariables>(AddFeedDocument);
-};
-export const SyncFeedDocument = gql`
-    mutation syncFeed($feedId: String!) {
-  feed(feedId: $feedId) {
-    ...FeedPreviewFields
-  }
-}
-    ${FeedPreviewFieldsFragmentDoc}`;
-
-export function useSyncFeedMutation() {
-  return Urql.useMutation<SyncFeedMutation, SyncFeedMutationVariables>(SyncFeedDocument);
 };
 export const UpdateFeedDocument = gql`
     mutation updateFeed($feedId: String!) {
