@@ -1,5 +1,11 @@
 import { style } from "@vanilla-extract/css";
 
+export const page = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+});
+
 export const list__item = style({
   padding: ".5rem",
 });

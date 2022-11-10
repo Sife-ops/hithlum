@@ -17,6 +17,7 @@ export const feedPreview__container__unread = style([
 ]);
 
 export const feedPreview__artwork = style({
+  objectFit: "cover",
   "@media": {
     "screen and (min-width: 481px)": {
       width: "128px",
