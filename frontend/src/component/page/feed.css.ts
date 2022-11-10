@@ -25,7 +25,7 @@ export const feed__details__artwork = style({
     },
     "screen and (max-width: 480px)": {
       width: "100%",
-      height: "auto",
+      height: "380px",
     },
   },
 });

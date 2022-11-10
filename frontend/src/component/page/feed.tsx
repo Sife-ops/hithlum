@@ -8,11 +8,11 @@ import {
   Feed as FeedType,
   useChangeArtworkMutation,
 } from "@hithlum/graphql/urql";
-import { formatDistance } from "date-fns";
 import { graphql } from "@hithlum/graphql/gql";
 import { useFeed } from "./feed-hook";
 import { useParams, Link } from "react-router-dom";
 import { useUserContext } from "../../hook/user-context";
+import { ArticlePreview } from "../article-preview";
 
 export const Feed = () => {
   // todo: redirect if feedId undefined
@@ -87,32 +87,61 @@ export const Feed = () => {
     );
   }
 
-  return <div>loading...</div>;
+  return <FeedSkeleton />;
 };
 
-const ArticlePreview: React.FC<{ article: Article }> = ({ article }) => {
-  const unread = article.unread.value;
-  return (
-    <div
-      key={article.articleId}
-      className={
-        unread //
-          ? styleCommon.list__item__unread
-          : styleCommon.list__item__read
-      }
-    >
-      <div>
-        <Link to={"/article/" + article.articleId}>{article.title}</Link>
-      </div>
-      <div>{article.summary}</div>
-      <div>
-        {formatDistance(new Date(article.isoDate!), new Date(), {
-          addSuffix: true,
-        })}
+const FeedSkeleton = () => (
+  <div className={styleCommon.page}>
+    <div className={styleFeed.feed__details__container}>
+      <div
+        className={styleFeed.feed__details__artwork}
+        style={{
+          backgroundColor: "lightgray",
+        }}
+      />
+      <div style={{ flexGrow: "1" }}>
+        <div
+          style={{
+            marginBottom: ".5rem",
+            backgroundColor: "lightgray",
+            height: "1rem",
+          }}
+        />
+        <div
+          style={{
+            backgroundColor: "lightgray",
+            height: "1rem",
+          }}
+        />
+        <div
+          style={{
+            marginTop: ".5rem",
+            backgroundColor: "lightgray",
+            height: "1rem",
+          }}
+        />
       </div>
     </div>
-  );
-};
+
+    <div
+      style={{
+        marginTop: "2rem",
+      }}
+    >
+      <div className={styleCommon.list__container}>
+        {[...Array(10).keys()].map((feed) => (
+          <div
+            key={feed}
+            style={{
+              height: "5.725rem",
+              backgroundColor: "rgb(240, 240, 240)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 const ChangeArtwork: React.FC<{ feed: FeedType }> = (p) => {
   const { self } = useUserContext();
