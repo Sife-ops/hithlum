@@ -117,15 +117,15 @@ export const Navigation = () => {
               Account
             </a>
           </li>
-          {/* <li>
-            <a href="#">Settings</a>
-          </li> */}
           <li>
             <a
-              href={
-                import.meta.env.VITE_REGISTRAR_URL +
-                "/sign-in?serviceId=feedshare"
-              }
+              onClick={() => {
+                localStorage.clear();
+                window.location.href =
+                  import.meta.env.VITE_REGISTRAR_URL +
+                  "/sign-in?serviceId=feedshare";
+              }}
+              href="#"
             >
               Sign Out
             </a>

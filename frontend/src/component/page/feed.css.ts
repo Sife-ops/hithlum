@@ -29,15 +29,3 @@ export const feed__details__artwork = style({
     },
   },
 });
-
-export const feed__details__addedByUser = style({
-  display: "flex",
-  alignItems: "center",
-  gap: "1rem",
-});
-
-export const feed__details__addedByUser__avatar = style({
-  width: "64px",
-  height: "64px",
-  borderRadius: "50%",
-});
